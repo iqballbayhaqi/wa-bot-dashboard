@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import AppsContainer from "@crema/components/AppsContainer";
 import AppPageMeta from "@crema/components/AppPageMeta";
@@ -12,6 +12,8 @@ import socket from "@crema/services/socket";
 const Chat = () => {
   const selectedUser = useAppSelector(({ chatApp }) => chatApp.selectedUser);
 
+  const [ticketList, setTicketList] = useState<any>();
+
   const dispatch = useAppDispatch();
   const connectionList = useAppSelector(
     ({ chatApp }) => chatApp.connectionList
@@ -20,13 +22,13 @@ const Chat = () => {
   const { loading } = useAppSelector(({ common }) => common);
 
   useEffect(() => {
-    // TODO emit a socket connection here
-    // socket.on("message", (message) => {
-    //   console.log("message from socket", message);
-    // });
-    // return () => {
-    //   socket.off("message");
-    // };
+    socket.on("ticketList", (tickets) => {
+      setTicketList(tickets);
+    });
+
+    return () => {
+      socket.off("ticketList");
+    };
   }, []);
 
   useEffect(() => {

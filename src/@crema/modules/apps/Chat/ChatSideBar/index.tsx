@@ -11,6 +11,8 @@ import {
   StyledChatSidebarUserView,
 } from "./index.styled";
 import { ConnectionObjType } from "@crema/types/models/apps/Chat";
+import socket from "@crema/services/socket";
+import { Button } from "antd";
 
 type ChatSideBarProps = {
   selectedUser: ConnectionObjType | null;
@@ -71,6 +73,8 @@ const ChatSideBar: React.FC<ChatSideBarProps> = ({
           onChange={(e) => setKeywords(e.target.value)}
         />
       </StyledChatSidebarSearchView>
+
+      <Button onClick={() => socket.emit("resetState")}>RESET</Button>
 
       <UserTabs
         connectionListData={connectionListData}
