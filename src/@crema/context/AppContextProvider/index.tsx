@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
-import ThemeContextProvider from './ThemeContextProvider';
-import LocaleContextProvider from './LocaleContextProvider';
-import LayoutContextProvider from './LayoutContextProvider';
-import SidebarContextProvider from './SidebarContextProvider';
-import InfoViewContextProvider from './InfoViewContextProvider';
+import React, { ReactNode } from "react";
+import ThemeContextProvider from "./ThemeContextProvider";
+import LocaleContextProvider from "./LocaleContextProvider";
+import LayoutContextProvider from "./LayoutContextProvider";
+import SidebarContextProvider from "./SidebarContextProvider";
+import InfoViewContextProvider from "./InfoViewContextProvider";
 
 type AppContextProviderProps = {
   children: ReactNode;

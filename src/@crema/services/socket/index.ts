@@ -1,11 +1,5 @@
 import { io } from "socket.io-client";
 
-const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
-  withCredentials: true,
-  extraHeaders: {
-    "my-custom-header": "abcd",
-  },
-  transports: ["websocket"],
-});
+const socket = io("https://055e-114-124-131-1.ngrok.io");
 
 export default socket;

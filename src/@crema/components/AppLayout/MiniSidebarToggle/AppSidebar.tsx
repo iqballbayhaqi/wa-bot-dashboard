@@ -28,7 +28,7 @@ const AppSidebar = ({ isCollapsed, routesConfig }: AppSidebarProps) => {
       collapsed={isCollapsed}
     >
       <UserInfo hasColor />
-      <StyledMiniSidebarScrollbar scrollToTop={false}>
+      <StyledMiniSidebarScrollbar>
         <AppVerticalMenu routesConfig={routesConfig} />
       </StyledMiniSidebarScrollbar>
     </StyledMiniSidebarToggle>

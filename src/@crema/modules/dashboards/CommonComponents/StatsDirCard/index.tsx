@@ -32,7 +32,14 @@ const StatsDirCard = ({ data }: Props) => {
             {data?.icon ? (
               data.icon
             ) : (
-              <img src={getAssetsUrl(data.iconImg)} alt="" />
+              <div
+                style={{
+                  width: 46,
+                  height: 46,
+                  backgroundColor: data.color,
+                  borderRadius: 10,
+                }}
+              />
             )}
           </StyledIconWrapper>
 

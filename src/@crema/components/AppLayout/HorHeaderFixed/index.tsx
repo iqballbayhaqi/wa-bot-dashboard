@@ -56,7 +56,7 @@ const HorHeaderFixed: React.FC<Props> = ({ children, routesConfig }) => {
           <AppFooter />
         </StyledContainer>
       </StyledAppLayoutHeaderFixedMain>
-      <AppThemeSetting />
+       />
     </StyledAppLayoutHorFixed>
   );
 };

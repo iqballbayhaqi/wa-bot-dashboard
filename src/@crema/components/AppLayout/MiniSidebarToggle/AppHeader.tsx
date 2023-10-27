@@ -1,23 +1,23 @@
-import React from 'react';
-import { Dropdown } from 'antd';
-import { AiOutlineMenuFold, AiOutlineMenuUnfold } from 'react-icons/ai';
-import AppLogo from '../components/AppLogo';
-import { useIntl } from 'react-intl';
-import AppLanguageSwitcher from '../../AppLanguageSwitcher';
-import AppHeaderMessages from '../../AppHeaderMessages';
-import AppNotifications from '../../AppNotifications';
-import { FiMoreVertical } from 'react-icons/fi';
+import React from "react";
+import { Dropdown } from "antd";
+import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
+import AppLogo from "../components/AppLogo";
+import { useIntl } from "react-intl";
+import AppLanguageSwitcher from "../../AppLanguageSwitcher";
+import AppHeaderMessages from "../../AppHeaderMessages";
+import AppNotifications from "../../AppNotifications";
+import { FiMoreVertical } from "react-icons/fi";
 import {
   StyledHeaderMiniSecDesktop,
   StyledHeaderMiniSecMobile,
   StyledHeaderMiniSidebar,
   StyledHeaderSearchMinibar,
-} from './index.styled';
-import { StyledDropdownWrapper } from '../index.styled';
+} from "./index.styled";
+import { StyledDropdownWrapper } from "../index.styled";
 
 const items = [
-  { key: 1, label: <AppHeaderMessages /> },
-  { key: 2, label: <AppNotifications /> },
+  // { key: 1, label: <AppHeaderMessages /> },
+  // { key: 2, label: <AppNotifications /> },
   { key: 3, label: <AppLanguageSwitcher /> },
 ];
 
@@ -34,19 +34,18 @@ const AppHeader = ({ isCollapsed, onToggleSidebar }: AppHeaderProps) => {
       {React.createElement(
         isCollapsed ? AiOutlineMenuUnfold : AiOutlineMenuFold,
         {
-          className: 'trigger',
+          className: "trigger",
           onClick: onToggleSidebar,
         }
       )}
-      <AppLogo />
 
-      <StyledHeaderSearchMinibar
-        placeholder={messages['common.searchHere'] as string}
-      />
+      {/* <StyledHeaderSearchMinibar
+        placeholder={messages["common.searchHere"] as string}
+      /> */}
       <StyledHeaderMiniSecDesktop>
         <AppLanguageSwitcher />
-        <AppHeaderMessages />
-        <AppNotifications />
+        {/* <AppHeaderMessages />
+        <AppNotifications /> */}
       </StyledHeaderMiniSecDesktop>
       <StyledHeaderMiniSecMobile>
         <StyledDropdownWrapper>
@@ -54,7 +53,7 @@ const AppHeader = ({ isCollapsed, onToggleSidebar }: AppHeaderProps) => {
             menu={{ items }}
             overlayClassName="dropdown-wrapper"
             getPopupContainer={(triggerNode) => triggerNode}
-            trigger={['click']}
+            trigger={["click"]}
           >
             <a
               className="ant-dropdown-link-mobile"

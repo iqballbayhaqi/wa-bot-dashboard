@@ -1,11 +1,11 @@
-import { InfoViewData } from './InfoViewContextProvider';
+import { InfoViewData } from "./InfoViewContextProvider";
 
 export const InFoViewActions = {
-  FETCH_STARTS: 'FETCH_STARTS',
-  FETCH_SUCCESS: 'FETCH_SUCCESS',
-  SET_MESSAGE: 'SET_MESSAGE',
-  SET_ERROR: 'SET_ERROR',
-  CLEAR_INFOVIEW: 'CLEAR_INFOVIEW',
+  FETCH_STARTS: "FETCH_STARTS",
+  FETCH_SUCCESS: "FETCH_SUCCESS",
+  SET_MESSAGE: "SET_MESSAGE",
+  SET_ERROR: "SET_ERROR",
+  CLEAR_INFOVIEW: "CLEAR_INFOVIEW",
 } as const;
 
 export function contextReducer(state: InfoViewData, action: any) {
@@ -14,31 +14,31 @@ export function contextReducer(state: InfoViewData, action: any) {
       return {
         ...state,
         loading: true,
-        message: '',
-        error: '',
+        displayMessage: "",
+        error: "",
       };
     }
     case InFoViewActions.FETCH_SUCCESS: {
       return {
         ...state,
         loading: false,
-        message: '',
-        error: '',
+        displayMessage: "",
+        error: "",
       };
     }
     case InFoViewActions.SET_MESSAGE: {
       return {
         ...state,
         loading: false,
-        message: action.payload,
-        error: '',
+        displayMessage: action.payload,
+        error: "",
       };
     }
     case InFoViewActions.SET_ERROR: {
       return {
         ...state,
         loading: false,
-        message: '',
+        displayMessage: "",
         error: action.payload,
       };
     }
@@ -46,8 +46,8 @@ export function contextReducer(state: InfoViewData, action: any) {
       return {
         ...state,
         loading: false,
-        message: '',
-        error: '',
+        displayMessage: "",
+        error: "",
       };
     }
     default:

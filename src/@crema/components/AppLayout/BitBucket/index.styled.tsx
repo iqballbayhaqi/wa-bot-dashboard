@@ -1,17 +1,17 @@
-import {Drawer, Input, Layout} from 'antd';
-import MainSidebar from '../components/MainSidebar';
-import styled from 'styled-components';
-import AppScrollbar from '../../AppScrollbar';
-import {rgba} from 'polished';
+import { Drawer, Input, Layout } from "antd";
+import MainSidebar from "../components/MainSidebar";
+import styled from "styled-components";
+import AppScrollbar from "../../AppScrollbar";
+import { rgba } from "polished";
 
-const {Header} = Layout;
-const {Search} = Input;
+const { Header } = Layout;
+const { Search } = Input;
 
 export const StyledAppBitbucketHeader = styled(Header)`
   padding-left: 20px;
   padding-right: 20px;
-  color: ${({theme}) => theme.palette.text.primary} !important;
-  background-color: ${({theme}) =>
+  color: ${({ theme }) => theme.palette.text.primary} !important;
+  background-color: ${({ theme }) =>
     theme.palette.primary.contrastText} !important;
   height: 56px;
   line-height: 1;
@@ -25,13 +25,13 @@ export const StyledAppBitbucketHeader = styled(Header)`
   display: flex;
   align-items: center;
 
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.md}px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.md}px) {
     padding-left: 30px;
     padding-right: 30px;
     height: 71px;
   }
 
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.xl}px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}px) {
     display: none;
   }
 
@@ -43,18 +43,18 @@ export const StyledTrigger = styled.a`
   font-size: 20px;
   margin-right: 20px;
   padding: 5.5px;
-  color: ${({theme}) => theme.palette.text.primary};
+  color: ${({ theme }) => theme.palette.text.primary};
 
   & svg {
     display: block;
   }
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     margin-right: 0;
     margin-left: 20px;
   }
 
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.xl}px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}px) {
     display: none;
   }
 `;
@@ -66,16 +66,16 @@ export const StyledBitbucketSearch = styled(Search)`
   margin-left: auto;
   margin-right: 10px;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     margin-left: 10px;
     margin-right: auto;
   }
 
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.sm}px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.sm}px) {
     margin-right: 20px;
     max-width: 165px;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-right: auto;
       margin-left: 20px;
     }
@@ -88,7 +88,7 @@ export const StyledBitbucketSearch = styled(Search)`
     position: absolute;
     transform: translateY(-50%);
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       right: auto;
       left: 0;
     }
@@ -104,7 +104,7 @@ export const StyledBitbucketSearch = styled(Search)`
       width: 135px;
     }
 
-    @media screen and (min-width: ${({theme}) => theme.breakpoints.sm}px) {
+    @media screen and (min-width: ${({ theme }) => theme.breakpoints.sm}px) {
       width: 129px;
 
       &:focus {
@@ -127,8 +127,8 @@ export const StyledBitbucketSearch = styled(Search)`
     > .ant-input-group
     > .ant-input-group-addon:last-child
     .ant-input-search-button {
-    border-radius: ${({theme}) => theme.sizes.borderRadius.base} 0 0
-      ${({theme}) => theme.sizes.borderRadius.base};
+    border-radius: ${({ theme }) => theme.sizes.borderRadius.base} 0 0
+      ${({ theme }) => theme.sizes.borderRadius.base};
   }
 `;
 
@@ -140,7 +140,7 @@ export const StyledAppBitbucketSidebar = styled(MainSidebar)`
     position: relative;
 
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       top: 0;
@@ -195,7 +195,7 @@ export const StyledAppBitbucketSidebar = styled(MainSidebar)`
       width: 0 !important;
       transition: all 200ms linear;
 
-      @media screen and (min-width: ${({theme}) => theme.breakpoints.lg}px) {
+      @media screen and (min-width: ${({ theme }) => theme.breakpoints.lg}px) {
         width: 4rem !important;
       }
 
@@ -203,7 +203,8 @@ export const StyledAppBitbucketSidebar = styled(MainSidebar)`
         width: 100% !important;
         transition: all 200ms linear;
 
-        @media screen and (min-width: ${({theme}) => theme.breakpoints.lg}px) {
+        @media screen and (min-width: ${({ theme }) =>
+            theme.breakpoints.lg}px) {
           width: calc(100% - 4rem) !important;
         }
       }
@@ -239,7 +240,7 @@ export const StyledAppBitbucketScrollbar = styled(AppScrollbar)`
     height: calc(100vh - 102px);
   }
 
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.lg}px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.lg}px) {
     height: calc(100vh - 71px);
 
     .appMainFixedFooter & {
@@ -262,7 +263,7 @@ export const StyledAppBitbucketDrawer = styled(Drawer)`
     width: auto !important;
     transition: all 0.1s linear;
     position: relative;
-    border-right: 1px solid ${({theme}) => theme.palette.borderColor};
+    border-right: 1px solid ${({ theme }) => theme.palette.borderColor};
   }
 
   & .cr-user-info {
@@ -277,8 +278,8 @@ export const StyledAppBitbucketSidebarWrapper = styled.div`
   transition: all 0.1s linear;
   position: relative;
 
-  border-right: 1px solid ${({theme}) => theme.palette.borderColor};
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.xl}px) {
+  border-right: 1px solid ${({ theme }) => theme.palette.borderColor};
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}px) {
     display: flex;
   }
 
@@ -304,21 +305,21 @@ export const StyledBitbucketBtn = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({theme}) => theme.palette.primary.main};
-  color: ${({theme}) => theme.palette.primary.contrastText};
+  background-color: ${({ theme }) => theme.palette.primary.main};
+  color: ${({ theme }) => theme.palette.primary.contrastText};
   padding: 2px;
   font-size: 24px;
-  border-radius: ${({theme}) => theme.sizes.borderRadius.circle};
+  border-radius: ${({ theme }) => theme.sizes.borderRadius.circle};
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     right: auto;
     left: -12px;
   }
 
   &:hover,
   &:focus {
-    background-color: ${({theme}) => theme.palette.primary.main};
-    color: ${({theme}) => theme.palette.primary.contrastText};
+    background-color: ${({ theme }) => theme.palette.primary.main};
+    color: ${({ theme }) => theme.palette.primary.contrastText};
   }
 `;
 
@@ -327,33 +328,33 @@ export const StyledBucketMinibar = styled.div`
   flex-direction: column;
   width: 64px;
   min-width: 64px;
-  background-color: ${({theme}) => theme.sidebar.dark.sidebarBgColor};
+  background-color: ${({ theme }) => theme.sidebar.dark.sidebarBgColor};
   color: inherit;
   border-right: 1px solid
-    ${({theme}) => rgba(theme.sidebar.dark.sidebarBgColor, 0.15)};
+    ${({ theme }) => rgba(theme.sidebar.dark.sidebarBgColor, 0.15)};
   position: relative;
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
     z-index: 1;
     width: 100%;
     height: 100%;
-    background-color: ${() => rgba('black', 0.05)};
+    background-color: ${() => rgba("black", 0.05)};
   }
 
   &.dark {
     &:before {
-      background-color: ${() => rgba('black', 0.05)};
+      background-color: ${() => rgba("black", 0.05)};
     }
   }
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     border-right: 0 none;
     border-left: 1px solid
-      ${({theme}) => rgba(theme.sidebar.dark.sidebarBgColor, 0.15)};
+      ${({ theme }) => rgba(theme.sidebar.dark.sidebarBgColor, 0.15)};
   }
 
   & a {
@@ -375,7 +376,7 @@ export const StyledBucketMinibarLogo = styled.a`
   align-items: center;
   justify-content: center;
 
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.xl}px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}px) {
     min-height: 71px;
   }
 `;
@@ -386,7 +387,7 @@ export const StyledAppMiniScrollbar = styled(AppScrollbar)`
   padding: 12px;
   height: calc(100vh - 56px);
 
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.xl}px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}px) {
     height: calc(100vh - 71px);
   }
 `;
@@ -414,7 +415,7 @@ export const StyledAppMinibarMain = styled.div`
 
 export const StyledBucketMinibarLink = styled.a`
   margin-bottom: 10px;
-  font-weight: ${({theme}) => theme.font.weight.medium};
+  font-weight: ${({ theme }) => theme.font.weight.medium};
   text-transform: uppercase;
   width: 40px;
   height: 40px;
@@ -424,7 +425,7 @@ export const StyledBucketMinibarLink = styled.a`
   font-size: 20px;
   color: inherit;
   padding: 9px;
-  border-radius: ${({theme}) => theme.sizes.borderRadius.circle};
+  border-radius: ${({ theme }) => theme.sizes.borderRadius.circle};
   line-height: 1;
 `;
 
@@ -457,14 +458,15 @@ export const StyledAppBitbucketLayoutMain = styled(Layout)`
   transition: all 0.1s linear;
   width: 100% !important;
   position: relative;
-  background-color: ${({theme}) => theme.palette.background.default} !important;
+  background-color: ${({ theme }) =>
+    theme.palette.background.default} !important;
 
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.xl}px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}px) {
     width: calc(100% - 320px) !important;
   }
 
   & .apps-container {
-    @media screen and (min-width: ${({theme}) => theme.breakpoints.xl}px) {
+    @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}px) {
       height: calc(100vh - 78px);
     }
   }
@@ -481,7 +483,7 @@ export const StyledBitbucketMainScrollbar = styled(AppScrollbar)`
     max-height: calc(100vh - 102px);
   }
 
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.md}px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.md}px) {
     max-height: calc(100vh - 71px);
 
     .appMainFixedFooter & {
@@ -489,7 +491,7 @@ export const StyledBitbucketMainScrollbar = styled(AppScrollbar)`
     }
   }
 
-  @media screen and (min-width: ${({theme}) => theme.breakpoints.md}px) {
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.md}px) {
     max-height: 100vh;
 
     .appMainFixedFooter & {

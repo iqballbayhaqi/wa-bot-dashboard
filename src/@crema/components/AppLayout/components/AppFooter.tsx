@@ -5,6 +5,7 @@ import {
   StyledMainFooter,
   StyledFooterBtn,
 } from "./AppFooter.styled";
+import { RiCopyrightLine } from "react-icons/ri";
 
 const AppFooter = () => {
   const { footer } = useLayoutContext();
@@ -12,12 +13,17 @@ const AppFooter = () => {
   if (footer) {
     return (
       <StyledMainFooter>
-        <p>Copy right @crema 2021</p>
-        <StyledFooterBtnView>
+        <p>
+          <span>
+            <RiCopyrightLine />
+          </span>
+          2023 - PT. Best Agro International
+        </p>
+        {/* <StyledFooterBtnView>
           <StyledFooterBtn type="link" color="primary">
             Buy Now
           </StyledFooterBtn>
-        </StyledFooterBtnView>
+        </StyledFooterBtnView> */}
       </StyledMainFooter>
     );
   }

@@ -1,6 +1,6 @@
-import AppsPagination from '@crema/components/AppsPagination';
-import AppTableContainer from '@crema/components/AppTableContainer';
-import styled from 'styled-components';
+import AppsPagination from "@crema/components/AppsPagination";
+import AppTableContainer from "@crema/components/AppTableContainer";
+import styled from "styled-components";
 
 export const StyledOrderId = styled.span`
   text-decoration: underline;
@@ -21,7 +21,7 @@ export const StyledOrderTable = styled(AppTableContainer)`
     &:first-child {
       padding-left: 20px;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         padding-left: 0;
         padding-right: 20px;
       }
@@ -30,7 +30,7 @@ export const StyledOrderTable = styled(AppTableContainer)`
     &:last-child {
       padding-right: 20px;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         padding-right: 0;
         padding-left: 20px;
       }
@@ -50,7 +50,7 @@ export const StyledOrderTable = styled(AppTableContainer)`
     &:first-child {
       padding-left: 20px;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         padding-left: 0;
         padding-right: 20px;
       }
@@ -59,7 +59,7 @@ export const StyledOrderTable = styled(AppTableContainer)`
     &:last-child {
       padding-right: 20px;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         padding-right: 0;
         padding-left: 20px;
       }

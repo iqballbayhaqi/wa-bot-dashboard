@@ -57,7 +57,6 @@ const HorDarkLayout: React.FC<Props> = ({ children, routesConfig }) => {
           <AppFooter />
         </StyledContainer>
       </StyledAppLayoutHorDarkMain>
-      <AppThemeSetting />
     </StyledAppLayoutHorDark>
   );
 };

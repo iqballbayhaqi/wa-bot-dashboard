@@ -73,16 +73,16 @@ export const onSendMessage = (
       .then((data: any) => {
         if (data.status === 200) {
           dispatch(fetchSuccess());
-          console.log("response", data.data);
+          // console.log("response", data.data);
           if (
             data?.data?.userMessages?.messageData?.length === 1 &&
             getState().chatApp.userMessages &&
             getState().chatApp?.userMessages?.messageData
           ) {
-            console.log(
-              "getState().chatApp.userMessages.messageData",
-              getState().chatApp.userMessages.messageData
-            );
+            // console.log(
+            //   "getState().chatApp.userMessages.messageData",
+            //   getState().chatApp.userMessages.messageData
+            // );
             dispatch({
               type: ADD_NEW_MESSAGE,
               payload: {
@@ -96,7 +96,7 @@ export const onSendMessage = (
                 },
               },
             });
-            console.log(getState().chatApp?.userMessages);
+            // console.log(getState().chatApp?.userMessages);
           } else {
             dispatch({
               type: ADD_NEW_MESSAGE,
@@ -104,10 +104,12 @@ export const onSendMessage = (
             });
           }
         } else {
+          console.log("Error Nih");
           dispatch(fetchError(String(messages["message.somethingWentWrong"])));
         }
       })
       .catch((error: any) => {
+        console.log("Error Nih", error);
         dispatch(fetchError(error.message));
       });
   };

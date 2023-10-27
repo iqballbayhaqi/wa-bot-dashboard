@@ -59,7 +59,7 @@ const Standard: React.FC<Props> = ({ children, routesConfig }) => {
           </StyledStandardScrollbar>
         </StyledAppLayoutStandardMain>
       </StyledAppLayoutStandardRow>
-      <AppThemeSetting />
+       />
     </StyledAppLayoutStandard>
   );
 };

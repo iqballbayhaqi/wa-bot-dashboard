@@ -1,7 +1,7 @@
-import React from 'react';
-import clsx from 'clsx';
-import { StyledQueueAnim } from './index.styled';
-import { TablePaginationConfig } from 'antd';
+import React from "react";
+import clsx from "clsx";
+import { StyledQueueAnim } from "./index.styled";
+import { TablePaginationConfig } from "antd";
 
 type AppTableContainerProps = {
   columns: any;

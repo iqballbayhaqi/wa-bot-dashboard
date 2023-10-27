@@ -1,27 +1,27 @@
-import React from 'react';
-import { StyledCrEmbedResponsive21by9 } from '../map.styled';
+import React from "react";
+import { StyledCrEmbedResponsive21by9 } from "../map.styled";
 
 const google = window.google;
 
-const _ = require('lodash');
-const { compose, withProps, lifecycle } = require('recompose');
+const _ = require("lodash");
+const { compose, withProps, lifecycle } = require("recompose");
 const {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker,
-} = require('react-google-maps');
+} = require("react-google-maps");
 const {
   SearchBox,
-} = require('react-google-maps/lib/components/places/SearchBox');
+} = require("react-google-maps/lib/components/places/SearchBox");
 
 const MapWithASearchBoxs = compose(
   withProps({
     googleMapURL:
-      'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places,geometry,drawing&key=AIzaSyC9dEjps9u3AP1ce5dxcXCTYDRUege490k',
-    loadingElement: <div className='cr-embed-responsive-item' />,
+      "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places,geometry,drawing&key=AIzaSyC9dEjps9u3AP1ce5dxcXCTYDRUege490k",
+    loadingElement: <div className="cr-embed-responsive-item" />,
     containerElement: <StyledCrEmbedResponsive21by9 />,
-    mapElement: <div className='cr-embed-responsive-item' />,
+    mapElement: <div className="cr-embed-responsive-item" />,
   }),
   lifecycle({
     componentWillMount() {
@@ -62,8 +62,8 @@ const MapWithASearchBoxs = compose(
           }));
           const nextCenter = _.get(
             nextMarkers,
-            '0.position',
-            this.state.center,
+            "0.position",
+            this.state.center
           );
 
           this.setState({
@@ -76,7 +76,7 @@ const MapWithASearchBoxs = compose(
     },
   }),
   withScriptjs,
-  withGoogleMap,
+  withGoogleMap
 )((props) => (
   <GoogleMap
     ref={props.onMapMounted}
@@ -92,8 +92,8 @@ const MapWithASearchBoxs = compose(
       onPlacesChanged={props.onPlacesChanged}
     >
       <input
-        type='text'
-        placeholder='Enter search location'
+        type="text"
+        placeholder="Enter search location"
         style={{
           boxSizing: `border-box`,
           border: `1px solid transparent`,
@@ -105,7 +105,7 @@ const MapWithASearchBoxs = compose(
           boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
           fontSize: `14px`,
           outline: `none`,
-          marginLeft: '20px',
+          marginLeft: "20px",
           textOverflow: `ellipses`,
         }}
       />
@@ -119,7 +119,7 @@ const MapWithASearchBoxs = compose(
 const MapWithASearchBox = () => (
   <MapWithASearchBoxs
     containerElement={<StyledCrEmbedResponsive21by9 />}
-    mapElement={<div className='cr-embed-responsive-item' />}
+    mapElement={<div className="cr-embed-responsive-item" />}
   />
 );
 

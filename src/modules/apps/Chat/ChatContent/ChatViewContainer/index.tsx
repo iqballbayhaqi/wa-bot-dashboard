@@ -1,7 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import dayjs from "dayjs";
+import AppsHeader from "@crema/components/AppsContainer/AppsHeader";
 import IntlMessages from "@crema/helpers/IntlMessages";
 import { useAuthUser } from "@crema/hooks/AuthHooks";
+import { AddNewMessage, Header, MessagesList } from "@crema/modules/apps/Chat";
+import { ConnectionObjType, MessageType } from "@crema/types/models/apps/Chat";
+import dayjs from "dayjs";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  getConnectionMessages,
+  onSendMessage,
+} from "../../../../../toolkit/actions";
+import { useAppDispatch, useAppSelector } from "../../../../../toolkit/hooks";
 import {
   StyledMessageScreen,
   StyledMsgAppsFooter,
@@ -9,23 +17,8 @@ import {
   StyledNoMsg,
   StyledScrollChatNoMain,
 } from "../index.styled";
-import {
-  getConnectionMessages,
-  onClearChatHistory,
-  onDeleteConversation,
-  onDeleteMessage,
-  onEditMessage,
-  onSendMessage,
-} from "../../../../../toolkit/actions";
-import { useAppSelector, useAppDispatch } from "../../../../../toolkit/hooks";
-import AppsHeader from "@crema/components/AppsContainer/AppsHeader";
-import {
-  ConnectionObjType,
-  MessageDataObjType,
-  MessageObjType,
-  MessageType,
-} from "@crema/types/models/apps/Chat";
-import { AddNewMessage, Header, MessagesList } from "@crema/modules/apps/Chat";
+import { useInfoViewActionsContext } from "@crema/context/AppContextProvider/InfoViewContextProvider";
+// import socket from "@crema/services/socket";
 
 type MessagesScreenProps = {
   selectedUser: ConnectionObjType;
@@ -38,18 +31,11 @@ type RefProps = {
   };
 };
 
-type ChatProps = {
-  userMessages: MessageObjType;
-  connectionData: ConnectionObjType[];
-};
 const MessagesScreen: React.FC<MessagesScreenProps> = ({ selectedUser }) => {
-  const [message, setMessage] = useState("");
-  const [isEdit, setIsEdit] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const dispatch = useAppDispatch();
+  const infoViewActionsContext = useInfoViewActionsContext();
+  const [message, setMessage] = useState("");
 
-  const [selectedMessage, setSelectedMessage] =
-    useState<MessageDataObjType | null>(null);
   const { user } = useAuthUser();
 
   const _scrollBarRef = useRef<RefProps | null>(null);
@@ -72,71 +58,28 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ selectedUser }) => {
     }
   }, [userMessages, _scrollBarRef]);
 
-  const sendFileMessage = (fileMessage: MessageDataObjType) => {
-    const data = {
-      ...fileMessage,
-      sender: user.id,
-      time: dayjs().format("llll"),
-    };
-    dispatch(onSendMessage(selectedUser.channelId, data));
-  };
-
   const onSend = (message: string) => {
-    const data = {
-      ...selectedMessage,
-      message,
-      message_type: MessageType.TEXT,
-      sender: user.id,
-      time: dayjs().format("llll"),
-    };
+    // const data = {
+    //   message,
+    //   message_type: MessageType.TEXT,
+    //   sender: user.id,
+    //   time: dayjs().format("ddd, MMM DD, YYYY h:mm A"),
+    // };
 
-    if (isEdit) {
-      data.edited = true;
-      dispatch(onEditMessage(selectedUser.channelId, data));
-      setMessage("");
-      setIsEdit(false);
-      setSelectedMessage(null);
-    } else {
-      console.log("data", data, selectedUser);
-      dispatch(onSendMessage(selectedUser.channelId, data));
-      setMessage("");
-    }
-  };
+    // infoViewActionsContext.showMessage("Message Added Successfully!");
+    // dispatch(onSendMessage(selectedUser.channelId, data));
+    // setMessage("");
+    console.log("masuk");
 
-  const onChangeStarred = (checked: boolean) => {
-    setIsChecked(checked);
-  };
+    // socket.connect();
 
-  const onClickEditMessage = (data: MessageDataObjType) => {
-    if (data.message_type === MessageType.TEXT) {
-      setIsEdit(true);
-      setMessage(data.message!);
-      setSelectedMessage(data);
-    }
-  };
-
-  const deleteMessage = (messageId: number) => {
-    dispatch(onDeleteMessage(selectedUser.channelId, messageId));
-  };
-
-  const deleteConversation = () => {
-    dispatch(onDeleteConversation(selectedUser.channelId));
-  };
-
-  const clearChatHistory = () => {
-    dispatch(onClearChatHistory(selectedUser.channelId));
+    // socket.emit("send", "test");
   };
 
   return (
     <StyledMessageScreen>
       <AppsHeader>
-        <Header
-          isChecked={isChecked}
-          onChangeStarred={onChangeStarred}
-          selectedUser={selectedUser as ConnectionObjType}
-          deleteConversation={deleteConversation}
-          clearChatHistory={clearChatHistory}
-        />
+        <Header selectedUser={selectedUser as ConnectionObjType} />
       </AppsHeader>
 
       {userMessages && user ? (
@@ -145,8 +88,6 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ selectedUser }) => {
             userMessages={userMessages}
             authUser={user}
             selectedUser={selectedUser as ConnectionObjType}
-            onClickEditMessage={onClickEditMessage}
-            deleteMessage={deleteMessage}
           />
         </StyledMsgScreenScrollbar>
       ) : (
@@ -158,11 +99,7 @@ const MessagesScreen: React.FC<MessagesScreenProps> = ({ selectedUser }) => {
       )}
 
       <StyledMsgAppsFooter>
-        <AddNewMessage
-          currentMessage={message}
-          sendFileMessage={sendFileMessage}
-          onSendMessage={onSend}
-        />
+        <AddNewMessage currentMessage={message} onSendMessage={onSend} />
       </StyledMsgAppsFooter>
     </StyledMessageScreen>
   );

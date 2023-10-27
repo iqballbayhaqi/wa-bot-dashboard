@@ -39,8 +39,8 @@ const chatReducer = createReducer(initialState, (builder) => {
     })
     .addCase(AddNewAction, (state, action) => {
       state.connectionList = state.connectionList.map((item) =>
-        item.id === action.payload.data.connectionData.id
-          ? action.payload.data.connectionData
+        item.id === action.payload.data.user.id
+          ? action.payload.data.user
           : item
       );
       state.userMessages = action.payload.data.userMessages;

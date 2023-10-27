@@ -22,7 +22,7 @@ const columns: ColumnsType<RecentOrdersType> = [
     title: "Order ID",
     dataIndex: "id",
     key: "id",
-    render: (id) => <StyledOrderId>{id}</StyledOrderId>,
+    // render: (id) => <StyledOrderId>{id}</StyledOrderId>,
   },
   {
     title: "Product",
@@ -53,17 +53,17 @@ const columns: ColumnsType<RecentOrdersType> = [
     title: "Status",
     dataIndex: "status",
     key: "status",
-    render: (status) => (
-      <span
-        className="badge"
-        style={{
-          color: getPaymentStatusColor(status),
-          backgroundColor: getPaymentStatusColor(status) + "44",
-        }}
-      >
-        {status}
-      </span>
-    ),
+    // render: (status) => (
+    //   <span
+    //     className="badge"
+    //     style={{
+    //       color: getPaymentStatusColor(status),
+    //       backgroundColor: getPaymentStatusColor(status) + "44",
+    //     }}
+    //   >
+    //     {status}
+    //   </span>
+    // ),
   },
   {
     title: "Actions",
@@ -71,7 +71,7 @@ const columns: ColumnsType<RecentOrdersType> = [
     key: "actions",
     className: "order-table-action",
     fixed: "right",
-    render: () => <OrderActions />,
+    // render: () => <OrderActions />,
   },
 ];
 

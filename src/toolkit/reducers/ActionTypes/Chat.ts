@@ -23,6 +23,7 @@ export const GetUserAction = createAction<MessageObjType>(GET_USER_MESSAGES);
 
 export const AddNewAction = createAction<{
   data: {
+    user?: ConnectionObjType;
     connectionData: ConnectionObjType;
     userMessages: MessageObjType;
   };

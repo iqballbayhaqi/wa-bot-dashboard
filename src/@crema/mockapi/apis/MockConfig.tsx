@@ -1,5 +1,7 @@
-import jwtAxios from '@crema/services/axios';
+import axios from "@crema/services/axios/ApiConfig";
 
-import MockAdapter from 'axios-mock-adapter';
+import MockAdapter from "axios-mock-adapter";
 
-export default new MockAdapter(jwtAxios, { delayResponse: 100 });
+const mock = new MockAdapter(axios, { delayResponse: 2000 });
+
+export default mock;

@@ -851,7 +851,7 @@ export const recentOrders: RecentOrdersType[] = [
     date: "08-12-2020",
     product: "Addida Shoes",
     paymentType: "Prepaid",
-    price: "$100",
+    price: "$1",
     status: "Delivered",
   },
   {

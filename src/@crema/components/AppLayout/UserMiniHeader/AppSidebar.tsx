@@ -21,7 +21,7 @@ const AppSidebar = ({ routesConfig }: Props) => {
       breakpoint="lg"
       collapsed={collapseMotion}
     >
-      <StyledAppScrollBarMini scrollToTop={false}>
+      <StyledAppScrollBarMini>
         <AppVerticalMenu routesConfig={routesConfig} />
       </StyledAppScrollBarMini>
     </StyledUserMiniSidebar>

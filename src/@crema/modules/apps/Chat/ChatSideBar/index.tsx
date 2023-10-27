@@ -1,88 +1,10 @@
-import React, { useState } from "react";
-import UserInfo from "./UserInfo";
-import UserTabs from "./UserTabs";
-import dayjs from "dayjs";
-import { useIntl } from "react-intl";
-import { useAuthUser } from "@crema/hooks/AuthHooks";
-import {
-  StyledChatSidebar,
-  StyledChatSidebarSearch,
-  StyledChatSidebarSearchView,
-  StyledChatSidebarUserView,
-} from "./index.styled";
-import { ConnectionObjType } from "@crema/types/models/apps/Chat";
-import socket from "@crema/services/socket";
-import { Button } from "antd";
+import React from "react";
+import { StyledChatSidebar, StyledChatSidebarTitle } from "./index.styled";
 
-type ChatSideBarProps = {
-  selectedUser: ConnectionObjType | null;
-  setSelectedUser: (data: ConnectionObjType) => void;
-  connectionList: ConnectionObjType[];
-  loading: boolean | undefined;
-};
-
-const ChatSideBar: React.FC<ChatSideBarProps> = ({
-  selectedUser,
-  setSelectedUser,
-  connectionList,
-  loading,
-}) => {
-  const [keywords, setKeywords] = useState("");
-  const { user } = useAuthUser();
-
-  const getConnectionList = () => {
-    if (keywords !== "") {
-      return connectionList.filter((item) =>
-        item.name.toUpperCase().includes(keywords.toUpperCase())
-      );
-    }
-    return connectionList;
-  };
-
-  const getChatList = () => {
-    let chatsList = connectionList?.filter((item) => item.lastMessage) || [];
-    if (keywords !== "") {
-      chatsList = chatsList?.filter((item: ConnectionObjType) =>
-        item.name.toUpperCase().includes(keywords.toUpperCase())
-      );
-    }
-    chatsList?.sort((a, b) => {
-      const momentA: any = dayjs(a.lastMessage!.time).format("X");
-      const momentB: any = dayjs(b.lastMessage!.time).format("X");
-      return momentB - momentA;
-    });
-    return chatsList;
-  };
-
-  const connectionListData = getConnectionList();
-
-  const chatListData = getChatList();
-
-  const { messages } = useIntl();
-
+const ChatSideBar: React.FC = () => {
   return (
     <StyledChatSidebar>
-      <StyledChatSidebarUserView>
-        <UserInfo user={user} showStatusActive={true} showDepartment />
-      </StyledChatSidebarUserView>
-
-      <StyledChatSidebarSearchView>
-        <StyledChatSidebarSearch
-          placeholder={messages["common.searchHere"] as string}
-          value={keywords}
-          onChange={(e) => setKeywords(e.target.value)}
-        />
-      </StyledChatSidebarSearchView>
-
-      <Button onClick={() => socket.emit("resetState")}>RESET</Button>
-
-      <UserTabs
-        connectionListData={connectionListData}
-        chatListData={chatListData}
-        loading={loading}
-        selectedUser={selectedUser}
-        setSelectedUser={setSelectedUser}
-      />
+      <StyledChatSidebarTitle>Informasi</StyledChatSidebarTitle>
     </StyledChatSidebar>
   );
 };

@@ -65,14 +65,14 @@ const renderMenu = (
   item: RouterConfigData,
   messages: Record<string, string> | Record<string, MessageFormatElement[]>
 ) => {
-  return item.type === "group"
+  return item.type === "group" || item.type === "collapse"
     ? {
         ...renderMenuItemChildren(item, messages),
         children: item.children?.map((item) => renderMenuItem(item, messages)),
-        type: "group",
+        type: item.type,
       }
     : {
-        exact: item.exact,
+        // exact: item.exact,
         ...renderMenuItemChildren(item, messages),
       };
 };

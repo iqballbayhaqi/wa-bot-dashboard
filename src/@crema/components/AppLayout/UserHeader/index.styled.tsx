@@ -1,7 +1,7 @@
-import AppScrollbar from '../../AppScrollbar';
-import { Input, Layout } from 'antd';
-import styled from 'styled-components';
-import MainSidebar from '../components/MainSidebar';
+import AppScrollbar from "../../AppScrollbar";
+import { Input, Layout } from "antd";
+import styled from "styled-components";
+import MainSidebar from "../components/MainSidebar";
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -39,7 +39,7 @@ export const StyledAppUserHeader = styled(Header)`
       display: block;
     }
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-right: 0;
       margin-left: 20px;
     }
@@ -55,7 +55,7 @@ export const StyledAppUserHeader = styled(Header)`
     @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}px) {
       padding-left: 5px;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         padding-left: 0;
         padding-right: 5px;
       }
@@ -64,7 +64,7 @@ export const StyledAppUserHeader = styled(Header)`
     @media screen and (min-width: ${({ theme }) => theme.breakpoints.md}px) {
       padding-right: 0;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         padding-left: 0;
         padding-right: 16px;
       }
@@ -83,7 +83,7 @@ export const StyledAppUserHeaderSearch = styled(Search)`
   margin-left: auto;
   margin-right: 10px;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     margin-left: 10px;
     margin-right: auto;
   }
@@ -92,7 +92,7 @@ export const StyledAppUserHeaderSearch = styled(Search)`
     margin-right: 20px;
     max-width: 165px;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-right: auto;
       margin-left: 20px;
     }
@@ -105,7 +105,7 @@ export const StyledAppUserHeaderSearch = styled(Search)`
     position: absolute;
     transform: translateY(-50%);
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       right: auto;
       left: 0;
     }
@@ -244,7 +244,7 @@ export const StyledUserHeaderSidebar = styled(MainSidebar)`
     position: relative;
 
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       top: 0;

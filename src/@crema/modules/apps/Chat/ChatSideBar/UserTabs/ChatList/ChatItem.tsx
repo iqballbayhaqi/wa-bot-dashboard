@@ -26,7 +26,9 @@ const ChatItem: React.FC<ChatItemProps> = (props) => {
       className={clsx("item-hover", {
         active: selectedUser && selectedUser?.id === item.id,
       })}
-      onClick={() => setSelectedUser(item)}
+      onClick={() => {
+        setSelectedUser(item);
+      }}
     >
       <StyledChatUserAvatarView>
         <StyledChatAvatar src={item.image} />

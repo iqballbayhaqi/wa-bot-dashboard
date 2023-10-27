@@ -37,7 +37,6 @@ const MiniSidebar: React.FC<Props> = ({ children, routesConfig }) => {
           <AppFooter />
         </StyledMainMiniScrollbar>
       </StyledAppLayoutMiniMain>
-      <AppThemeSetting />
     </StyledAppLayoutMini>
   );
 };

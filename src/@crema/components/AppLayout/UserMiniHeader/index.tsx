@@ -37,7 +37,6 @@ const UserMiniHeader: React.FC<Props> = ({ children, routesConfig }) => {
           <AppFooter />
         </StyledUserMiniHeaderScrollbar>
       </StyledAppLayoutMinibarMain>
-      <AppThemeSetting />
     </StyledAppLayoutMinibar>
   );
 };

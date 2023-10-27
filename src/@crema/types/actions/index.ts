@@ -1,17 +1,19 @@
-import { CommonActionTypes } from './Common.action';
-import { SettingsActionTypes } from './Settings.action';
-import { DashboardActionTypes } from './Dashboard.action';
-import { EcommerceActionTypes } from './Ecommerce.action';
-import { AuthActions } from './Auth.actions';
-import { ChatActions } from './Chat.actions';
-import { ContactActions } from './Contact.actions';
-import { MailActions } from './Mail.action';
-import { TaskActions } from './Todo.action';
-import { WallActions } from './Wall.actions';
-import { ScrumboardActions } from './Scrumboard.actions';
-import { UserListActions } from './UserList.actions';
-import { InvoiceActionTypes } from './Invoice.action';
-import { BlogActionTypes } from './Blogs.action';
+import { CommonActionTypes } from "./Common.action";
+import { SettingsActionTypes } from "./Settings.action";
+import { DashboardActionTypes } from "./Dashboard.action";
+import { EcommerceActionTypes } from "./Ecommerce.action";
+import { AuthActions } from "./Auth.actions";
+import { ChatActions } from "./Chat.actions";
+import { ContactActions } from "./Contact.actions";
+import { MailActions } from "./Mail.action";
+import { TaskActions } from "./Todo.action";
+import { WallActions } from "./Wall.actions";
+import { ScrumboardActions } from "./Scrumboard.actions";
+import { UserListActions } from "./UserList.actions";
+import { InvoiceActionTypes } from "./Invoice.action";
+import { BlogActionTypes } from "./Blogs.action";
+import { MasterActionTypes } from "./Master.actions";
+import { TicketActionTypes } from "./Ticket.actions";
 
 export type AppActions =
   | CommonActionTypes
@@ -27,4 +29,6 @@ export type AppActions =
   | ContactActions
   | InvoiceActionTypes
   | BlogActionTypes
-  | UserListActions;
+  | UserListActions
+  | MasterActionTypes
+  | TicketActionTypes;

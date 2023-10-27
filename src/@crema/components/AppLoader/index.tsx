@@ -1,6 +1,8 @@
-import React from 'react';
-import {Spin} from 'antd';
-import styled from 'styled-components';
+"use client";
+
+import React from "react";
+import { Spin } from "antd";
+import styled from "styled-components";
 
 const StyledAppLoader = styled.div`
   display: flex;

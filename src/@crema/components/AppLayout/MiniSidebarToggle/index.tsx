@@ -43,7 +43,6 @@ const MiniSidebarToggle: React.FC<Props> = ({ children, routesConfig }) => {
           <AppFooter />
         </StyledMainMiniScrollbar>
       </StyledAppLayoutMiniSidebarMain>
-      <AppThemeSetting />
     </StyledAppLayoutMiniSidebar>
   );
 };

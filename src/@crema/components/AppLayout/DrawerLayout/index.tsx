@@ -50,7 +50,6 @@ const DrawerLayout: React.FC<Props> = ({ children, routesConfig }) => {
           <AppFooter />
         </StyledDrawerScrollbar>
       </StyledAppDrawerLayoutMain>
-      <AppThemeSetting />
     </StyledAppDrawerLayout>
   );
 };

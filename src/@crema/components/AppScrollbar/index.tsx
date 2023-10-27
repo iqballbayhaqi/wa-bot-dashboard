@@ -37,10 +37,10 @@
 //   scrollToTop: PropTypes.bool,
 //   className: PropTypes.string,
 // };
-import React, { ReactNode } from 'react';
-import SimpleBarReact from 'simplebar-react';
-import 'simplebar/src/simplebar.css';
-import styled from 'styled-components';
+import React, { ReactNode } from "react";
+import SimpleBarReact from "simplebar-react";
+import "simplebar/src/simplebar.css";
+import styled from "styled-components";
 
 export const StyledScrollbar = styled(SimpleBarReact)`
   position: relative;

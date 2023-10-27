@@ -57,7 +57,6 @@ const HorDefault: React.FC<Props> = ({ children, routesConfig }) => {
           <AppFooter />
         </StyledContainer>
       </StyledAppLayoutHorMain>
-      <AppThemeSetting />
     </StyledAppLayoutHor>
   );
 };

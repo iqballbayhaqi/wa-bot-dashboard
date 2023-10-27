@@ -33,6 +33,7 @@ const commonReducer = createReducer(INIT_STATE, (builder) => {
       state.loading = false;
     })
     .addCase(ShowMsgAction, (state, action) => {
+      console.log(action.payload);
       state.error = "";
       state.message = action.payload;
       state.loading = false;

@@ -6,7 +6,7 @@ const connectionList: ConnectionObjType[] = [
     channelId: 2001,
     name: "Jubina Chawla",
     image: "/assets/images/avatar/A1.jpg",
-    status: "online",
+    status: "offline",
     username: "jubina.1",
     lastMessage: {
       id: 6,

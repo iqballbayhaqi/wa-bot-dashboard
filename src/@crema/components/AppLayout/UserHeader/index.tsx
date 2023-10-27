@@ -59,7 +59,7 @@ const UserHeader: React.FC<Props> = ({ children, routesConfig }) => {
           <AppFooter />
         </StyledUserHeaderMainScrollbar>
       </StyledAppLayoutUserHeaderMain>
-      <AppThemeSetting />
+       />
     </StyledAppLayoutUserHeader>
   );
 };

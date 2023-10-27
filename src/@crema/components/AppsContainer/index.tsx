@@ -55,19 +55,6 @@ const AppsContainer: React.FC<AppsContainerProps> = ({
       </StyledAppWrapHeader>
 
       <StyledAppContainer>
-        {sidebarContent ? (
-          <QueueAnim style={{ zIndex: 3 }} type={type ? type : "left"}>
-            <AppSidebar
-              isAppDrawerOpen={isAppDrawerOpen}
-              setAppDrawerOpen={setAppDrawerOpen}
-              footer={footer}
-              fullView={fullView}
-              navStyle={navStyle}
-              sidebarContent={sidebarContent}
-              key="sidebar"
-            />
-          </QueueAnim>
-        ) : null}
         <StyledMainContent
           className={clsx({
             appsMainContentFull: fullView,
@@ -104,6 +91,19 @@ const AppsContainer: React.FC<AppsContainerProps> = ({
 
           <AppInfoView />
         </StyledMainContent>
+        {sidebarContent ? (
+          <QueueAnim style={{ zIndex: 3 }} type={type ? type : "left"}>
+            <AppSidebar
+              isAppDrawerOpen={isAppDrawerOpen}
+              setAppDrawerOpen={setAppDrawerOpen}
+              footer={footer}
+              fullView={fullView}
+              navStyle={navStyle}
+              sidebarContent={sidebarContent}
+              key="sidebar"
+            />
+          </QueueAnim>
+        ) : null}
       </StyledAppContainer>
     </StyledAppWrap>
   );

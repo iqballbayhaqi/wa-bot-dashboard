@@ -5,8 +5,8 @@ import React, {
   useCallback,
   useContext,
   useReducer,
-} from 'react';
-import { contextReducer, InFoViewActions } from './InfoViewReducer';
+} from "react";
+import { contextReducer, InFoViewActions } from "./InfoViewReducer";
 
 export type InfoViewData = {
   error: string;
@@ -24,8 +24,8 @@ export type InfoViewActions = {
 
 export const ContextState: InfoViewData = {
   loading: false,
-  error: '',
-  displayMessage: '',
+  error: "",
+  displayMessage: "",
 };
 
 const InfoViewContext = createContext<InfoViewData>(ContextState);

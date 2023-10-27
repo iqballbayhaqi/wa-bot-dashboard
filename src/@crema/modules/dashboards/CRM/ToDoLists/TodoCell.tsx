@@ -9,7 +9,7 @@ type Props = {
   todo: TodoListType;
   key?: number;
 };
-const TodoCell = ({ todo, key }: Props) => {
+const TodoCell = ({ todo }: Props) => {
   return (
     <StyledTodoCellWrapper>
       <div className="date-view">

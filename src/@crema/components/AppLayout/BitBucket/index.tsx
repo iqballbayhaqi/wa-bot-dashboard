@@ -49,7 +49,6 @@ const BitBucket: React.FC<Props> = ({ children, routesConfig }) => {
           <AppFooter />
         </StyledBitbucketMainScrollbar>
       </StyledAppBitbucketLayoutMain>
-      <AppThemeSetting />
     </StyledAppBitbucketLayout>
   );
 };

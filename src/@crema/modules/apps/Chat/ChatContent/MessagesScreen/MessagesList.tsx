@@ -1,23 +1,19 @@
-import React from "react";
-import SenderMessageItem from "./SenderMessageItem";
-import ReceiverMessageItem from "./ReceiverMessageItem";
 import AppList from "@crema/components/AppList";
-import { AppAnimates } from "@crema/constants/AppEnums";
-import { StyledChatMsgList } from "./MessageItem.style";
+import ListEmptyResult from "@crema/components/AppList/ListEmptyResult";
+import { AuthUserType } from "@crema/types/models/AuthUser";
 import {
   ConnectionObjType,
-  MessageDataObjType,
-  MessageObjType,
+  MessageObjType
 } from "@crema/types/models/apps/Chat";
-import { AuthUserType } from "@crema/types/models/AuthUser";
-import ListEmptyResult from "@crema/components/AppList/ListEmptyResult";
+import React from "react";
+import { StyledChatMsgList } from "./MessageItem.style";
+import ReceiverMessageItem from "./ReceiverMessageItem";
+import SenderMessageItem from "./SenderMessageItem";
 
 type MessagesListProps = {
   userMessages: MessageObjType;
   authUser: AuthUserType;
   selectedUser: ConnectionObjType;
-  onClickEditMessage: (data: MessageDataObjType) => void;
-  deleteMessage: (id: number) => void;
   loading?: boolean;
 };
 
@@ -25,8 +21,6 @@ const MessagesList: React.FC<MessagesListProps> = ({
   userMessages,
   authUser,
   selectedUser,
-  onClickEditMessage,
-  deleteMessage,
 }) => {
   return (
     <StyledChatMsgList>
@@ -50,8 +44,6 @@ const MessagesList: React.FC<MessagesListProps> = ({
                   index + 1 === userMessages.messageData.length
                 }
                 key={item.id}
-                onClickEditMessage={onClickEditMessage}
-                deleteMessage={deleteMessage}
               />
             );
           } else {

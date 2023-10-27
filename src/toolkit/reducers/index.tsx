@@ -1,18 +1,20 @@
-import { combineReducers } from 'redux';
-import Settings from './Setting';
-import Common from './Common';
-import Dashboard from './Dashboard';
-import ToDoApp from './ToDoApp';
-import MailApp from './MailApp';
-import ContactApp from './ContactApp';
-import ScrumboardApp from './ScrumboardApp';
-import Ecommerce from './Ecommerce';
-import ChatApp from './ChatApp';
-import Wall from './Wall';
-import UserList from './UserList';
-import InvoiceApp from './Invoice';
-import CalendarApp from './CalendarApp';
-import Blogs from './Blogs';
+import { combineReducers } from "redux";
+import Settings from "./Setting";
+import Common from "./Common";
+import Dashboard from "./Dashboard";
+import ToDoApp from "./ToDoApp";
+import MailApp from "./MailApp";
+import ContactApp from "./ContactApp";
+import ScrumboardApp from "./ScrumboardApp";
+import Ecommerce from "./Ecommerce";
+import ChatApp from "./ChatApp";
+import Wall from "./Wall";
+import UserList from "./UserList";
+import InvoiceApp from "./Invoice";
+import CalendarApp from "./CalendarApp";
+import Blogs from "./Blogs";
+import Master from "./Master";
+import Ticket from "./Ticket";
 
 const reducers = () =>
   combineReducers({
@@ -30,5 +32,7 @@ const reducers = () =>
     invoiceApp: InvoiceApp,
     wall: Wall,
     blogs: Blogs,
+    master: Master,
+    ticket: Ticket,
   });
 export default reducers;

@@ -1,8 +1,8 @@
-import AppScrollbar from '../../AppScrollbar';
-import { Alert, Drawer, Input, Layout } from 'antd';
-import styled from 'styled-components';
-import AppHorizontalNav from '../components/AppHorizontalNav';
-import MainSidebar from '../components/MainSidebar';
+import AppScrollbar from "../../AppScrollbar";
+import { Alert, Drawer, Input, Layout } from "antd";
+import styled from "styled-components";
+import AppHorizontalNav from "../components/AppHorizontalNav";
+import MainSidebar from "../components/MainSidebar";
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -26,7 +26,7 @@ export const StyledAppHeaderHor = styled(Header)`
       display: none;
     }
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-right: 0;
       margin-left: 20px;
     }
@@ -59,7 +59,7 @@ export const StyledHeaderHorMain = styled.div`
     @media screen and (min-width: ${({ theme }) => theme.breakpoints.md}px) {
       padding-left: 20px;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         padding-left: 0;
         padding-right: 20px;
       }
@@ -124,7 +124,7 @@ export const StyledHeaderSearchHor = styled(Search)`
   margin-left: auto;
   margin-right: 10px;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     margin-left: 10px;
     margin-right: auto;
   }
@@ -133,7 +133,7 @@ export const StyledHeaderSearchHor = styled(Search)`
     margin-right: 20px;
     max-width: 165px;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-right: auto;
       margin-left: 20px;
     }
@@ -146,7 +146,7 @@ export const StyledHeaderSearchHor = styled(Search)`
     position: absolute;
     transform: translateY(-50%);
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       right: auto;
       left: 0;
     }
@@ -305,7 +305,7 @@ export const StyledHorMainSidebar = styled(MainSidebar)`
     left: 0;
     top: 0;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       left: auto;
       right: 0;
     }
@@ -370,7 +370,7 @@ export const StyledHorMainSidebar = styled(MainSidebar)`
     position: relative;
 
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       top: 0;
@@ -465,7 +465,7 @@ export const StyledHeaderAlert = styled(Alert)`
   }
 
   & .ant-alert-close-icon {
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-right: 8px;
       margin-left: 8px;
     }

@@ -1,9 +1,9 @@
-import notification from './notifications';
-import messages from './messages';
-import photos from './gallery/photos';
-import accountData from './account';
-import countries from './account/countries';
-import { aboutUsData } from './extraPages/aboutUs';
+import notification from "./notifications";
+import messages from "./messages";
+import photos from "./gallery/photos";
+import accountData from "./account";
+import countries from "./account/countries";
+import { aboutUsData } from "./extraPages/aboutUs";
 import ecommerce, {
   addresses,
   brandData,
@@ -13,8 +13,10 @@ import ecommerce, {
   idealFor,
   productColors,
   recentOrders,
-} from './ecommerce/ecommerceData';
-import reactSlickData from './thirdParty/reactSlick';
+} from "./ecommerce/ecommerceData";
+import reactSlickData from "./thirdParty/reactSlick";
+import * as master from "./master";
+import * as ticket from "./tickets";
 
 export {
   reactSlickData,
@@ -33,4 +35,6 @@ export {
   recentOrders,
   customersData,
   ecommerce,
+  master,
+  ticket,
 };

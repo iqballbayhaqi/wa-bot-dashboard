@@ -19,10 +19,7 @@ const ToDoLists = ({ data }: Props) => {
       extra={<a href="#">{messages["common.viewAll"] as string}</a>}
     >
       <AppScrollbar style={{ paddingLeft: 20, paddingRight: 20 }}>
-        <AppList
-          data={data}
-          renderItem={(todo) => <TodoCell key={todo.id} todo={todo} />}
-        />
+        <AppList data={data} renderItem={(todo) => <TodoCell todo={todo} />} />
       </AppScrollbar>
     </AppCard>
   );

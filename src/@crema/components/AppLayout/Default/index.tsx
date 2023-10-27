@@ -59,7 +59,6 @@ const DefaultLayout: React.FC<Props> = ({ children, routesConfig }) => {
           <AppFooter />
         </StyledMainScrollbar>
       </StyledAppLayoutMain>
-      <AppThemeSetting />
     </StyledAppLayout>
   );
 };

@@ -472,4 +472,5 @@ const academyData: AcademyType = {
     ],
   },
 };
+
 export default academyData;

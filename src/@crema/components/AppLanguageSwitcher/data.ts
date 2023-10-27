@@ -7,29 +7,9 @@ const languageData: LanguageProps[] = [
     name: "English",
   },
   {
-    languageId: "chinese",
-    locale: "zh",
-    name: "Chinese",
-  },
-  {
-    languageId: "spanish",
-    locale: "es",
-    name: "Spanish",
-  },
-  {
-    languageId: "french",
-    locale: "fr",
-    name: "French",
-  },
-  {
-    languageId: "italian",
-    locale: "it",
-    name: "Italian",
-  },
-  {
-    languageId: "saudi-arabia",
-    locale: "ar",
-    name: "Arabic",
+    languageId: "indonesia",
+    locale: "id",
+    name: "Indonesia",
   },
 ];
 export default languageData;
