@@ -34,7 +34,7 @@ export const getMasterDepartementList = () => {
       type: GET_MASTER_DEPARTEMENT_LIST_LOADING,
     });
     jwtAxios
-      .get("/departement", { headers: { "Cache-Control": "no-cache" } })
+      .get("/department")
       .then((data: AxiosResponse<DepartementResponseType[]>) => {
         const mappedData: DepartementDataType[] = data.data.map(
           (departement, index) => ({

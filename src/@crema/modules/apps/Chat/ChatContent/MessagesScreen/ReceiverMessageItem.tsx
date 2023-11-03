@@ -1,8 +1,7 @@
-import {
-  ConnectionObjType,
-  MessageDataObjType,
-} from "@crema/types/models/apps/Chat";
+import { UserOutlined } from "@ant-design/icons";
+import { ChatListType } from "@crema/types/models/tickets";
 import clsx from "clsx";
+import moment from "moment";
 import React from "react";
 import {
   StyledChatMsgListItem,
@@ -15,35 +14,36 @@ import {
 } from "./MessageItem.style";
 
 type ReceiverMessageItemProps = {
-  selectedUser: ConnectionObjType;
-  item: MessageDataObjType;
-  isPreviousSender: boolean;
+  item: ChatListType;
   isLast: boolean;
+  isPreviousSender: boolean;
 };
 
 const ReceiverMessageItem: React.FC<ReceiverMessageItemProps> = ({
-  selectedUser,
-  isPreviousSender = false,
-  isLast,
   item,
+  isLast,
+  isPreviousSender,
 }) => {
   return (
     <StyledChatMsgListItem
       className={clsx(
         "left",
-        isPreviousSender ? "hide-user-info" : "first-chat-message",
-        isLast ? "last-chat-message" : ""
+        isLast ? "last-chat-message" : "",
+        isPreviousSender ? "hide-user-info" : "first-chat-message"
       )}
     >
       <StyledMsgChatView className="message-chat-view">
-        <StyledMsgChatAvatar className="message-chat-avatar">
-          {selectedUser.name.charAt(0).toUpperCase()}
-        </StyledMsgChatAvatar>
+        <StyledMsgChatAvatar
+          className="message-chat-avatar"
+          icon={<UserOutlined />}
+        />
 
         <StyledMsgChatItem className="message-chat-item">
-          <StyledMsgTime className="message-time">{item.time}</StyledMsgTime>
+          <StyledMsgTime className="message-time">
+            {moment(item.time).format("ddd, MMM DD, YYYY h:mm A")}
+          </StyledMsgTime>
           <StyledMsgChat>
-            <StyledMessageTypePara>{item.message}</StyledMessageTypePara>;
+            <StyledMessageTypePara>{item.text}</StyledMessageTypePara>
           </StyledMsgChat>
         </StyledMsgChatItem>
       </StyledMsgChatView>

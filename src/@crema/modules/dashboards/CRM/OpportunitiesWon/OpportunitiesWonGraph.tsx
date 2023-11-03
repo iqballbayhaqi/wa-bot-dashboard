@@ -1,9 +1,16 @@
-import React from "react";
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
-import { OpportunitiesWonGraphDataType } from "@crema/types/models/dashboards/CRM";
+import { ChartData } from "@crema/types/models/dashboards";
+import {
+  Bar,
+  BarChart,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 type Props = {
-  data: OpportunitiesWonGraphDataType[];
+  data: ChartData[];
 };
 
 const OpportunitiesWonGraph = ({ data }: Props) => {
@@ -11,6 +18,7 @@ const OpportunitiesWonGraph = ({ data }: Props) => {
     <ResponsiveContainer maxHeight={260} minHeight={160}>
       <BarChart barGap={16} barSize={8} data={data}>
         <XAxis dataKey="name" />
+        <YAxis />
         <Tooltip
           labelStyle={{ color: "black" }}
           contentStyle={{
@@ -20,20 +28,10 @@ const OpportunitiesWonGraph = ({ data }: Props) => {
           }}
           cursor={{ fill: "transparent" }}
         />
-        <Bar
-          dataKey="progress"
-          stackId="a"
-          fill="#0a8fdce6"
-          radius={[20, 20, 0, 0]}
-          background={{ fill: "#0a8fdc26" }}
-        />
-        <Bar
-          dataKey="actual"
-          stackId="b"
-          fill="#fb4f67e6"
-          radius={[20, 20, 0, 0]}
-          background={{ fill: "#fb4f6726" }}
-        />
+        <Legend />
+        <Bar dataKey="open" fill="#61c12a" />
+        <Bar dataKey="pending" fill="#f59821" />
+        <Bar dataKey="closed" fill="#fb4f67e6" />
       </BarChart>
     </ResponsiveContainer>
   );

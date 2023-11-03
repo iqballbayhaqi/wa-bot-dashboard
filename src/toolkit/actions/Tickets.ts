@@ -1,6 +1,9 @@
 import jwtAxios from "@crema/services/axios/ApiConfig";
 import { AppActions } from "@crema/types/actions";
 import {
+  GET_DETAIL_TICKET_FAILED,
+  GET_DETAIL_TICKET_LOADING,
+  GET_DETAIL_TICKET_SUCCESS,
   GET_TICKET_LIST_FAILED,
   GET_TICKET_LIST_LOADING,
   GET_TICKET_LIST_SUCCESS,
@@ -9,13 +12,34 @@ import {
   SAVE_TICKET_SUCCESS,
 } from "@crema/types/actions/Ticket.actions";
 import {
+  CategoryResponseType,
+  DepartementResponseType,
+} from "@crema/types/models/master";
+import {
   TicketDataType,
+  TicketDetailResponseType,
   TicketPayload,
   TicketResponseType,
   TicketSaveResponse,
 } from "@crema/types/models/tickets";
 import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
+
+const getDepartmentNameById = (
+  id: number,
+  data: DepartementResponseType[]
+): string | undefined => {
+  const department = data.find((department) => department.id === id);
+  return department ? department.name : undefined;
+};
+
+const getCategoryNameById = (
+  id: number,
+  data: CategoryResponseType[]
+): string | undefined => {
+  const category = data.find((category) => category.id === id);
+  return category ? category.name : undefined;
+};
 
 export const getTicketList = () => {
   return (dispatch: Dispatch<AppActions>) => {
@@ -24,8 +48,13 @@ export const getTicketList = () => {
     });
 
     jwtAxios
-      .get("/tickets", { headers: { "Cache-Control": "no-cache" } })
-      .then((data: AxiosResponse<TicketResponseType[]>) => {
+      .get("/tickets")
+      .then(async (data: AxiosResponse<TicketResponseType[]>) => {
+        const departementData: AxiosResponse<DepartementResponseType[]> =
+          await jwtAxios.get("/department");
+        const categoryData: AxiosResponse<CategoryResponseType[]> =
+          await jwtAxios.get("/category");
+
         const mappedData: TicketDataType[] = data.data.map((ticket) => ({
           id: ticket.id,
           ticketNumber: ticket.ticketNumber,
@@ -34,8 +63,17 @@ export const getTicketList = () => {
           startTime: ticket.startTime,
           endTime: ticket.endTime,
           issue: ticket.issue,
-          department: ticket.department,
-          category: ticket.category,
+          department: {
+            id: ticket.department,
+            name: getDepartmentNameById(
+              ticket.department,
+              departementData.data
+            ),
+          },
+          category: {
+            id: ticket.category,
+            name: getCategoryNameById(ticket.category, categoryData.data),
+          },
         }));
 
         dispatch({
@@ -46,6 +84,31 @@ export const getTicketList = () => {
       .catch((error: any) => {
         dispatch({
           type: GET_TICKET_LIST_FAILED,
+          payload: error,
+        });
+      });
+  };
+};
+
+export const getTicketDetail = (id: string | string[]) => {
+  return (dispatch: Dispatch<AppActions>) => {
+    dispatch({
+      type: GET_DETAIL_TICKET_LOADING,
+    });
+
+    jwtAxios
+      .get(`/ticket/${id}`)
+      .then(async (data: AxiosResponse<TicketDetailResponseType>) => {
+        console.log("data", data);
+        dispatch({
+          type: GET_DETAIL_TICKET_SUCCESS,
+          payload: data.data,
+        });
+      })
+      .catch((error: any) => {
+        console.log("error", error);
+        dispatch({
+          type: GET_DETAIL_TICKET_FAILED,
           payload: error,
         });
       });

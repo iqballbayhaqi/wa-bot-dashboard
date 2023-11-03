@@ -1,6 +1,7 @@
-import { AuthUserType } from "@crema/types/models/AuthUser";
-import { MessageDataObjType } from "@crema/types/models/apps/Chat";
+import { UserOutlined } from "@ant-design/icons";
+import { ChatListType } from "@crema/types/models/tickets";
 import clsx from "clsx";
+import moment from "moment";
 import React from "react";
 import {
   StyledChatMsgListItem,
@@ -14,47 +15,38 @@ import {
 } from "./MessageItem.style";
 
 type SenderMessageItemProps = {
-  item: MessageDataObjType;
-  authUser: AuthUserType;
-  isPreviousSender: boolean;
-  isLast: boolean;
+  item: ChatListType;
+  isLast?: boolean;
+  isPreviousSender?: boolean;
 };
 
 const SenderMessageItem: React.FC<SenderMessageItemProps> = ({
-  authUser,
   item,
-  isPreviousSender = false,
   isLast,
+  isPreviousSender,
 }) => {
-  const getUserAvatar = () => {
-    const name = authUser.displayName;
-    if (name) {
-      return name.charAt(0).toUpperCase();
-    }
-    if (authUser.email) {
-      return authUser.email.charAt(0).toUpperCase();
-    }
-  };
-
   return (
     <StyledChatMsgListItem
       className={clsx(
         "right",
-        isPreviousSender ? "hide-user-info" : "first-chat-message",
-        isLast ? "last-chat-message" : ""
+        isLast ? "last-chat-message" : "",
+        isPreviousSender ? "hide-user-info" : "first-chat-message"
       )}
     >
       <StyledMsgChatView className="message-chat-view">
         <StyledMsgChatItem className="message-chat-item">
-          <StyledMsgTime className="message-time">{item.time}</StyledMsgTime>
+          <StyledMsgTime className="message-time">
+            {moment(item.time).format("ddd, MMM DD, YYYY h:mm A")}
+          </StyledMsgTime>
           <StyledMsgChat className="message-chat">
-            <StyledMessageTypePara>{item.message}</StyledMessageTypePara>
+            <StyledMessageTypePara>{item.text}</StyledMessageTypePara>
           </StyledMsgChat>
         </StyledMsgChatItem>
         <StyledMsgChatSender className="message-chat-sender">
-          <StyledMsgChatAvatar className="message-chat-avatar">
-            {getUserAvatar()}
-          </StyledMsgChatAvatar>
+          <StyledMsgChatAvatar
+            className="message-chat-avatar"
+            icon={<UserOutlined />}
+          />
         </StyledMsgChatSender>
       </StyledMsgChatView>
     </StyledChatMsgListItem>

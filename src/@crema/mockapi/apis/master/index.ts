@@ -3,11 +3,11 @@ import { masterCategoryData, masterDepartementData } from "../../fakedb/master";
 
 let departmentList = masterDepartementData;
 
-mock.onGet("/departement").reply(() => {
+mock.onGet("/department").reply(() => {
   return [200, departmentList];
 });
 
-mock.onPost("/departement").reply((config) => {
+mock.onPost("/department").reply((config) => {
   const data = JSON.parse(config.data);
 
   const mappedData = {
@@ -28,7 +28,7 @@ mock.onPost("/departement").reply((config) => {
   return [200, { status: "success", data: "Data added successfully" }];
 });
 
-mock.onPut("/departement").reply(200, {
+mock.onPut("/department").reply(200, {
   status: "success",
   data: {
     recordsets: [],

@@ -1,34 +1,18 @@
 import React from "react";
 import OpportunitiesWonGraph from "./OpportunitiesWonGraph";
 import { useIntl } from "react-intl";
-import AppSelect from "@crema/components/AppSelect";
 import { StyledAppCard } from "./index.styled";
-import { OpportunitiesWonGraphDataType } from "@crema/types/models/dashboards/CRM";
+import { ChartData } from "@crema/types/models/dashboards";
 
 type Props = {
-  data: OpportunitiesWonGraphDataType[];
+  data: ChartData[];
 };
 
 const OpportunitiesWon = ({ data }: Props) => {
   const { messages } = useIntl();
-  const handleSelectionType = (data: string) => {
-    console.log("data: ", data);
-  };
+
   return (
-    <StyledAppCard
-      title={messages["dashboard.crm.opportunitiesWon"]}
-      action={
-        <AppSelect
-          menus={[
-            messages["dashboard.thisWeek"],
-            messages["dashboard.lastWeeks"],
-            messages["dashboard.lastMonth"],
-          ]}
-          defaultValue={messages["dashboard.thisWeek"]}
-          onChange={handleSelectionType}
-        />
-      }
-    >
+    <StyledAppCard title={"Grafik Masalah Best Agro International"}>
       <OpportunitiesWonGraph data={data} />
     </StyledAppCard>
   );

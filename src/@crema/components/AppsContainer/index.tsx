@@ -91,6 +91,7 @@ const AppsContainer: React.FC<AppsContainerProps> = ({
 
           <AppInfoView />
         </StyledMainContent>
+
         {sidebarContent ? (
           <QueueAnim style={{ zIndex: 3 }} type={type ? type : "left"}>
             <AppSidebar

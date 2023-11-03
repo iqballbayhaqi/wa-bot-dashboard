@@ -3,11 +3,18 @@ import {
   GET_ANALYTICS_DATA,
   GET_CRM_DATA,
   GET_CRYPTO_DATA,
+  GET_DASHBOARD_DATA_FAILED,
+  GET_DASHBOARD_DATA_LOADING,
+  GET_DASHBOARD_DATA_SUCCESS,
   GET_ECOMMERCE_DATA,
   GET_HEALTH_CARE_DATA,
   GET_METRICS_DATA,
   GET_WIDGETS_DATA,
 } from "@crema/types/actions/Dashboard.action";
+import {
+  DashboardData,
+  DashboardResponse,
+} from "@crema/types/models/dashboards";
 
 import { AcademyType } from "@crema/types/models/dashboards/AcademyType";
 import { AnalyticsType } from "@crema/types/models/dashboards/Analytics";
@@ -17,6 +24,7 @@ import { EcommerceType } from "@crema/types/models/dashboards/Ecommerce";
 import { HealthCareType } from "@crema/types/models/dashboards/HealthCare";
 import { MetricsType } from "@crema/types/models/dashboards/Metrics";
 import { WidgetsType } from "@crema/types/models/dashboards/Widgets";
+import { ErrorResponseType } from "@crema/types/models/master";
 import { createAction } from "@reduxjs/toolkit";
 
 export const GetAnalyticsAction =
@@ -36,3 +44,13 @@ export const GetHealthcareAction =
 export const GetMetricsAction = createAction<MetricsType>(GET_METRICS_DATA);
 
 export const GetWidgetsAction = createAction<WidgetsType>(GET_WIDGETS_DATA);
+
+export const GetDashboardLoadingAction = createAction(
+  GET_DASHBOARD_DATA_LOADING
+);
+export const GetDashboardSuccessAction = createAction<DashboardData>(
+  GET_DASHBOARD_DATA_SUCCESS
+);
+export const GetDashboardFailedAction = createAction<ErrorResponseType>(
+  GET_DASHBOARD_DATA_FAILED
+);

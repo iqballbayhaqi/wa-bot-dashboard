@@ -63,8 +63,8 @@ const Tickets: React.FC = () => {
                     isOpen: true,
                     data: {
                       id: data.id,
-                      departmentId: data.department,
-                      categoryId: data.category,
+                      departmentId: data.department.id,
+                      categoryId: data.category.id,
                       issue: data.issue,
                       ticketNumber: data.ticketNumber,
                     },

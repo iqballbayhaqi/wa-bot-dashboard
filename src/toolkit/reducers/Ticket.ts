@@ -1,7 +1,11 @@
 import { ErrorResponseType } from "@crema/types/models/master";
 import { createReducer } from "@reduxjs/toolkit";
 
-import { TicketDataType } from "@crema/types/models/tickets";
+import {
+  ChatListType,
+  TicketDataType,
+  TicketDetailResponseType,
+} from "@crema/types/models/tickets";
 import {
   TicketListLoadingAction,
   TicketListSuccessAction,
@@ -9,20 +13,31 @@ import {
   SaveTicketSuccessAction,
   SaveTicketLoadingAction,
   SaveTicketFailedAction,
+  TicketDetailSuccessAction,
+  TicketDetailFailedAction,
+  TicketDetailLoadingAction,
+  SendChatAction,
+  ReceiveChatAction,
 } from "./ActionTypes/Ticket";
 
 const initialState: {
   isLoadingTicket: boolean;
   isLoadingSaveTicket: boolean;
+  isLoadingDetailTicket: boolean;
   isSuccessSaveTicket: boolean;
   tickets: TicketDataType[];
+  detailTicket: TicketDetailResponseType;
   errorTicket: ErrorResponseType;
+  chatList: ChatListType[];
 } = {
   isLoadingTicket: true,
   isLoadingSaveTicket: false,
+  isLoadingDetailTicket: true,
   isSuccessSaveTicket: false,
   tickets: null,
+  detailTicket: null,
   errorTicket: null,
+  chatList: [],
 };
 
 const ticketReducer = createReducer(initialState, (builder) => {
@@ -39,6 +54,21 @@ const ticketReducer = createReducer(initialState, (builder) => {
       state.isLoadingTicket = false;
       state.errorTicket = action.payload;
     })
+    .addCase(TicketDetailLoadingAction, (state) => {
+      state.isLoadingDetailTicket = true;
+    })
+    .addCase(TicketDetailSuccessAction, (state, action) => {
+      const { chatHistory } = action.payload;
+
+      state.isLoadingDetailTicket = false;
+      state.isSuccessSaveTicket = false;
+      state.detailTicket = action.payload;
+      state.chatList = JSON.parse(chatHistory);
+    })
+    .addCase(TicketDetailFailedAction, (state, action) => {
+      state.isLoadingDetailTicket = false;
+      state.errorTicket = action.payload;
+    })
     .addCase(SaveTicketLoadingAction, (state) => {
       state.isLoadingSaveTicket = true;
       state.isSuccessSaveTicket = false;
@@ -52,6 +82,12 @@ const ticketReducer = createReducer(initialState, (builder) => {
       state.isSuccessSaveTicket = false;
 
       state.errorTicket = action.payload;
+    })
+    .addCase(SendChatAction, (state, action) => {
+      state.chatList = [...state.chatList, action.payload];
+    })
+    .addCase(ReceiveChatAction, (state, action) => {
+      state.chatList = [...state.chatList, action.payload];
     });
 });
 

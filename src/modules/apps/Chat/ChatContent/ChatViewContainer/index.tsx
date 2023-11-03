@@ -1,14 +1,6 @@
 import AppsHeader from "@crema/components/AppsContainer/AppsHeader";
-import IntlMessages from "@crema/helpers/IntlMessages";
-import { useAuthUser } from "@crema/hooks/AuthHooks";
 import { AddNewMessage, Header, MessagesList } from "@crema/modules/apps/Chat";
-import { ConnectionObjType, MessageType } from "@crema/types/models/apps/Chat";
-import dayjs from "dayjs";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  getConnectionMessages,
-  onSendMessage,
-} from "../../../../../toolkit/actions";
 import { useAppDispatch, useAppSelector } from "../../../../../toolkit/hooks";
 import {
   StyledMessageScreen,
@@ -17,12 +9,9 @@ import {
   StyledNoMsg,
   StyledScrollChatNoMain,
 } from "../index.styled";
-import { useInfoViewActionsContext } from "@crema/context/AppContextProvider/InfoViewContextProvider";
-// import socket from "@crema/services/socket";
-
-type MessagesScreenProps = {
-  selectedUser: ConnectionObjType;
-};
+import socket from "@crema/services/socket";
+import { RECEIVE_CHAT, SEND_CHAT } from "@crema/types/actions/Ticket.actions";
+import moment from "moment";
 
 type RefProps = {
   getScrollElement: () => {
@@ -31,70 +20,86 @@ type RefProps = {
   };
 };
 
-const MessagesScreen: React.FC<MessagesScreenProps> = ({ selectedUser }) => {
-  const dispatch = useAppDispatch();
-  const infoViewActionsContext = useInfoViewActionsContext();
+const MessagesScreen: React.FC = () => {
   const [message, setMessage] = useState("");
 
-  const { user } = useAuthUser();
-
   const _scrollBarRef = useRef<RefProps | null>(null);
-  const userMessages = useAppSelector(({ chatApp }) => chatApp.userMessages);
+  const dispatch = useAppDispatch();
+  const { detailTicket, chatList } = useAppSelector(({ ticket }) => ticket);
+
+  const onSend = (message: string) => {
+    setMessage("");
+
+    dispatch({
+      type: SEND_CHAT,
+      payload: {
+        id: moment().valueOf(),
+        time: moment().format("ddd, MMM DD, YYYY h:mm A"),
+        fromMe: true,
+        text: message,
+      },
+    });
+
+    socket.emit("send", {
+      to: detailTicket.phoneNumber,
+      msg: message,
+    });
+  };
 
   useEffect(() => {
-    dispatch(getConnectionMessages(selectedUser.channelId));
-  }, [dispatch, selectedUser]);
-
-  useEffect(() => {
-    if (
-      userMessages &&
-      userMessages.messageData &&
-      userMessages.messageData.length > 0
-    ) {
+    if (chatList.length > 0) {
       if (_scrollBarRef?.current) {
         const scrollEl = _scrollBarRef.current.getScrollElement();
         scrollEl.scrollTop = scrollEl.scrollHeight;
       }
     }
-  }, [userMessages, _scrollBarRef]);
+  }, [chatList, _scrollBarRef]);
 
-  const onSend = (message: string) => {
-    // const data = {
-    //   message,
-    //   message_type: MessageType.TEXT,
-    //   sender: user.id,
-    //   time: dayjs().format("ddd, MMM DD, YYYY h:mm A"),
-    // };
+  useEffect(() => {
+    console.log("masookk");
+    function onConnect() {
+      console.log("onConnec");
+    }
 
-    // infoViewActionsContext.showMessage("Message Added Successfully!");
-    // dispatch(onSendMessage(selectedUser.channelId, data));
-    // setMessage("");
-    console.log("masuk");
+    function onDisconnect() {
+      console.log("onDisConnec");
+    }
 
-    // socket.connect();
+    function onFooEvent(value) {
+      console.log("emit", value);
+    }
 
-    // socket.emit("send", "test");
-  };
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+    socket.on("callback", (data) => {
+      if (detailTicket && data.from === detailTicket.phoneNumber) {
+        dispatch({
+          type: RECEIVE_CHAT,
+          payload: data,
+        });
+      }
+    });
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+      socket.off("callback", onFooEvent);
+    };
+  }, [detailTicket]);
 
   return (
     <StyledMessageScreen>
       <AppsHeader>
-        <Header selectedUser={selectedUser as ConnectionObjType} />
+        <Header selectedUser={detailTicket} />
       </AppsHeader>
 
-      {userMessages && user ? (
+      {chatList.length > 0 ? (
         <StyledMsgScreenScrollbar ref={_scrollBarRef as any}>
-          <MessagesList
-            userMessages={userMessages}
-            authUser={user}
-            selectedUser={selectedUser as ConnectionObjType}
-          />
+          <MessagesList chatList={chatList} />
         </StyledMsgScreenScrollbar>
       ) : (
         <StyledScrollChatNoMain>
-          <StyledNoMsg>
-            <IntlMessages id="chatApp.sayHi" /> {selectedUser?.name}
-          </StyledNoMsg>
+          <StyledNoMsg>Belum ada pesan</StyledNoMsg>
         </StyledScrollChatNoMain>
       )}
 

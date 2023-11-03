@@ -1,25 +1,15 @@
 import React from "react";
-import { StyledChatContentScreen, StyledChatNoScreen } from "./index.styled";
-import { NoUserScreen } from "@crema/modules/apps/Chat";
 import MessagesScreen from "./ChatViewContainer";
-import { ConnectionObjType } from "@crema/types/models/apps/Chat";
+import { StyledChatContentScreen } from "./index.styled";
 
-type ChatContentProps = {
-  selectedUser: ConnectionObjType | null;
-};
-
-const ChatContent: React.FC<ChatContentProps> = ({ selectedUser }) => {
+const ChatContent: React.FC = () => {
   return (
     <>
-      {selectedUser ? (
+      {
         <StyledChatContentScreen>
-          <MessagesScreen selectedUser={selectedUser} />
+          <MessagesScreen />
         </StyledChatContentScreen>
-      ) : (
-        <StyledChatNoScreen>
-          <NoUserScreen />
-        </StyledChatNoScreen>
-      )}
+      }
     </>
   );
 };

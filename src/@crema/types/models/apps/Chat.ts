@@ -44,13 +44,19 @@ export type MessageDataObjType = {
   sender?: number | string;
   message?: string;
   message_type: MessageType;
-  time?: string;
-  edited?: boolean;
-  media?: MediaObjType[];
+  // from here
+  time?: string | number;
+  type?: string;
+  status?: string;
+  chatType?: string;
+  chat?: string;
+  from?: string;
+  name?: string;
+  text?: string;
 };
 
 export type MessageObjType = {
-  channelId: number;
+  id: number;
   messageData: MessageDataObjType[];
 };
 

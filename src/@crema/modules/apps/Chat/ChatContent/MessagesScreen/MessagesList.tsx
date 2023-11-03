@@ -1,67 +1,42 @@
 import AppList from "@crema/components/AppList";
 import ListEmptyResult from "@crema/components/AppList/ListEmptyResult";
-import { AuthUserType } from "@crema/types/models/AuthUser";
-import {
-  ConnectionObjType,
-  MessageObjType
-} from "@crema/types/models/apps/Chat";
+import { ChatListType } from "@crema/types/models/tickets";
 import React from "react";
 import { StyledChatMsgList } from "./MessageItem.style";
 import ReceiverMessageItem from "./ReceiverMessageItem";
 import SenderMessageItem from "./SenderMessageItem";
 
 type MessagesListProps = {
-  userMessages: MessageObjType;
-  authUser: AuthUserType;
-  selectedUser: ConnectionObjType;
-  loading?: boolean;
+  chatList: ChatListType[];
 };
 
-const MessagesList: React.FC<MessagesListProps> = ({
-  userMessages,
-  authUser,
-  selectedUser,
-}) => {
+const MessagesList: React.FC<MessagesListProps> = ({ chatList }) => {
   return (
     <StyledChatMsgList>
       <AppList
-        data={userMessages.messageData}
+        data={chatList}
         ListEmptyComponent={<ListEmptyResult title="test" />}
         renderItem={(item, index) => {
-          if (item.sender === authUser.id) {
+          if (item.fromMe) {
             return (
               <SenderMessageItem
-                authUser={authUser}
                 item={item}
-                isPreviousSender={
-                  index > 0 &&
-                  item.sender === userMessages.messageData[index - 1].sender
-                }
-                isLast={
-                  (index + 1 < userMessages.messageData.length &&
-                    item.sender !==
-                      userMessages.messageData[index + 1].sender) ||
-                  index + 1 === userMessages.messageData.length
-                }
                 key={item.id}
+                isLast={index === chatList.length - 1}
+                isPreviousSender={
+                  index > 0 && item.fromMe === chatList[index - 1].fromMe
+                }
               />
             );
-          } else {
+          } else if (item.chatType === "user") {
             return (
               <ReceiverMessageItem
-                isPreviousSender={
-                  index > 0 &&
-                  item.sender === userMessages.messageData[index - 1].sender
-                }
-                isLast={
-                  (index + 1 < userMessages.messageData.length &&
-                    item.sender !==
-                      userMessages.messageData[index + 1].sender) ||
-                  index + 1 === userMessages.messageData.length
-                }
-                selectedUser={selectedUser}
                 item={item}
                 key={item.id}
+                isLast={index === chatList.length - 1}
+                isPreviousSender={
+                  index > 0 && item.from === chatList[index - 1].from
+                }
               />
             );
           }

@@ -1,5 +1,7 @@
 import React from "react";
 
+import { UserOutlined } from "@ant-design/icons";
+import { TicketDetailResponseType } from "@crema/types/models/tickets";
 import {
   StyledChatUserAvatar,
   StyledChatUserAvatarView,
@@ -7,48 +9,20 @@ import {
   StyledChatUserInfoContext,
   StyledChatUserName,
 } from "./userInfo.styled";
-import { ConnectionObjType } from "@crema/types/models/apps/Chat";
 
 type UserInfoProps = {
-  user: ConnectionObjType;
-  showStatus?: boolean;
-  showStatusActive?: boolean;
-  showDepartment?: boolean;
+  user: TicketDetailResponseType;
 };
 
-const UserInfo: React.FC<UserInfoProps> = ({
-  user,
-  showDepartment = false,
-}) => {
-  const getUserAvatar = () => {
-    const name = user.name;
-    if (name) {
-      return name.charAt(0).toUpperCase();
-    }
-    if (user.username) {
-      return user.username.charAt(0).toUpperCase();
-    }
-  };
-
-  if (!user) {
-    return null;
-  }
-
+const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
   return (
     <StyledChatUserInfo>
       <StyledChatUserAvatarView>
-        {user.photoURL || user.image ? (
-          <StyledChatUserAvatar src={user.photoURL || user.image} />
-        ) : (
-          <StyledChatUserAvatar>{getUserAvatar()}</StyledChatUserAvatar>
-        )}
+        <StyledChatUserAvatar icon={<UserOutlined />} />
       </StyledChatUserAvatarView>
       <StyledChatUserInfoContext>
         <StyledChatUserName className="text-truncate">
-          {user.displayName || user.name
-            ? user.displayName || user.name
-            : user.email}{" "}
-          {showDepartment && "(AGRONOMI)"}
+          {user?.phoneNumber}
         </StyledChatUserName>
       </StyledChatUserInfoContext>
     </StyledChatUserInfo>

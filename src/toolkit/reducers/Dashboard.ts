@@ -12,11 +12,15 @@ import {
   GetAnalyticsAction,
   GetCrmAction,
   GetCryptoAction,
+  GetDashboardFailedAction,
+  GetDashboardLoadingAction,
+  GetDashboardSuccessAction,
   GetEcomAction,
   GetHealthcareAction,
   GetMetricsAction,
   GetWidgetsAction,
 } from "./ActionTypes/Dashboard";
+import { DashboardData } from "@crema/types/models/dashboards";
 
 const initialState: {
   academyData: AcademyType | null;
@@ -27,6 +31,8 @@ const initialState: {
   cryptoData: CryptoType | null;
   metricsData: MetricsType | null;
   widgetsData: WidgetsType | null;
+  dashboardData: DashboardData | null;
+  isLoadingDashboard: boolean;
 } = {
   analyticsData: null,
   ecommerceData: null,
@@ -36,6 +42,8 @@ const initialState: {
   widgetsData: null,
   healthCare: null,
   academyData: null,
+  dashboardData: null,
+  isLoadingDashboard: true,
 };
 
 const dashboardReducer = createReducer(initialState, (builder) => {
@@ -63,6 +71,16 @@ const dashboardReducer = createReducer(initialState, (builder) => {
     })
     .addCase(GetHealthcareAction, (state, action) => {
       state.healthCare = action.payload;
+    })
+    .addCase(GetDashboardLoadingAction, (state) => {
+      state.isLoadingDashboard = true;
+    })
+    .addCase(GetDashboardSuccessAction, (state, action) => {
+      state.isLoadingDashboard = false;
+      state.dashboardData = action.payload;
+    })
+    .addCase(GetDashboardFailedAction, (state) => {
+      state.isLoadingDashboard = false;
     });
 });
 

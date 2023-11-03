@@ -80,7 +80,7 @@ const MasterDepartment: React.FC<MasterDepartementProps> = ({
                 setModalData({
                   ...modalData,
                   calledFrom: "department",
-                  url: "/departement",
+                  url: "/department",
                   type: "post",
                   isOpen: true,
                 })

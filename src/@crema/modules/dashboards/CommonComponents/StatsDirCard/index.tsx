@@ -1,22 +1,18 @@
-import React from "react";
-
-import { Typography } from "antd";
-import { Fonts } from "@crema/constants/AppEnums";
 import AppCard from "@crema/components/AppCard";
-import { getAssetsUrl } from "@crema/helpers/UrlHelper";
+import { Typography } from "antd";
 import {
-  StyledDurationWrapper,
   StyledFlexContainer,
   StyledFlexWrapper,
-  StyledFlexSuccessContainer,
   StyledIconWrapper,
-  StyledToggleContainer,
   StyledTitleWrapper,
 } from "../index.styled";
-import { StateDataType } from "@crema/types/models/dashboards/CRM";
 
 type Props = {
-  data: StateDataType;
+  data: {
+    color: string;
+    value: string;
+    name: string;
+  };
 };
 const StatsDirCard = ({ data }: Props) => {
   return (
@@ -29,18 +25,14 @@ const StatsDirCard = ({ data }: Props) => {
               backgroundColor: data.color + "22",
             }}
           >
-            {data?.icon ? (
-              data.icon
-            ) : (
-              <div
-                style={{
-                  width: 46,
-                  height: 46,
-                  backgroundColor: data.color,
-                  borderRadius: 10,
-                }}
-              />
-            )}
+            <div
+              style={{
+                width: 46,
+                height: 46,
+                backgroundColor: data.color,
+                borderRadius: 10,
+              }}
+            />
           </StyledIconWrapper>
 
           <div style={{ marginRight: 8, overflow: "hidden" }}>
@@ -48,36 +40,6 @@ const StatsDirCard = ({ data }: Props) => {
             <StyledTitleWrapper>{data.name}</StyledTitleWrapper>
           </div>
         </StyledFlexContainer>
-        <StyledToggleContainer>
-          <StyledFlexSuccessContainer>
-            {!data?.hidePercent && (
-              <span style={{ marginRight: 4 }}>
-                <img
-                  src={
-                    data.percentageChange > 0
-                      ? "/assets/images/dashboard/up-arrow.svg"
-                      : "/assets/images/dashboard/down-arrow.svg"
-                  }
-                  alt="up-icon"
-                />
-              </span>
-            )}
-            <span
-              style={{
-                marginLeft: 1,
-                fontSize: 14,
-                fontWeight: Fonts.BOLD,
-                color: data.percentageChange > 0 ? "#11C15B" : "#F04F47",
-              }}
-            >
-              {data.percentageChange > 0 ? "+" : ""}
-              {data.percentageChange}%
-            </span>
-          </StyledFlexSuccessContainer>
-          <StyledDurationWrapper>
-            <span>{data.duration}</span>
-          </StyledDurationWrapper>
-        </StyledToggleContainer>
       </StyledFlexWrapper>
     </AppCard>
   );

@@ -107,7 +107,7 @@ export const StyledAppSidebar = styled.div`
   border: 1px solid ${({ theme }) => theme.palette.background.paper};
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.lg}px) {
-    width: 17.5rem;
+    width: 25rem;
     display: flex;
   }
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.xxl}px) {
@@ -238,7 +238,7 @@ export const StyledMainContent = styled.div`
   flex-direction: column;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.lg}px) {
-    width: calc(100% - 17.5rem);
+    width: 70%;
     padding-right: 32px;
 
     [dir="rtl"] & {

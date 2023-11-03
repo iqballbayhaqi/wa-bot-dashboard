@@ -22,14 +22,14 @@ const TikcetsTable: React.FC<TicketTableProps> = ({
     () => [
       {
         title: "No. Ticket",
-        dataIndex: `noTicket`,
-        key: "noTicket",
+        dataIndex: `ticketNumber`,
+        key: "ticketNumber",
         align: "center",
       },
       {
         title: "No Telepon",
-        dataIndex: "noTelepon",
-        key: "noTelepon",
+        dataIndex: "phoneNumber",
+        key: "phoneNumber",
         align: "center",
       },
       {
@@ -48,8 +48,8 @@ const TikcetsTable: React.FC<TicketTableProps> = ({
       },
       {
         title: "Permasalahan",
-        dataIndex: "problem",
-        key: "problem",
+        dataIndex: "issue",
+        key: "issue",
         align: "center",
       },
       {
@@ -63,12 +63,14 @@ const TikcetsTable: React.FC<TicketTableProps> = ({
         dataIndex: "department",
         key: "department",
         align: "center",
+        render: (_, record) => <p>{record.department.name}</p>,
       },
       {
         title: "Kategori",
         dataIndex: "category",
         key: "category",
         align: "center",
+        render: (_, record) => <p>{record.category.name}</p>,
       },
       {
         title: "Actions",
