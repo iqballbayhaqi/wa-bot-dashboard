@@ -61,23 +61,14 @@ const MessagesScreen: React.FC = () => {
       console.log("onDisConnec");
     }
 
-    function onFooEvent(value) {
-      console.log("emit", value);
-    }
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-    socket.on("callback", async (data) => {
-      console.log("received", data);
-      console.log("detail ticket", detailTicket);
-      console.log("status", detailTicket.status !== "CLOSED");
+    function onCallback(data) {
       if (
         detailTicket &&
         data.to === detailTicket.phoneNumber &&
         data.text &&
-        detailTicket.status !== "CLOSED"
+        detailTicket?.status !== "CLOSED"
       ) {
-        await dispatch({
+        dispatch({
           type: RECEIVE_CHAT,
           payload: data,
         });
@@ -86,19 +77,23 @@ const MessagesScreen: React.FC = () => {
       if (
         detailTicket &&
         data.from === detailTicket.phoneNumber &&
-        detailTicket.status !== "CLOSED"
+        detailTicket?.status !== "CLOSED"
       ) {
-        await dispatch({
+        dispatch({
           type: RECEIVE_CHAT,
           payload: data,
         });
       }
-    });
+    }
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+    socket.on("callback", onCallback);
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
-      socket.off("callback", onFooEvent);
+      socket.off("callback");
     };
   }, [detailTicket]);
 
