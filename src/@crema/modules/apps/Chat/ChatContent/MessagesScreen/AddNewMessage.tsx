@@ -4,6 +4,7 @@ import { PaperClipOutlined, SendOutlined } from "@ant-design/icons";
 import { useIntl } from "react-intl";
 import { Button, Input } from "antd";
 import { StyledAddNewMessage, StyledNewMessageAction } from "../index.styled";
+import { useAppDispatch } from "toolkit/hooks";
 
 type AddNewMessageProps = {
   onSendMessage: (message: string) => void;
@@ -14,10 +15,13 @@ const AddNewMessage: React.FC<AddNewMessageProps> = ({
   onSendMessage,
   currentMessage = "",
 }) => {
-  const [message, setMessage] = useState(currentMessage);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setMessage(currentMessage);
+    dispatch({
+      type: "COPY_MESSAGE",
+      payload: currentMessage,
+    });
   }, [currentMessage]);
 
   const onKeydown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -27,9 +31,12 @@ const AddNewMessage: React.FC<AddNewMessageProps> = ({
   };
 
   const onClickSendMessage = () => {
-    if (message) {
-      onSendMessage(message);
-      setMessage("");
+    if (currentMessage) {
+      onSendMessage(currentMessage);
+      dispatch({
+        type: "COPY_MESSAGE",
+        payload: "",
+      });
     }
   };
 
@@ -39,9 +46,13 @@ const AddNewMessage: React.FC<AddNewMessageProps> = ({
     <StyledAddNewMessage>
       <Input
         placeholder={messages["ticket.sendMessagePlaceholder"] as string}
-        value={message}
+        value={currentMessage}
         onChange={(event) => {
-          if (event.target.value !== "\n") setMessage(event.target.value);
+          if (event.target.value !== "\n")
+            dispatch({
+              type: "COPY_MESSAGE",
+              payload: event.target.value,
+            });
         }}
         onKeyDown={onKeydown}
       />

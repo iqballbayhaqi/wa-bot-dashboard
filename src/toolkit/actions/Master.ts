@@ -36,7 +36,7 @@ export const getMasterDepartementList = () => {
     jwtAxios
       .get("/department")
       .then((data: AxiosResponse<DepartementResponseType[]>) => {
-        const mappedData: DepartementDataType[] = data.data.map(
+        const mappedData: DepartementDataType[] = data.data.data.map(
           (departement, index) => ({
             no: index + 1,
             id: departement.id,
@@ -51,6 +51,7 @@ export const getMasterDepartementList = () => {
         });
       })
       .catch((error: any) => {
+        console.log("error", error);
         dispatch({
           type: GET_MASTER_DEPARTEMENT_LIST_FAILED,
           payload: error,
@@ -81,6 +82,7 @@ export const getMasterCategoryList = () => {
         });
       })
       .catch((error: any) => {
+        console.log("error", error);
         dispatch({
           type: GET_MASTER_CATEGORY_LIST_FAILED,
           payload: error,

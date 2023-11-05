@@ -29,7 +29,7 @@ const getDepartmentNameById = (
   id: number,
   data: DepartementResponseType[]
 ): string | undefined => {
-  const department = data.find((department) => department.id === id);
+  const department = data.data.find((department) => department.id === id);
   return department ? department.name : undefined;
 };
 
@@ -55,7 +55,7 @@ export const getTicketList = () => {
         const categoryData: AxiosResponse<CategoryResponseType[]> =
           await jwtAxios.get("/category");
 
-        const mappedData: TicketDataType[] = data.data.map((ticket) => ({
+        const mappedData: TicketDataType[] = data.data.data.map((ticket) => ({
           id: ticket.id,
           ticketNumber: ticket.ticketNumber,
           status: ticket.status,
@@ -76,12 +76,15 @@ export const getTicketList = () => {
           },
         }));
 
+        console.log(mappedData);
+
         dispatch({
           type: GET_TICKET_LIST_SUCCESS,
           payload: mappedData,
         });
       })
       .catch((error: any) => {
+        console.log(error);
         dispatch({
           type: GET_TICKET_LIST_FAILED,
           payload: error,
@@ -102,7 +105,7 @@ export const getTicketDetail = (id: string | string[]) => {
         console.log("data", data);
         dispatch({
           type: GET_DETAIL_TICKET_SUCCESS,
-          payload: data.data,
+          payload: data.data.data,
         });
       })
       .catch((error: any) => {
@@ -132,6 +135,31 @@ export const moveTicket = (payload: TicketPayload) => {
       .catch((error: any) => {
         dispatch({
           type: SAVE_TICKET_FAILED,
+          payload: error,
+        });
+      });
+  };
+};
+
+export const getFaq = () => {
+  return (dispatch: any) => {
+    dispatch({
+      type: "GET_FAQ_LOADING",
+    });
+
+    jwtAxios
+      .get(`/question`)
+      .then(async (data: any) => {
+        console.log("data question", data);
+        dispatch({
+          type: "GET_QUESTION_SUCCESS",
+          payload: data.data,
+        });
+      })
+      .catch((error: any) => {
+        console.log("error question", error);
+        dispatch({
+          type: "GET_QUESTION_FAILED",
           payload: error,
         });
       });

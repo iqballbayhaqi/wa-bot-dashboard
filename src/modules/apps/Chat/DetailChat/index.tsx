@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useIntl } from "react-intl";
 import {
+  getFaq,
   getMasterCategoryList,
   getMasterDepartementList,
   getTicketDetail,
@@ -22,6 +23,7 @@ const DetailChat = () => {
     dispatch(getMasterCategoryList());
     dispatch(getMasterDepartementList());
     dispatch(getTicketDetail(router.query.id));
+    dispatch(getFaq());
   }, [dispatch]);
 
   const { messages } = useIntl();

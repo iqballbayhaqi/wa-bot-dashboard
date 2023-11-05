@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyledChatSidebar, StyledChatSidebarTitle } from "./index.styled";
 import { Divider, Form, Input, Row, Select, Skeleton, Spin } from "antd";
 import { StyledBtn, StyledSkeleton } from "@crema/modules/master/index.styled";
-import { useAppSelector } from "toolkit/hooks";
+import { useAppDispatch, useAppSelector } from "toolkit/hooks";
 
 import { useIntl } from "react-intl";
 
 const ChatSideBar: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { messages } = useIntl();
+
+  const [selectedQuestion, setSelectedQuestion] = useState("");
 
   const {
     masterDepartementList,
@@ -16,7 +19,7 @@ const ChatSideBar: React.FC = () => {
     isLoadingMasterDepartement,
   } = useAppSelector(({ master }) => master);
 
-  const { isLoadingDetailTicket, detailTicket } = useAppSelector(
+  const { isLoadingDetailTicket, detailTicket, questionList } = useAppSelector(
     ({ ticket }) => ticket
   );
 
@@ -103,16 +106,30 @@ const ChatSideBar: React.FC = () => {
               label={"Pertanyaan FAQ"}
             >
               <Select
-                options={masterCategoryList?.map((category) => ({
-                  label: category.categoryName,
-                  value: category.id,
+                onChange={(value) => {
+                  setSelectedQuestion(value);
+                }}
+                options={questionList?.map((question) => ({
+                  label: question.question,
+                  value: question.question,
                 }))}
               />
             </Form.Item>
 
             <Row justify="center">
               <Form.Item>
-                <StyledBtn type="primary">Upload</StyledBtn>
+                <StyledBtn
+                  type="primary"
+                  onClick={() => {
+                    console.log(selectedQuestion);
+                    dispatch({
+                      type: "COPY_MESSAGE",
+                      payload: selectedQuestion,
+                    });
+                  }}
+                >
+                  Upload
+                </StyledBtn>
               </Form.Item>
             </Row>
           </Form>

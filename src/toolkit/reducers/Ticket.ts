@@ -29,6 +29,9 @@ const initialState: {
   detailTicket: TicketDetailResponseType;
   errorTicket: ErrorResponseType;
   chatList: ChatListType[];
+  questionList: [];
+  isLoadingQuestion: boolean;
+  message: string;
 } = {
   isLoadingTicket: true,
   isLoadingSaveTicket: false,
@@ -38,6 +41,9 @@ const initialState: {
   detailTicket: null,
   errorTicket: null,
   chatList: [],
+  questionList: [],
+  isLoadingQuestion: false,
+  message: "",
 };
 
 const ticketReducer = createReducer(initialState, (builder) => {
@@ -88,6 +94,19 @@ const ticketReducer = createReducer(initialState, (builder) => {
     })
     .addCase(ReceiveChatAction, (state, action) => {
       state.chatList = [...state.chatList, action.payload];
+    })
+    .addCase("GET_QUESTION_LOADING", (state) => {
+      state.isLoadingQuestion = true;
+    })
+    .addCase("GET_QUESTION_SUCCESS", (state, action: any) => {
+      state.isLoadingQuestion = false;
+      state.questionList = action.payload;
+    })
+    .addCase("GET_QUESTION_FAILED", (state, action) => {
+      state.isLoadingQuestion = false;
+    })
+    .addCase("COPY_MESSAGE", (state, action) => {
+      state.message = action.payload;
     });
 });
 

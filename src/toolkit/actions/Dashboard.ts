@@ -192,7 +192,7 @@ export const onGetDashboardData = () => {
               return {
                 name: getDepartmentNameById(
                   dashboard.departmentId,
-                  departmentData.data
+                  departmentData.data.data
                 ),
                 open: dashboard.status.open,
                 pending: dashboard.status.pending,
@@ -209,6 +209,8 @@ export const onGetDashboardData = () => {
               },
               { open: 0, pending: 0, closed: 0 }
             );
+
+            console.log(countAllStatus);
 
             const dashboarData: DashboardData = {
               allStatus: countAllStatus,
@@ -228,6 +230,7 @@ export const onGetDashboardData = () => {
           });
       })
       .catch((error: any) => {
+        console.log("error dashboard", error);
         dispatch({
           type: GET_DASHBOARD_DATA_FAILED,
           payload: error,

@@ -53,7 +53,7 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
   const handleSubmit = (values) => {
     dispatch(
       moveTicket({
-        id: values.id,
+        id: data.id,
         categoryId: values.categoryId,
         departmentId: values.departmentId,
       })

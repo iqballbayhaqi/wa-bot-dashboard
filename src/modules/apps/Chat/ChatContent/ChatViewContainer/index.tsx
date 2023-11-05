@@ -21,23 +21,19 @@ type RefProps = {
 };
 
 const MessagesScreen: React.FC = () => {
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
 
   const _scrollBarRef = useRef<RefProps | null>(null);
   const dispatch = useAppDispatch();
-  const { detailTicket, chatList } = useAppSelector(({ ticket }) => ticket);
+  const { detailTicket, chatList, message } = useAppSelector(
+    ({ ticket }) => ticket
+  );
 
   const onSend = (message: string) => {
-    setMessage("");
-
+    // setMessage("");
     dispatch({
-      type: SEND_CHAT,
-      payload: {
-        id: moment().valueOf(),
-        time: moment().format("ddd, MMM DD, YYYY h:mm A"),
-        fromMe: true,
-        text: message,
-      },
+      type: "COPY_MESSAGE",
+      payload: "",
     });
 
     socket.emit("send", {
@@ -71,9 +67,28 @@ const MessagesScreen: React.FC = () => {
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    socket.on("callback", (data) => {
-      if (detailTicket && data.from === detailTicket.phoneNumber) {
-        dispatch({
+    socket.on("callback", async (data) => {
+      console.log("received", data);
+      console.log("detail ticket", detailTicket);
+      console.log("status", detailTicket.status !== "CLOSED");
+      if (
+        detailTicket &&
+        data.to === detailTicket.phoneNumber &&
+        data.text &&
+        detailTicket.status !== "CLOSED"
+      ) {
+        await dispatch({
+          type: RECEIVE_CHAT,
+          payload: data,
+        });
+      }
+
+      if (
+        detailTicket &&
+        data.from === detailTicket.phoneNumber &&
+        detailTicket.status !== "CLOSED"
+      ) {
+        await dispatch({
           type: RECEIVE_CHAT,
           payload: data,
         });
