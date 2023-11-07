@@ -1,4 +1,4 @@
-export type TicketResponseType = {
+export type TicketData = {
   id: number;
   ticketNumber: string;
   status: string;
@@ -19,7 +19,11 @@ export type TicketResponseType = {
   lastModifiedBy?: string | null;
 };
 
-export type TicketDetailResponseType = {
+export type TicketResponseType = {
+  data: TicketData[];
+};
+
+export type TicketDetail = {
   id: number;
   ticketNumber: string;
   phoneNumber: string;
@@ -27,6 +31,10 @@ export type TicketDetailResponseType = {
   category: string | null | number;
   status: string;
   chatHistory: string;
+};
+
+export type TicketDetailResponseType = {
+  data: TicketDetail;
 };
 
 export type ChatListType = {

@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { AuthUserType } from "@crema/types/models/AuthUser";
-import jwtAxios, { setAuthToken } from "./index";
+import jwtAxios, { setAuthToken } from "../../axios/ApiConfig";
 import { useInfoViewActionsContext } from "@crema/context/AppContextProvider/InfoViewContextProvider";
 
 interface JWTAuthContextProps {
@@ -15,19 +15,12 @@ interface JWTAuthContextProps {
   isLoading: boolean;
 }
 
-interface SignUpProps {
-  name: string;
-  email: string;
-  password: string;
-}
-
 interface SignInProps {
   email: string;
   password: string;
 }
 
 interface JWTAuthActionsProps {
-  signUpUser: (data: SignUpProps) => void;
   signInUser: (data: SignInProps) => void;
   logout: () => void;
 }
@@ -38,7 +31,6 @@ const JWTAuthContext = createContext<JWTAuthContextProps>({
   isLoading: true,
 });
 const JWTAuthActionsContext = createContext<JWTAuthActionsProps>({
-  signUpUser: () => {},
   signInUser: () => {},
   logout: () => {},
 });
@@ -54,7 +46,7 @@ interface JWTAuthAuthProviderProps {
 const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
   children,
 }) => {
-  const [firebaseData, setJWTAuthData] = useState<JWTAuthContextProps>({
+  const [JWTData, setJWTAuthData] = useState<JWTAuthContextProps>({
     user: null,
     isAuthenticated: false,
     isLoading: true,
@@ -84,13 +76,13 @@ const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
             isAuthenticated: true,
           })
         )
-        .catch(() =>
+        .catch((error) => {
           setJWTAuthData({
             user: undefined,
             isLoading: false,
             isAuthenticated: false,
-          })
-        );
+          });
+        });
     };
 
     getAuthUser();
@@ -104,51 +96,22 @@ const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
     password: string;
   }) => {
     infoViewActionsContext.fetchStart();
+    console.log(email, password);
     try {
-      const { data } = await jwtAxios.post("auth", { email, password });
-      localStorage.setItem("token", data.token);
-      setAuthToken(data.token);
+      const { data } = await jwtAxios.post("/auth", { email, password });
+      console.log(data);
+      localStorage.setItem("token", data.data.token);
+      setAuthToken(data.data.token);
       const res = await jwtAxios.get("/auth");
       setJWTAuthData({
-        user: res.data,
+        user: res.data.data.user,
         isAuthenticated: true,
         isLoading: false,
       });
       infoViewActionsContext.fetchSuccess();
     } catch (error) {
       setJWTAuthData({
-        ...firebaseData,
-        isAuthenticated: false,
-        isLoading: false,
-      });
-      infoViewActionsContext.fetchError("Something went wrong");
-    }
-  };
-
-  const signUpUser = async ({
-    name,
-    email,
-    password,
-  }: {
-    name: string;
-    email: string;
-    password: string;
-  }) => {
-    infoViewActionsContext.fetchStart();
-    try {
-      const { data } = await jwtAxios.post("users", { name, email, password });
-      localStorage.setItem("token", data.token);
-      setAuthToken(data.token);
-      const res = await jwtAxios.get("/auth");
-      setJWTAuthData({
-        user: res.data,
-        isAuthenticated: true,
-        isLoading: false,
-      });
-      infoViewActionsContext.fetchSuccess();
-    } catch (error) {
-      setJWTAuthData({
-        ...firebaseData,
+        ...JWTData,
         isAuthenticated: false,
         isLoading: false,
       });
@@ -169,12 +132,11 @@ const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
   return (
     <JWTAuthContext.Provider
       value={{
-        ...firebaseData,
+        ...JWTData,
       }}
     >
       <JWTAuthActionsContext.Provider
         value={{
-          signUpUser,
           signInUser,
           logout,
         }}

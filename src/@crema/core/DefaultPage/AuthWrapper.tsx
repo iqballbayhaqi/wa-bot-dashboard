@@ -23,7 +23,6 @@ const AuthWrapper = ({ children }: Props) => {
       <StyledMainAuthScrollbar>
         <AppAnimateGroup
           type="scale"
-          animateStyle={{ flex: 1 }}
           style={{ flex: 1 }}
           delay={0}
           interval={10}
@@ -39,11 +38,7 @@ const AuthWrapper = ({ children }: Props) => {
               </StyledAuthMainContent>
               <StyledAuthWellAction>
                 <StyledAuthWelContent>
-                  <h2>Welcome to Crema!</h2>
-                  <p>
-                    Crema is purely based on Ant Design components and follows
-                    Ant Design guidelines.
-                  </p>
+                  <h2>PT Agro Internasional</h2>
                 </StyledAuthWelContent>
               </StyledAuthWellAction>
             </StyledAuthCard>

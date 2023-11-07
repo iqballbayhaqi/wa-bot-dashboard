@@ -1,6 +1,7 @@
 import { ErrorResponseType } from "../models/master";
 import {
   TicketDataType,
+  TicketDetail,
   TicketDetailResponseType,
   TicketResponseType,
   TicketSaveResponse,
@@ -38,7 +39,7 @@ export type GetDetailTicketLoadingAction = {
 };
 export type GetDetailTicketSuccessAction = {
   type: typeof GET_DETAIL_TICKET_SUCCESS;
-  payload: TicketDetailResponseType;
+  payload: TicketDetail;
 };
 export type GetDetailTicketFailedAction = {
   type: typeof GET_DETAIL_TICKET_FAILED;

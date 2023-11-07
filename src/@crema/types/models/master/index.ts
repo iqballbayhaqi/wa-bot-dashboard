@@ -3,7 +3,7 @@ type RowVersion = {
   data: number[];
 };
 
-export type DepartementResponseType = {
+export type DepartementData = {
   id: number;
   name: string;
   code: string;
@@ -13,6 +13,10 @@ export type DepartementResponseType = {
   lastModifiedTime: string;
   lastModifiedBy: null | string;
   rowVersion: RowVersion;
+};
+
+export type DepartementResponseType = {
+  data: DepartementData[];
 };
 
 export type ErrorResponseType = {

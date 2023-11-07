@@ -12,14 +12,13 @@ import {
   StyledHeaderMsgLink,
   StyledHeaderMsgLinkText,
 } from "./index.styled";
-import { messages } from "@crema/mockapi/fakedb";
 
 const items = [
   {
     key: 1,
     label: (
       <div className="header">
-        <IntlMessages id="dashboard.messages" />({messages.length})
+        <IntlMessages id="dashboard.messages" />({6})
       </div>
     ),
   },
@@ -28,7 +27,7 @@ const items = [
     label: (
       <StyledAppScrollbar>
         <List
-          dataSource={messages}
+          dataSource={[]}
           renderItem={(item) => {
             return <MessageItem key={item.id} item={item} />;
           }}

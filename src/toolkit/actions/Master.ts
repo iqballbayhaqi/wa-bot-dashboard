@@ -1,4 +1,4 @@
-import jwtAxios from "@crema/services/axios/ApiConfig";
+import jwtAxios from "@crema/services/axios";
 import { Dispatch } from "redux";
 import { AppActions } from "@crema/types/actions";
 import {
@@ -35,7 +35,7 @@ export const getMasterDepartementList = () => {
     });
     jwtAxios
       .get("/department")
-      .then((data: AxiosResponse<DepartementResponseType[]>) => {
+      .then((data: AxiosResponse<DepartementResponseType>) => {
         const mappedData: DepartementDataType[] = data.data.data.map(
           (departement, index) => ({
             no: index + 1,

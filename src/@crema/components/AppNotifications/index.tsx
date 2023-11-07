@@ -13,14 +13,13 @@ import {
   StyledNotifyScrollSubmenu,
   StyledNotifyText,
 } from "./index.styled";
-import { notification } from "@crema/mockapi/fakedb";
 
 const items = [
   {
     key: 1,
     label: (
       <span className="header">
-        <IntlMessages id="common.notifications" />({notification.length})
+        <IntlMessages id="common.notifications" />({6})
       </span>
     ),
   },
@@ -29,7 +28,7 @@ const items = [
     label: (
       <StyledNotifyScrollSubmenu>
         <StyledNotifyList
-          dataSource={notification}
+          dataSource={[]}
           renderItem={(item: any) => {
             return <NotificationItem key={item.id} item={item} />;
           }}

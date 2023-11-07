@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StyledAppLogo = styled.div`
   display: flex;
@@ -7,10 +7,10 @@ export const StyledAppLogo = styled.div`
   align-items: center;
 
   & img {
-    height: 36px;
+    height: 60px;
     margin-right: 10px;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-right: 0;
       margin-left: 10px;
     }

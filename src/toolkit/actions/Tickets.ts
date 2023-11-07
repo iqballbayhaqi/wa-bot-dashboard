@@ -1,4 +1,4 @@
-import jwtAxios from "@crema/services/axios/ApiConfig";
+import jwtAxios from "@crema/services/axios";
 import { AppActions } from "@crema/types/actions";
 import {
   GET_DETAIL_TICKET_FAILED,
@@ -13,6 +13,7 @@ import {
 } from "@crema/types/actions/Ticket.actions";
 import {
   CategoryResponseType,
+  DepartementData,
   DepartementResponseType,
 } from "@crema/types/models/master";
 import {
@@ -27,9 +28,9 @@ import { Dispatch } from "redux";
 
 const getDepartmentNameById = (
   id: number,
-  data: DepartementResponseType[]
+  data: DepartementData[]
 ): string | undefined => {
-  const department = data.data.find((department) => department.id === id);
+  const department = data.find((department) => department.id === id);
   return department ? department.name : undefined;
 };
 
@@ -49,8 +50,8 @@ export const getTicketList = () => {
 
     jwtAxios
       .get("/tickets")
-      .then(async (data: AxiosResponse<TicketResponseType[]>) => {
-        const departementData: AxiosResponse<DepartementResponseType[]> =
+      .then(async (data: AxiosResponse<TicketResponseType>) => {
+        const departementData: AxiosResponse<DepartementResponseType> =
           await jwtAxios.get("/department");
         const categoryData: AxiosResponse<CategoryResponseType[]> =
           await jwtAxios.get("/category");
@@ -67,7 +68,7 @@ export const getTicketList = () => {
             id: ticket.department,
             name: getDepartmentNameById(
               ticket.department,
-              departementData.data
+              departementData.data.data
             ),
           },
           category: {
@@ -75,8 +76,6 @@ export const getTicketList = () => {
             name: getCategoryNameById(ticket.category, categoryData.data),
           },
         }));
-
-        console.log(mappedData);
 
         dispatch({
           type: GET_TICKET_LIST_SUCCESS,
@@ -102,7 +101,6 @@ export const getTicketDetail = (id: string | string[]) => {
     jwtAxios
       .get(`/ticket/${id}`)
       .then(async (data: AxiosResponse<TicketDetailResponseType>) => {
-        console.log("data", data);
         dispatch({
           type: GET_DETAIL_TICKET_SUCCESS,
           payload: data.data.data,

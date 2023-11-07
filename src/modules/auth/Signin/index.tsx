@@ -1,3 +1,3 @@
-import { SignInFirebase } from '@crema/modules/auth/SignIn';
+import { SigninJwtAuth } from "@crema/modules/auth/Signin";
 
-export default SignInFirebase;
+export default SigninJwtAuth;

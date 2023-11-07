@@ -16,13 +16,7 @@ type Props = {
 };
 const AuthWrapper: React.FC<Props> = ({ children }) => {
   return (
-    <AppAnimateGroup
-      type="scale"
-      animateStyle={{ flex: 1 }}
-      delay={0}
-      interval={10}
-      duration={200}
-    >
+    <AppAnimateGroup type="scale" delay={0} interval={10} duration={200}>
       <StyledAuthWrap key={"wrap"}>
         <StyledAuthCard>
           <StyledAuthMainContent>
@@ -33,11 +27,7 @@ const AuthWrapper: React.FC<Props> = ({ children }) => {
           </StyledAuthMainContent>
           <StyledAuthWellAction>
             <StyledAuthWelContent>
-              <h2>Welcome to Crema!</h2>
-              <p>
-                Crema is purely based on Ant Design components and follows Ant
-                Design guidelines.
-              </p>
+              <h2>PT Agro Internasional</h2>
             </StyledAuthWelContent>
           </StyledAuthWellAction>
         </StyledAuthCard>

@@ -1,6 +1,6 @@
-import { Card, Layout } from 'antd';
-import styled from 'styled-components';
-import AppScrollbar from '@crema/components/AppScrollbar';
+import { Card, Layout } from "antd";
+import styled from "styled-components";
+import AppScrollbar from "@crema/components/AppScrollbar";
 
 export const StyledAuthWrap = styled.div`
   flex: 1;
@@ -65,7 +65,7 @@ export const StyledAuthCardHeader = styled.div`
     height: 36px;
     margin-right: 10px;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-right: 0;
       margin-left: 10px;
     }
@@ -76,7 +76,9 @@ export const StyledAuthWellAction = styled.div`
   position: relative;
   padding: 24px;
   display: none;
-  background-color: ${({ theme }) => theme.palette.gray[900]};
+  background-color: ${({ theme }) => theme.palette.gray[400]};
+  background-image: url("/assets/images/background-image.png");
+  background-repeat: no-repeat;
   color: white;
   font-size: ${({ theme }) => theme.font.size.base};
   width: 100%;
