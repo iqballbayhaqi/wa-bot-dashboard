@@ -93,7 +93,10 @@ const ticketReducer = createReducer(initialState, (builder) => {
       state.chatList = [...state.chatList, action.payload];
     })
     .addCase(ReceiveChatAction, (state, action) => {
-      state.chatList = [...state.chatList, action.payload];
+      const sortChat = [...state.chatList, action.payload].sort(
+        (a, b) => (a.time as number) - (b.time as number)
+      );
+      state.chatList = sortChat;
     })
     .addCase("GET_QUESTION_LOADING", (state) => {
       state.isLoadingQuestion = true;

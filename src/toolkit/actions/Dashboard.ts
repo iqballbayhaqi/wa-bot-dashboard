@@ -37,7 +37,7 @@ export const onGetDashboardData = () => {
         jwtAxios
           .get("/dashboard")
           .then((data: AxiosResponse<DashboardResponse[]>) => {
-            const mappedChartData: ChartData[] = data.data.map((dashboard) => {
+            const mappedChartData: ChartData[] = data.map((dashboard) => {
               return {
                 name: getDepartmentNameById(
                   dashboard.departmentId,

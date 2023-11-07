@@ -52,7 +52,6 @@ const MessagesScreen: React.FC = () => {
   }, [chatList, _scrollBarRef]);
 
   useEffect(() => {
-    console.log("masookk");
     function onConnect() {
       console.log("onConnec");
     }
@@ -62,10 +61,11 @@ const MessagesScreen: React.FC = () => {
     }
 
     function onCallback(data) {
+      console.log("data received", data);
+
       if (
         detailTicket &&
-        data.to === detailTicket.phoneNumber &&
-        data.text &&
+        data.from === detailTicket.phoneNumber &&
         detailTicket?.status !== "CLOSED"
       ) {
         dispatch({
@@ -76,7 +76,8 @@ const MessagesScreen: React.FC = () => {
 
       if (
         detailTicket &&
-        data.from === detailTicket.phoneNumber &&
+        data.to === detailTicket.phoneNumber &&
+        data.text &&
         detailTicket?.status !== "CLOSED"
       ) {
         dispatch({
