@@ -9,9 +9,7 @@ export type DashboardResponse = {
   status: StatusData;
 };
 
-export type DasboardDataType = {
-    
-}
+export type DasboardDataType = {};
 
 export type ChartData = {
   name: string;
@@ -23,4 +21,13 @@ export type ChartData = {
 export type DashboardData = {
   allStatus: StatusData;
   chartData: ChartData[];
+};
+
+export type DashboardResponseData = {
+  departmentId: number;
+  departmentName: string;
+  openTickets: number;
+  pendingTickets: number;
+  closedTickets: number;
+  totalTickets: number;
 };

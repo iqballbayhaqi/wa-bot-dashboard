@@ -8,13 +8,10 @@ import {
 import {
   ChartData,
   DashboardData,
-  DashboardResponse,
+  DashboardResponseData,
   StatusData,
 } from "@crema/types/models/dashboards";
-import {
-  DepartementData,
-  DepartementResponseType,
-} from "@crema/types/models/master";
+import { DepartementData } from "@crema/types/models/master";
 import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
 
@@ -32,49 +29,36 @@ export const onGetDashboardData = () => {
       type: GET_DASHBOARD_DATA_LOADING,
     });
     jwtAxios
-      .get("/department")
-      .then((departmentData: AxiosResponse<DepartementResponseType>) => {
-        jwtAxios
-          .get("/dashboard")
-          .then((data: AxiosResponse<DashboardResponse[]>) => {
-            const mappedChartData: ChartData[] = data.map((dashboard) => {
-              return {
-                name: getDepartmentNameById(
-                  dashboard.departmentId,
-                  departmentData.data.data
-                ),
-                open: dashboard.status.open,
-                pending: dashboard.status.pending,
-                closed: dashboard.status.closed,
-              };
-            });
+      .get("/dashboard")
+      .then((data: AxiosResponse<DashboardResponseData[]>) => {
+        const mappedChartData: ChartData[] = data.data.map((dashboard) => {
+          return {
+            name: dashboard.departmentName,
+            open: dashboard.openTickets,
+            pending: dashboard.pendingTickets,
+            closed: dashboard.closedTickets,
+          };
+        });
 
-            const countAllStatus: StatusData = mappedChartData.reduce(
-              (acc, item) => {
-                acc.open += item.open;
-                acc.closed += item.closed;
-                acc.pending += item.pending;
-                return acc;
-              },
-              { open: 0, pending: 0, closed: 0 }
-            );
+        const countAllStatus: StatusData = mappedChartData.reduce(
+          (acc, item) => {
+            acc.open += item.open;
+            acc.closed += item.closed;
+            acc.pending += item.pending;
+            return acc;
+          },
+          { open: 0, pending: 0, closed: 0 }
+        );
 
-            const dashboarData: DashboardData = {
-              allStatus: countAllStatus,
-              chartData: mappedChartData,
-            };
+        const dashboarData: DashboardData = {
+          allStatus: countAllStatus,
+          chartData: mappedChartData,
+        };
 
-            dispatch({
-              type: GET_DASHBOARD_DATA_SUCCESS,
-              payload: dashboarData,
-            });
-          })
-          .catch((error: any) => {
-            dispatch({
-              type: GET_DASHBOARD_DATA_FAILED,
-              payload: error,
-            });
-          });
+        dispatch({
+          type: GET_DASHBOARD_DATA_SUCCESS,
+          payload: dashboarData,
+        });
       })
       .catch((error: any) => {
         dispatch({
@@ -84,3 +68,62 @@ export const onGetDashboardData = () => {
       });
   };
 };
+
+// export const onGetDashboardData = () => {
+//   return (dispatch: Dispatch<AppActions>) => {
+//     dispatch({
+//       type: GET_DASHBOARD_DATA_LOADING,
+//     });
+//     jwtAxios
+//       .get("/department")
+//       .then((departmentData: AxiosResponse<DepartementResponseType>) => {
+//         jwtAxios
+//           .get("/dashboard")
+//           .then((data: AxiosResponse<DashboardResponse[]>) => {
+//             const mappedChartData: ChartData[] = data.map((dashboard) => {
+//               return {
+//                 name: getDepartmentNameById(
+//                   dashboard.departmentId,
+//                   departmentData.data.data
+//                 ),
+//                 open: dashboard.status.open,
+//                 pending: dashboard.status.pending,
+//                 closed: dashboard.status.closed,
+//               };
+//             });
+
+//             const countAllStatus: StatusData = mappedChartData.reduce(
+//               (acc, item) => {
+//                 acc.open += item.open;
+//                 acc.closed += item.closed;
+//                 acc.pending += item.pending;
+//                 return acc;
+//               },
+//               { open: 0, pending: 0, closed: 0 }
+//             );
+
+//             const dashboarData: DashboardData = {
+//               allStatus: countAllStatus,
+//               chartData: mappedChartData,
+//             };
+
+//             dispatch({
+//               type: GET_DASHBOARD_DATA_SUCCESS,
+//               payload: dashboarData,
+//             });
+//           })
+//           .catch((error: any) => {
+//             dispatch({
+//               type: GET_DASHBOARD_DATA_FAILED,
+//               payload: error,
+//             });
+//           });
+//       })
+//       .catch((error: any) => {
+//         dispatch({
+//           type: GET_DASHBOARD_DATA_FAILED,
+//           payload: error,
+//         });
+//       });
+//   };
+// };

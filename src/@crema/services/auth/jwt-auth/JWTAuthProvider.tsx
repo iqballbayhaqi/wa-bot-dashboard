@@ -80,23 +80,6 @@ const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
           isAuthenticated: true,
         });
       }
-
-      // jwtAxios
-      //   .get("/auth")
-      //   .then(({ data }) =>
-      //     setJWTAuthData({
-      //       user: data,
-      //       isLoading: false,
-      //       isAuthenticated: true,
-      //     })
-      //   )
-      //   .catch((error) => {
-      //     setJWTAuthData({
-      //       user: undefined,
-      //       isLoading: false,
-      //       isAuthenticated: false,
-      //     });
-      //   });
     };
 
     getAuthUser();
@@ -110,18 +93,18 @@ const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
     password: string;
   }) => {
     infoViewActionsContext.fetchStart();
-    console.log(email, password);
     try {
       const { data } = await jwtAxios.post("/login", { nik: email, password });
-      console.log(data);
+
       localStorage.setItem("token", data.data.token);
+      
       setAuthToken(data.data.token);
-      // const res = await jwtAxios.get("/login");
       setJWTAuthData({
         user: data.data.user,
         isAuthenticated: true,
         isLoading: false,
       });
+
       infoViewActionsContext.fetchSuccess();
     } catch (error) {
       setJWTAuthData({

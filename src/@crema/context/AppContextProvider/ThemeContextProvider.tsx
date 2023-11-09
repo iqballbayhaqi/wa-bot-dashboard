@@ -56,18 +56,6 @@ const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({
     setTheme(theme);
   }, []);
 
-  // useEffect(() => {
-  //   theme.palette = {
-  //     ...theme.palette,
-  //     mode: themeMode === ThemeMode.DARK ? ThemeMode.DARK : ThemeMode.LIGHT,
-  //     background:
-  //       themeMode === ThemeMode.DARK ? backgroundDark : backgroundLight,
-  //     text: themeMode === ThemeMode.DARK ? textDark : textLight,
-  //   };
-  //
-  //   updateTheme(theme);
-  // }, [themeMode, theme, updateTheme]);
-
   useEffect(() => {
     if (theme.direction === LayoutDirection.RTL) {
       document.body.setAttribute('dir', LayoutDirection.RTL);

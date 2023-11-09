@@ -15,7 +15,7 @@ const withData = (ComposedComponent: any) => (props: any) => {
     }
   }, [queryParams, user]);
   if (isLoading) return <AppLoader />;
-  if (user) return <AppLoader />;
+  // if (user) return <AppLoader />;
 
   return <ComposedComponent {...props} />;
 };
