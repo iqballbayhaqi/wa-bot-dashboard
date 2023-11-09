@@ -14,6 +14,7 @@ import { InvoiceActionTypes } from "./Invoice.action";
 import { BlogActionTypes } from "./Blogs.action";
 import { MasterActionTypes } from "./Master.actions";
 import { TicketActionTypes } from "./Ticket.actions";
+import { BroadcastActionTypes } from "./Broadcast.action";
 
 export type AppActions =
   | CommonActionTypes
@@ -31,4 +32,5 @@ export type AppActions =
   | BlogActionTypes
   | UserListActions
   | MasterActionTypes
-  | TicketActionTypes;
+  | TicketActionTypes
+  | BroadcastActionTypes;

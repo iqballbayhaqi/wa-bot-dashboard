@@ -4,9 +4,10 @@ import AppCard from "@crema/components/AppCard";
 import { useIntl } from "react-intl";
 import { StyledSkeleton } from "./index.styled";
 import AddEditModal from "./AddEditModal";
-import { getTicketList } from "toolkit/actions";
+import { getMasterDepartementList, getTicketList } from "toolkit/actions";
 import { useAppDispatch, useAppSelector } from "toolkit/hooks";
 import { useRouter } from "next/router";
+import { Col, Form, Row, Select } from "antd";
 
 type ModalData = {
   isOpen: boolean;
@@ -51,6 +52,44 @@ const Tickets: React.FC = () => {
         </AppCard>
       ) : (
         <AppCard className="no-card-space-ltr-rtl">
+          <Form layout="inline" wrapperCol={{ span: 24 }}>
+            <Form.Item label="Tanggal">
+              <Select options={[]} />
+            </Form.Item>
+
+            <Form.Item label="Departemen">
+              <Select options={[]} />
+            </Form.Item>
+
+            <Form.Item label="Kategori">
+              <Select options={[]} />
+            </Form.Item>
+
+            <Form.Item label="Status">
+              <Select
+                defaultValue={"all"}
+                options={[
+                  {
+                    label: "all",
+                    value: "all",
+                  },
+                  {
+                    label: "open",
+                    value: "open",
+                  },
+                  {
+                    label: "pending",
+                    value: "pending",
+                  },
+                  {
+                    label: "closed",
+                    value: "closed",
+                  },
+                ]}
+              />
+            </Form.Item>
+          </Form>
+
           <TicketTable
             ticketData={tickets}
             onHandleAction={(action, data) => {
