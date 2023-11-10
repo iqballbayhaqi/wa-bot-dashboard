@@ -18,17 +18,15 @@ apiConfig.interceptors.response.use(
 
       try {
         const OldRefreshToken = localStorage.getItem("refreshToken");
+
         const response = await axios.post(
           "http://localhost:3000/api/v1/refresh-token",
           {
             refreshToken: OldRefreshToken,
           }
         );
-        // const response = await axios.post("/refresh-token", {
-        //   refreshToken: OldRefreshToken,
-        // });
 
-        const { accessToken, refreshToken } = response.data;
+        const { accessToken, refreshToken } = response.data.data;
 
         localStorage.setItem("token", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
@@ -39,10 +37,10 @@ apiConfig.interceptors.response.use(
         return axios(originalRequest);
         // return axios(originalRequest);
       } catch (error) {
+        // Handle refresh token error or redirect to login
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
-        Router.replace("/signin");
-        // Handle refresh token error or redirect to login
+        window.location.href = "/signin";
       }
     }
 
