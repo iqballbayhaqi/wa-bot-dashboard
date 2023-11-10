@@ -3,10 +3,11 @@ import AppRowContainer from "@crema/components/AppRowContainer";
 import { OpportunitiesWon } from "@crema/modules/dashboards/CRM";
 import { StatsDirCard } from "@crema/modules/dashboards/CommonComponents";
 import { StyledSkeleton } from "@crema/modules/master/index.styled";
-import { Col } from "antd";
-import { useEffect } from "react";
+import { Col, Select } from "antd";
+import { useEffect, useState } from "react";
 import { onGetDashboardData } from "../../toolkit/actions";
 import { useAppDispatch, useAppSelector } from "../../toolkit/hooks";
+import { getYearlyRange } from "@crema/helpers/DateHelper";
 
 const getColorStatus = (value: string): string => {
   switch (value) {
@@ -24,10 +25,37 @@ const getColorStatus = (value: string): string => {
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
+  const [filterBy, setSelectedFilterBy] = useState("Yearly");
 
   useEffect(() => {
-    dispatch(onGetDashboardData());
-  }, [dispatch]);
+    switch (filterBy) {
+      case "Yearly":
+        const getYearRange = getYearlyRange();
+
+        dispatch(
+          onGetDashboardData({
+            params: {
+              startDate: getYearRange[0],
+              endDate: getYearRange[1],
+            },
+          })
+        );
+        break;
+
+      case "Monthly":
+        dispatch(
+          onGetDashboardData({
+            params: {
+              startDate: "",
+              endDate: "",
+            },
+          })
+        );
+        break;
+      default:
+        break;
+    }
+  }, [dispatch, filterBy]);
 
   const { dashboardData, isLoadingDashboard } = useAppSelector(
     ({ dashboard }) => dashboard
@@ -36,6 +64,24 @@ const Dashboard = () => {
   return (
     <>
       <AppRowContainer delay={150}>
+        <Col lg={24}>
+          <Select
+            defaultValue={filterBy}
+            options={[
+              {
+                label: "Yearly",
+                value: "Yearly",
+              },
+              {
+                label: "Monthly",
+                value: "Monthly",
+              },
+            ]}
+            onChange={(value) => {
+              setSelectedFilterBy(value);
+            }}
+          />
+        </Col>
         {isLoadingDashboard ? (
           <>
             <Col key={"a"} xs={24} sm={12} lg={8}>

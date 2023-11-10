@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import AdvancedFormat from "dayjs/plugin/advancedFormat"; // load on demand
 import relativeTime from "dayjs/plugin/relativeTime"; // load on demand
+import moment from "moment";
 
 dayjs.extend(AdvancedFormat); // use plugin
 dayjs.extend(relativeTime); // use plugin
@@ -32,7 +33,6 @@ export const getFormattedDateTime = (
   if (value === 0) {
     return dayjs().format(format);
   } else {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return dayjs().add(value, unit).format(format);
   }
@@ -48,4 +48,15 @@ export const getTimeFromNow = (date: string) => {
   const timestamp = dayjs(date).format("X");
   const newDate = dayjs.unix(Number(timestamp));
   return dayjs(newDate).fromNow();
+};
+
+export const getYearlyRange = (): [number, number] => {
+  const year: number = moment().year();
+  // Start of the month
+  const startOfMonth = moment(`${year}-01-01`).startOf("month").valueOf();
+
+  // End of the month
+  const endOfMonth = moment(`${year}-12-31`).endOf("month").valueOf();
+
+  return [startOfMonth, endOfMonth];
 };

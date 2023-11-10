@@ -14,13 +14,13 @@ import {
 import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
 
-export const onGetDashboardData = () => {
+export const onGetDashboardData = ({ params }) => {
   return (dispatch: Dispatch<AppActions>) => {
     dispatch({
       type: GET_DASHBOARD_DATA_LOADING,
     });
     jwtAxios
-      .get("/dashboard")
+      .get("/dashboard", { params })
       .then((data: AxiosResponse<DashboardResponseData[]>) => {
         const mappedChartData: ChartData[] = data.data.map((dashboard) => {
           return {
