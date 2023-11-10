@@ -1,16 +1,15 @@
-import HorDefault from './HorDefault';
-import MiniSidebar from './MiniSidebar';
-import DrawerLayout from './DrawerLayout';
-import Standard from './Standard';
-import BitBucket from './BitBucket';
-// import HorLightNav from './HorLightNav';
-import HorDarkLayout from './HorDarkLayout';
-import Default from './Default';
-import { NavStyle } from '@crema/constants/AppEnums';
-import HeaderUserLayout from './UserHeader';
-import HeaderUserMiniLayout from './UserMiniHeader';
-import MiniSidebarToggle from './MiniSidebarToggle';
-import HorHeaderFixed from './HorHeaderFixed';
+import HorDefault from "./HorDefault";
+import MiniSidebar from "./MiniSidebar";
+import DrawerLayout from "./DrawerLayout";
+import Standard from "./Standard";
+import BitBucket from "./BitBucket";
+import HorDarkLayout from "./HorDarkLayout";
+import Default from "./Default";
+import { NavStyle } from "@crema/constants/AppEnums";
+import HeaderUserLayout from "./UserHeader";
+import HeaderUserMiniLayout from "./UserMiniHeader";
+import MiniSidebarToggle from "./MiniSidebarToggle";
+import HorHeaderFixed from "./HorHeaderFixed";
 
 const Layouts: any = {
   [NavStyle.STANDARD]: Standard,

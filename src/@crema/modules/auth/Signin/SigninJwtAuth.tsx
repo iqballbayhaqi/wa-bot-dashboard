@@ -1,26 +1,23 @@
-import { Checkbox, Form, Input } from "antd";
+import { Form, Input, Spin } from "antd";
 import { useIntl } from "react-intl";
 
+import { LoadingOutlined } from "@ant-design/icons";
 import IntlMessages from "@crema/helpers/IntlMessages";
-import { useAuthMethod } from "@crema/hooks/AuthHooks";
+import { useAuthMethod, useAuthUser } from "@crema/hooks/AuthHooks";
 import {
   SignInButton,
-  StyledRememberMe,
   StyledSign,
   StyledSignContent,
-  StyledSignForm,
+  StyledSignForm
 } from "./index.styled";
 
 const SignInJwtAuth = () => {
   const { signInUser } = useAuthMethod();
+  const { isLoading } = useAuthUser();
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
-
-  function onRememberMe(e) {
-    console.log(`checked = ${e.target.checked}`);
-  }
 
   const { messages } = useIntl();
 
@@ -55,15 +52,18 @@ const SignInJwtAuth = () => {
             />
           </Form.Item>
 
-          <StyledRememberMe>
-            <Checkbox onChange={onRememberMe}>
-              <IntlMessages id="common.rememberMe" />
-            </Checkbox>
-          </StyledRememberMe>
-
           <div className="form-btn-field">
-            <SignInButton type="primary" htmlType="submit">
-              <IntlMessages id="common.login" />
+            <SignInButton type="primary" htmlType="submit" disabled={isLoading}>
+              {isLoading ? (
+                <Spin
+                  size="small"
+                  indicator={
+                    <LoadingOutlined style={{ color: "white" }} spin />
+                  }
+                />
+              ) : (
+                <IntlMessages id="common.login" />
+              )}
             </SignInButton>
           </div>
         </StyledSignForm>

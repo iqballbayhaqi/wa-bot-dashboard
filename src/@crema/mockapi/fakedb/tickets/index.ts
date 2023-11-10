@@ -1,4 +1,5 @@
 import {
+  QuestionResponse,
   TicketDetailResponseType,
   TicketResponseType,
 } from "@crema/types/models/tickets";
@@ -32,4 +33,16 @@ const ticketDetailData: TicketDetailResponseType = {
   },
 };
 
-export { ticketDetailData, ticketsData };
+const questions: QuestionResponse[] = [
+  {
+    question: "Pengaduan anda perlu ditindak lanjuti oleh agent",
+    forState: 4,
+  },
+  {
+    question:
+      "Apakah solusi kami menyelesaikan permasalahan anda? [Sudah/Belum]",
+    forState: null,
+  },
+];
+
+export { ticketDetailData, ticketsData, questions };

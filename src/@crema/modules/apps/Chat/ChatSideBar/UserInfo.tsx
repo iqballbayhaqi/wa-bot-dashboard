@@ -1,7 +1,10 @@
 import React from "react";
 
 import { UserOutlined } from "@ant-design/icons";
-import { TicketDetailResponseType } from "@crema/types/models/tickets";
+import {
+  TicketDetail,
+  TicketDetailResponseType,
+} from "@crema/types/models/tickets";
 import {
   StyledChatUserAvatar,
   StyledChatUserAvatarView,
@@ -11,7 +14,7 @@ import {
 } from "./userInfo.styled";
 
 type UserInfoProps = {
-  user: TicketDetailResponseType;
+  user: TicketDetail;
 };
 
 const UserInfo: React.FC<UserInfoProps> = ({ user }) => {

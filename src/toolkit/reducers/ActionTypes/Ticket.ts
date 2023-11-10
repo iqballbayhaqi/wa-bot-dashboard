@@ -15,6 +15,7 @@ import { ErrorResponseType } from "@crema/types/models/master";
 import {
   ChatListType,
   TicketDataType,
+  TicketDetail,
   TicketDetailResponseType,
   TicketResponseType,
 } from "@crema/types/models/tickets";
@@ -31,7 +32,7 @@ export const TicketListFailedAction = createAction<ErrorResponseType>(
 export const TicketDetailLoadingAction = createAction(
   GET_DETAIL_TICKET_LOADING
 );
-export const TicketDetailSuccessAction = createAction<TicketDetailResponseType>(
+export const TicketDetailSuccessAction = createAction<TicketDetail>(
   GET_DETAIL_TICKET_SUCCESS
 );
 export const TicketDetailFailedAction = createAction<ErrorResponseType>(

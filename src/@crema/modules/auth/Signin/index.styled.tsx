@@ -1,6 +1,6 @@
-import { Button, Form } from 'antd';
-import Link from 'next/link';
-import styled from 'styled-components';
+import { Button, Form } from "antd";
+import Link from "next/link";
+import styled from "styled-components";
 
 export const StyledSign = styled.div`
   flex: 1;
@@ -56,7 +56,7 @@ export const StyledSignForm = styled(Form)`
       margin-right: 8px;
       display: inline-block;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         margin-right: 0;
         margin-left: 8px;
       }
@@ -80,7 +80,7 @@ export const StyledSignLink = styled.span`
   text-align: right;
   display: block;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     text-align: left;
   }
 `;
@@ -129,7 +129,7 @@ export const StyledSignedText = styled.span`
   color: ${({ theme }) => theme.palette.text.disabled};
   margin-right: 10px;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     margin-right: 0;
     margin-left: 10px;
   }
@@ -137,7 +137,7 @@ export const StyledSignedText = styled.span`
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.md}px) {
     margin-right: 16px;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-right: 0;
       margin-left: 16px;
     }
@@ -200,4 +200,5 @@ export const SignInButton = styled(Button)`
   font-weight: ${({ theme }) => theme.font.weight.regular};
   text-transform: uppercase;
   line-height: 1;
+  background-color: red;
 `;

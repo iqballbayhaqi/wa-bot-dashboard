@@ -37,6 +37,8 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
   data,
 }) => {
   const dispatch = useAppDispatch();
+  const [form] = Form.useForm();
+
   const {
     masterDepartementList,
     masterCategoryList,
@@ -59,6 +61,18 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
       })
     );
   };
+
+  const departementValue = Form.useWatch("departmentId", form);
+
+  const filterCategory =
+    masterCategoryList?.filter((category) => {
+      const getDepartment =
+        masterDepartementList?.filter(
+          (department) => department.id === departementValue
+        ) ?? [];
+
+      return category.departmentCode === getDepartment[0]?.departmentCode;
+    }) ?? [];
 
   useEffect(() => {
     dispatch(getMasterDepartementList());
@@ -85,7 +99,7 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
         {isLoadingMasterCategory || isLoadingMasterDepartement ? (
           <StyledSkeleton active />
         ) : (
-          <Form onFinish={handleSubmit}>
+          <Form form={form} onFinish={handleSubmit}>
             <Form.Item
               labelCol={{ span: 5 }}
               wrapperCol={{ span: 18 }}
@@ -115,7 +129,7 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
               rules={[
                 {
                   required: true,
-                  message: messages["master.errorNameFormDepartment"] as string,
+                  message: "kolom departemen tidak boleh kosong",
                 },
               ]}
             >
@@ -133,9 +147,15 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
               initialValue={data?.categoryId ?? ""}
               name="categoryId"
               label={messages["ticket.formCategoryLabel"] as string}
+              rules={[
+                {
+                  required: true,
+                  message: "Kolom kategori tidak boleh kosong",
+                },
+              ]}
             >
               <Select
-                options={masterCategoryList?.map((category) => ({
+                options={filterCategory?.map((category) => ({
                   label: category.categoryName,
                   value: category.id,
                 }))}

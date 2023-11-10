@@ -45,12 +45,14 @@
     "connected-react-router": "^6.9.3",
     "core-js": "^3.6.5",
     "fetch-jsonp": "^1.2.3",
+    "file-saver": "^2.0.5",
     "filestack-react": "^4.0.1",
     "firebase": "^9.15.0",
     "fusioncharts": "^3.19.0",
     "gsap": "^3.11.4",
     "history": "^5.3.0",
     "immutability-helper": "^3.1.1",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "match-sorter": "^6.3.1",
     "moment": "^2.29.4",
@@ -119,7 +121,8 @@
     "use-url-search-params": "^2.5.1",
     "util": "^0.12.5",
     "velocity-animate": "^1.5.2",
-    "velocity-react": "^1.4.3"
+    "velocity-react": "^1.4.3",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
@@ -140,6 +143,7 @@
     "@testing-library/react": "14.0.0",
     "@types/d3-geo": "^3.0.3",
     "@types/jest": "^29.4.0",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/lodash": "^4.14.191",
     "@types/node": "18.14.2",
     "@types/react": "18.0.28",

@@ -46,6 +46,7 @@ const SenderMessageItem: React.FC<SenderMessageItemProps> = ({
           <StyledMsgChatAvatar
             className="message-chat-avatar"
             icon={<UserOutlined />}
+            
           />
         </StyledMsgChatSender>
       </StyledMsgChatView>

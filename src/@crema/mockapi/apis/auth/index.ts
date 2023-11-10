@@ -5,6 +5,6 @@ mock.onGet("/auth").reply(() => {
   return [200, auth];
 });
 
-mock.onPost("/auth").reply(() => {
+mock.onPost("/login").reply(() => {
   return [200, auth];
 });

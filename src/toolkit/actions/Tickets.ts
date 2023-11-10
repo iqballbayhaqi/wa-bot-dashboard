@@ -17,6 +17,7 @@ import {
   DepartementResponseType,
 } from "@crema/types/models/master";
 import {
+  QuestionResponse,
   TicketDataType,
   TicketDetailResponseType,
   TicketPayload,
@@ -147,15 +148,16 @@ export const getFaq = () => {
 
     jwtAxios
       .get(`/question`)
-      .then(async (data: any) => {
-        console.log("data question", data);
+      .then(async (data: AxiosResponse<QuestionResponse[]>) => {
         dispatch({
           type: "GET_QUESTION_SUCCESS",
-          payload: data.data,
+          payload: data.data.map((question) => ({
+            label: question.question,
+            value: question.question,
+          })),
         });
       })
       .catch((error: any) => {
-        console.log("error question", error);
         dispatch({
           type: "GET_QUESTION_FAILED",
           payload: error,

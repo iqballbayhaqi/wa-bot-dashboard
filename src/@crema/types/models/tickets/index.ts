@@ -77,3 +77,8 @@ export type TicketPayload = {
 export type TicketSaveResponse = {
   status: string;
 };
+
+export type QuestionResponse = {
+  question: string;
+  forState: number | null;
+};

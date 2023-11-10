@@ -2,7 +2,6 @@ export type SuccessLoginResponse = {
   status: string;
   data: {
     token: string;
-    user: AuthUserType;
   };
 };
 

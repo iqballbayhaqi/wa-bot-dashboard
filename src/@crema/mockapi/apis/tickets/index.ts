@@ -1,5 +1,9 @@
 import mock from "../MockConfig";
-import { ticketDetailData, ticketsData } from "@crema/mockapi/fakedb/tickets";
+import {
+  questions,
+  ticketDetailData,
+  ticketsData,
+} from "@crema/mockapi/fakedb/tickets";
 
 let ticketList = ticketsData;
 let ticketDetail = ticketDetailData;
@@ -14,4 +18,8 @@ mock.onGet(/\/ticket\/\d+/).reply(() => {
 
 mock.onPost("/moveTicket").reply(() => {
   return [200, { status: "success" }];
+});
+
+mock.onGet("/question").reply(() => {
+  return [200, questions];
 });

@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
-import TicketTable from "./TicketTable";
 import AppCard from "@crema/components/AppCard";
-import { useIntl } from "react-intl";
-import { StyledSkeleton } from "./index.styled";
-import AddEditModal from "./AddEditModal";
-import { getMasterDepartementList, getTicketList } from "toolkit/actions";
-import { useAppDispatch, useAppSelector } from "toolkit/hooks";
+import { Button, Col, DatePicker, Form, Row, Select } from "antd";
 import { useRouter } from "next/router";
-import { Col, Form, Row, Select } from "antd";
+import React, { useEffect, useState } from "react";
+import { useIntl } from "react-intl";
+import { getTicketList } from "toolkit/actions";
+import { useAppDispatch, useAppSelector } from "toolkit/hooks";
+import AddEditModal from "./AddEditModal";
+import TicketTable from "./TicketTable";
+import { StyledSkeleton } from "./index.styled";
+import { RangePickerProps } from "antd/es/date-picker";
+import moment from "moment";
+import { exportToExcel } from "@crema/helpers/FileHelper";
+
+const { RangePicker } = DatePicker;
 
 type ModalData = {
   isOpen: boolean;
@@ -24,7 +29,13 @@ const Tickets: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { tickets, isLoadingTicket } = useAppSelector(({ ticket }) => ticket);
+  const {
+    tickets,
+    isLoadingTicket,
+    dateFilter,
+    categoriesFilter,
+    departmentFilter,
+  } = useAppSelector(({ ticket }) => ticket);
 
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
@@ -52,43 +63,70 @@ const Tickets: React.FC = () => {
         </AppCard>
       ) : (
         <AppCard className="no-card-space-ltr-rtl">
-          <Form layout="inline" wrapperCol={{ span: 24 }}>
-            <Form.Item label="Tanggal">
-              <Select options={[]} />
-            </Form.Item>
+          <Row style={{ margin: "0 8px" }} gutter={8}>
+            <Col span={8}>
+              <Form.Item label="Tanggal">
+                <RangePicker
+                  placeholder={["Tanggal Awal", "Tanggal Akhir"]}
+                  style={{ width: "100%" }}
+                  onCalendarChange={(date) => {
+                    console.log(date);
+                  }}
+                />
+              </Form.Item>
+            </Col>
 
-            <Form.Item label="Departemen">
-              <Select options={[]} />
-            </Form.Item>
+            <Col span={5}>
+              <Form.Item label="Departemen">
+                <Select options={departmentFilter} />
+              </Form.Item>
+            </Col>
 
-            <Form.Item label="Kategori">
-              <Select options={[]} />
-            </Form.Item>
+            <Col span={5}>
+              <Form.Item label="Kategori">
+                <Select options={categoriesFilter} />
+              </Form.Item>
+            </Col>
 
-            <Form.Item label="Status">
-              <Select
-                defaultValue={"all"}
-                options={[
-                  {
-                    label: "all",
-                    value: "all",
-                  },
-                  {
-                    label: "open",
-                    value: "open",
-                  },
-                  {
-                    label: "pending",
-                    value: "pending",
-                  },
-                  {
-                    label: "closed",
-                    value: "closed",
-                  },
-                ]}
-              />
-            </Form.Item>
-          </Form>
+            <Col span={6}>
+              <Form.Item label="Status">
+                <Select
+                  defaultValue={"all"}
+                  options={[
+                    {
+                      label: "all",
+                      value: "all",
+                    },
+                    {
+                      label: "open",
+                      value: "OPEN",
+                    },
+                    {
+                      label: "pending",
+                      value: "PENDING",
+                    },
+                    {
+                      label: "closed",
+                      value: "CLOSED",
+                    },
+                  ]}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row justify={"end"}>
+            <Button
+              onClick={() => {
+                exportToExcel({
+                  apiData: tickets,
+                  fileName: "chat-file",
+                });
+              }}
+            >
+              Export To Excel
+            </Button>
+          </Row>
 
           <TicketTable
             ticketData={tickets}

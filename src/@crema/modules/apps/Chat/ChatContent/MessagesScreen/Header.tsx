@@ -1,10 +1,13 @@
-import { TicketDetailResponseType } from "@crema/types/models/tickets";
+import {
+  TicketDetail,
+  TicketDetailResponseType,
+} from "@crema/types/models/tickets";
 import React from "react";
 import UserInfo from "../../ChatSideBar/UserInfo";
 import { StyledChatHeader } from "../index.styled";
 
 type HeaderProps = {
-  selectedUser: TicketDetailResponseType;
+  selectedUser: TicketDetail;
 };
 
 const Header: React.FC<HeaderProps> = ({ selectedUser }) => {

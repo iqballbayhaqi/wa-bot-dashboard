@@ -10,26 +10,30 @@ import {
   getMasterDepartementList,
   getTicketDetail,
 } from "toolkit/actions";
-import { useAppDispatch } from "../../../../toolkit/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../toolkit/hooks";
 import ChatContent from "../ChatContent";
-// import socket from "@crema/services/socket";
 
 const DetailChat = () => {
   const router = useRouter();
 
   const dispatch = useAppDispatch();
 
+  const { detailTicket } = useAppSelector(({ ticket }) => ticket);
+
   useEffect(() => {
     dispatch(getMasterCategoryList());
     dispatch(getMasterDepartementList());
     dispatch(getTicketDetail(router.query.id));
     dispatch(getFaq());
-  }, [dispatch]);
+  }, [dispatch, router.query.id]);
 
   const { messages } = useIntl();
   return (
     <AppsContainer
-      title={(messages["ticket.detailChat"] as string) + ` (${"#JWKTSK"})`}
+      title={
+        (messages["ticket.detailChat"] as string) +
+        ` (${detailTicket?.ticketNumber ?? ""})`
+      }
       sidebarContent={<ChatSideBar />}
     >
       <AppPageMeta title="Detail Percakapan" />

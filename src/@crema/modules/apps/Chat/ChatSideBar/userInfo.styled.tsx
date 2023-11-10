@@ -1,5 +1,5 @@
-import { Avatar } from 'antd';
-import styled from 'styled-components';
+import { Avatar } from "antd";
+import styled from "styled-components";
 
 export const StyledChatUserInfo = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ export const StyledChatUserAvatar = styled(Avatar)`
   height: 45px;
   width: 45px;
   font-size: 24px;
-  background-color: ${({ theme }) => theme.palette.orange[5]};
+  background-color: ${({ theme }) => theme.palette.blue[5]};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,7 +57,7 @@ export const StyledChatUserStatusDot = styled.span`
     bottom: 0;
     z-index: 1;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       right: auto;
       left: 0;
     }
@@ -70,7 +70,7 @@ export const StyledChatUserStatus = styled.span`
   bottom: 0;
   z-index: 1;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     right: auto;
     left: 0;
   }
@@ -119,7 +119,7 @@ export const StyledChatUserInfoContext = styled.div`
   padding-left: 14px;
   width: calc(100% - 45px);
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     padding-left: 0;
     padding-right: 16px;
   }

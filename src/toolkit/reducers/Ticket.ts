@@ -4,6 +4,7 @@ import { createReducer } from "@reduxjs/toolkit";
 import {
   ChatListType,
   TicketDataType,
+  TicketDetail,
   TicketDetailResponseType,
 } from "@crema/types/models/tickets";
 import {
@@ -26,12 +27,24 @@ const initialState: {
   isLoadingDetailTicket: boolean;
   isSuccessSaveTicket: boolean;
   tickets: TicketDataType[];
-  detailTicket: TicketDetailResponseType;
+  detailTicket: TicketDetail;
   errorTicket: ErrorResponseType;
   chatList: ChatListType[];
   questionList: [];
   isLoadingQuestion: boolean;
   message: string;
+  dateFilter: {
+    label: string;
+    value: string;
+  }[];
+  departmentFilter: {
+    label: string;
+    value: number;
+  }[];
+  categoriesFilter: {
+    label: string;
+    value: number;
+  }[];
 } = {
   isLoadingTicket: true,
   isLoadingSaveTicket: false,
@@ -44,6 +57,9 @@ const initialState: {
   questionList: [],
   isLoadingQuestion: false,
   message: "",
+  dateFilter: [],
+  departmentFilter: [],
+  categoriesFilter: [],
 };
 
 const ticketReducer = createReducer(initialState, (builder) => {
@@ -55,6 +71,47 @@ const ticketReducer = createReducer(initialState, (builder) => {
       state.isLoadingTicket = false;
       state.isSuccessSaveTicket = false;
       state.tickets = action.payload;
+
+      state.dateFilter = Array.from(
+        new Set(
+          action.payload
+            .sort((a, b) => a.startTime.localeCompare(b.startTime))
+            .map((date) => date.startTime)
+        )
+      ).map((uniqueDate) => ({
+        label: uniqueDate,
+        value: uniqueDate,
+      }));
+
+      const uniqueDepartments = [];
+      const uniqueIds = {};
+
+      action.payload.forEach((data) => {
+        if (!uniqueIds[data.department.id]) {
+          uniqueIds[data.department.id] = true;
+          uniqueDepartments.push(data);
+        }
+      });
+
+      state.departmentFilter = uniqueDepartments.map((data) => ({
+        label: data.department.name,
+        value: data.department.id,
+      }));
+
+      const uniqueCategories = [];
+      const uniqueCatIds = {};
+
+      action.payload.forEach((data) => {
+        if (!uniqueCatIds[data.category.id]) {
+          uniqueCatIds[data.category.id] = true;
+          uniqueCategories.push(data);
+        }
+      });
+
+      state.categoriesFilter = uniqueCategories.map((data) => ({
+        label: data.category.name,
+        value: data.category.id,
+      }));
     })
     .addCase(TicketListFailedAction, (state, action) => {
       state.isLoadingTicket = false;
@@ -108,8 +165,11 @@ const ticketReducer = createReducer(initialState, (builder) => {
     .addCase("GET_QUESTION_FAILED", (state, action) => {
       state.isLoadingQuestion = false;
     })
-    .addCase("COPY_MESSAGE", (state, action) => {
+    .addCase("COPY_MESSAGE", (state, action: any) => {
       state.message = action.payload;
+    })
+    .addCase("RESET_SUCCESS_SAVE", (state, action: any) => {
+      state.isSuccessSaveTicket = false;
     });
 });
 

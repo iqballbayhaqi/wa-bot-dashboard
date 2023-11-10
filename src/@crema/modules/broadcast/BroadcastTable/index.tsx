@@ -7,15 +7,15 @@ import "moment/locale/id";
 import React, { useMemo } from "react";
 import { StyledMasterTable } from "../index.styled";
 
-const options: string[] = ["common.actionDetail", "common.actionMove"];
+const options: string[] = ["common.actionDetail"];
 
-type TicketTableProps = {
-  ticketData: Array<TicketDataType>;
+type BroadcastTableProps = {
+  broadcastData: [];
   onHandleAction: (action: string, data: TicketDataType) => void;
 };
 
-const TikcetsTable: React.FC<TicketTableProps> = ({
-  ticketData,
+const BroadcastTable: React.FC<BroadcastTableProps> = ({
+  broadcastData: ticketData,
   onHandleAction,
 }) => {
   const columns: ColumnsType<TicketDataType> = useMemo(
@@ -112,4 +112,4 @@ const TikcetsTable: React.FC<TicketTableProps> = ({
   );
 };
 
-export default TikcetsTable;
+export default BroadcastTable;

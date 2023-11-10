@@ -1,9 +1,9 @@
 export type AuthUserType = {
   id?: number;
-  uid?: string;
+  nik?: string;
   displayName?: string;
-  email?: string;
-  photoURL?: string;
-  token?: string;
+  departmentCode?: string;
   role?: string[] | string;
+  iat?: number;
+  exp?: number;
 };

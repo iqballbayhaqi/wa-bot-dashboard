@@ -1,25 +1,16 @@
-import React from "react";
 import { Dropdown } from "antd";
+import React from "react";
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
-import AppLogo from "../components/AppLogo";
-import { useIntl } from "react-intl";
-import AppLanguageSwitcher from "../../AppLanguageSwitcher";
-import AppHeaderMessages from "../../AppHeaderMessages";
-import AppNotifications from "../../AppNotifications";
 import { FiMoreVertical } from "react-icons/fi";
+import AppLanguageSwitcher from "../../AppLanguageSwitcher";
+import { StyledDropdownWrapper } from "../index.styled";
 import {
   StyledHeaderMiniSecDesktop,
   StyledHeaderMiniSecMobile,
   StyledHeaderMiniSidebar,
-  StyledHeaderSearchMinibar,
 } from "./index.styled";
-import { StyledDropdownWrapper } from "../index.styled";
 
-const items = [
-  // { key: 1, label: <AppHeaderMessages /> },
-  // { key: 2, label: <AppNotifications /> },
-  { key: 3, label: <AppLanguageSwitcher /> },
-];
+const items = [{ key: 1, label: <AppLanguageSwitcher /> }];
 
 type AppHeaderProps = {
   isCollapsed: boolean;
@@ -27,8 +18,6 @@ type AppHeaderProps = {
 };
 
 const AppHeader = ({ isCollapsed, onToggleSidebar }: AppHeaderProps) => {
-  const { messages } = useIntl();
-
   return (
     <StyledHeaderMiniSidebar className="app-header-mini-sidebar">
       {React.createElement(
@@ -39,13 +28,8 @@ const AppHeader = ({ isCollapsed, onToggleSidebar }: AppHeaderProps) => {
         }
       )}
 
-      {/* <StyledHeaderSearchMinibar
-        placeholder={messages["common.searchHere"] as string}
-      /> */}
       <StyledHeaderMiniSecDesktop>
         <AppLanguageSwitcher />
-        {/* <AppHeaderMessages />
-        <AppNotifications /> */}
       </StyledHeaderMiniSecDesktop>
       <StyledHeaderMiniSecMobile>
         <StyledDropdownWrapper>

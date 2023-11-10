@@ -8,6 +8,9 @@ import React, {
 import { AuthUserType } from "@crema/types/models/AuthUser";
 import jwtAxios, { setAuthToken } from "../../axios/ApiConfig";
 import { useInfoViewActionsContext } from "@crema/context/AppContextProvider/InfoViewContextProvider";
+import jwt from "jsonwebtoken";
+import Router from "next/router";
+import { initialUrl } from "@crema/constants/AppConst";
 
 interface JWTAuthContextProps {
   user: AuthUserType | null | undefined;
@@ -66,16 +69,14 @@ const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
         });
         return;
       }
+
       setAuthToken(token);
 
       if (token) {
+        const decodeToken = jwt.decode(token) as AuthUserType;
+
         setJWTAuthData({
-          user: {
-            id: 1,
-            uid: "test",
-            displayName: "test",
-            email: "test@example.com",
-          },
+          user: decodeToken,
           isLoading: false,
           isAuthenticated: true,
         });
@@ -97,22 +98,28 @@ const JWTAuthAuthProvider: React.FC<JWTAuthAuthProviderProps> = ({
       const { data } = await jwtAxios.post("/login", { nik: email, password });
 
       localStorage.setItem("token", data.data.token);
-      
+
+      const decodeToken = jwt.decode(data.data.token) as AuthUserType;
+
       setAuthToken(data.data.token);
       setJWTAuthData({
-        user: data.data.user,
+        user: decodeToken,
         isAuthenticated: true,
         isLoading: false,
       });
 
-      infoViewActionsContext.fetchSuccess();
+      infoViewActionsContext.showMessage("Sukses Login");
+
+      Router.replace({
+        pathname: initialUrl,
+      });
     } catch (error) {
       setJWTAuthData({
         ...JWTData,
         isAuthenticated: false,
         isLoading: false,
       });
-      infoViewActionsContext.fetchError("Something went wrong");
+      infoViewActionsContext.showMessage("Gagal Login");
     }
   };
 

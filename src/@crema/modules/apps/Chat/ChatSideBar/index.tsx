@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledChatSidebar, StyledChatSidebarTitle } from "./index.styled";
 import { Divider, Form, Input, Row, Select, Skeleton, Spin } from "antd";
 import { StyledBtn, StyledSkeleton } from "@crema/modules/master/index.styled";
 import { useAppDispatch, useAppSelector } from "toolkit/hooks";
 
 import { useIntl } from "react-intl";
+import { moveTicket } from "toolkit/actions";
+import { LoadingOutlined } from "@ant-design/icons";
+import { useInfoViewActionsContext } from "@crema/context/AppContextProvider/InfoViewContextProvider";
 
 const ChatSideBar: React.FC = () => {
   const dispatch = useAppDispatch();
   const { messages } = useIntl();
+  const [form] = Form.useForm();
+  const infoViewActionsContext = useInfoViewActionsContext();
 
   const [selectedQuestion, setSelectedQuestion] = useState("");
 
@@ -19,9 +24,34 @@ const ChatSideBar: React.FC = () => {
     isLoadingMasterDepartement,
   } = useAppSelector(({ master }) => master);
 
-  const { isLoadingDetailTicket, detailTicket, questionList } = useAppSelector(
-    ({ ticket }) => ticket
-  );
+  const {
+    isLoadingDetailTicket,
+    detailTicket,
+    questionList,
+    isLoadingSaveTicket,
+    isSuccessSaveTicket,
+  } = useAppSelector(({ ticket }) => ticket);
+
+  const departementValue = Form.useWatch("departmentId", form);
+
+  const filterCategory =
+    masterCategoryList?.filter((category) => {
+      const getDepartment =
+        masterDepartementList?.filter(
+          (department) => department.id === departementValue
+        ) ?? [];
+
+      return category.departmentCode === getDepartment[0]?.departmentCode;
+    }) ?? [];
+
+  useEffect(() => {
+    if (isSuccessSaveTicket) {
+      infoViewActionsContext.showMessage("Data telah tersimpan");
+    }
+    dispatch({
+      type: "RESET_SUCCESS_SAVE",
+    });
+  }, [isSuccessSaveTicket]);
 
   return (
     <StyledChatSidebar>
@@ -30,7 +60,18 @@ const ChatSideBar: React.FC = () => {
       ) : (
         <>
           <StyledChatSidebarTitle>Informasi</StyledChatSidebarTitle>
-          <Form onValuesChange={(changes) => {}}>
+          <Form
+            form={form}
+            onFinish={(payload) => {
+              dispatch(
+                moveTicket({
+                  id: detailTicket.id,
+                  categoryId: payload.categoryId,
+                  departmentId: payload.departmentId,
+                })
+              );
+            }}
+          >
             <Form.Item
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 12 }}
@@ -63,9 +104,7 @@ const ChatSideBar: React.FC = () => {
                 rules={[
                   {
                     required: true,
-                    message: messages[
-                      "master.errorNameFormDepartment"
-                    ] as string,
+                    message: "Kolom Departement Tidak Boleh Kosong",
                   },
                 ]}
               >
@@ -87,9 +126,15 @@ const ChatSideBar: React.FC = () => {
                 initialValue={detailTicket?.category ?? ""}
                 name="categoryId"
                 label={messages["ticket.formCategoryLabel"] as string}
+                rules={[
+                  {
+                    required: true,
+                    message: "Kolom Departement Tidak Boleh Kosong",
+                  },
+                ]}
               >
                 <Select
-                  options={masterCategoryList?.map((category) => ({
+                  options={filterCategory?.map((category) => ({
                     label: category.categoryName,
                     value: category.id,
                   }))}
@@ -97,42 +142,58 @@ const ChatSideBar: React.FC = () => {
               </Form.Item>
             )}
 
-            <Divider />
-
-            <Form.Item
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 14 }}
-              name="faq"
-              label={"Pertanyaan FAQ"}
-            >
-              <Select
-                onChange={(value) => {
-                  setSelectedQuestion(value);
-                }}
-                options={questionList?.map((question) => ({
-                  label: question.question,
-                  value: question.question,
-                }))}
-              />
-            </Form.Item>
-
             <Row justify="center">
               <Form.Item>
                 <StyledBtn
                   type="primary"
-                  onClick={() => {
-                    console.log(selectedQuestion);
-                    dispatch({
-                      type: "COPY_MESSAGE",
-                      payload: selectedQuestion,
-                    });
-                  }}
+                  htmlType="submit"
+                  disabled={isLoadingSaveTicket}
                 >
-                  Upload
+                  {isLoadingSaveTicket ? (
+                    <Spin
+                      size="small"
+                      indicator={
+                        <LoadingOutlined style={{ color: "white" }} spin />
+                      }
+                    />
+                  ) : (
+                    "Simpan"
+                  )}
                 </StyledBtn>
               </Form.Item>
             </Row>
           </Form>
+
+          <Divider />
+
+          <Form.Item
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 14 }}
+            label={"Pertanyaan FAQ"}
+          >
+            <Select
+              onChange={(value) => {
+                setSelectedQuestion(value);
+              }}
+              options={questionList}
+            />
+          </Form.Item>
+
+          <Row justify="center">
+            <Form.Item>
+              <StyledBtn
+                type="primary"
+                onClick={() => {
+                  dispatch({
+                    type: "COPY_MESSAGE",
+                    payload: selectedQuestion,
+                  });
+                }}
+              >
+                Upload
+              </StyledBtn>
+            </Form.Item>
+          </Row>
         </>
       )}
     </StyledChatSidebar>

@@ -1,7 +1,7 @@
-import { PlayCircleOutlined } from '@ant-design/icons';
-import { Avatar } from 'antd';
-import { rgba } from 'polished';
-import styled from 'styled-components';
+import { PlayCircleOutlined } from "@ant-design/icons";
+import { Avatar } from "antd";
+import { rgba } from "polished";
+import styled from "styled-components";
 
 export const StyledChatMsgList = styled.div`
   position: relative;
@@ -29,7 +29,7 @@ export const StyledMediaVideo = styled.div`
   background-color: black;
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
@@ -68,7 +68,7 @@ export const StyledMediaAttach = styled.div`
     margin-left: 8px;
     margin-bottom: 0;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-left: 0;
       margin-right: 8px;
     }
@@ -130,7 +130,7 @@ export const StyledChatMsgListItem = styled.div`
     & .message-chat-item {
       text-align: right;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         text-align: left;
       }
     }
@@ -139,7 +139,7 @@ export const StyledChatMsgListItem = styled.div`
       margin-right: 0;
       margin-bottom: 0;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         margin-left: 0;
       }
     }
@@ -156,7 +156,7 @@ export const StyledChatMsgListItem = styled.div`
     & .message-time {
       text-align: right;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         text-align: left;
       }
     }
@@ -167,7 +167,7 @@ export const StyledChatMsgListItem = styled.div`
     background-color: ${({ theme }) => rgba(theme.palette.primary.main, 0.1)};
     border-radius: 10px 0 0 10px;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       border-radius: 0 10px 10px 0;
       text-align: right;
     }
@@ -176,7 +176,7 @@ export const StyledChatMsgListItem = styled.div`
   &.right.last-chat-message .message-chat {
     border-radius: 10px 0 10px 10px;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       border-radius: 0 10px 10px 10px;
     }
   }
@@ -197,7 +197,7 @@ export const StyledChatMsgListItem = styled.div`
     & .message-chat-item {
       margin-left: 44px;
 
-      [dir='rtl'] & {
+      [dir="rtl"] & {
         margin-left: 0;
         margin-right: 44px;
       }
@@ -208,7 +208,7 @@ export const StyledChatMsgListItem = styled.div`
         margin-left: 0;
         margin-right: 34px;
 
-        [dir='rtl'] & {
+        [dir="rtl"] & {
           margin-right: 0;
           margin-left: 34px;
         }
@@ -233,7 +233,24 @@ export const StyledMsgChatAvatar = styled(Avatar)`
   align-items: center;
   justify-content: center;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
+    margin-right: 0;
+    margin-left: 10px;
+  }
+`;
+
+export const StyledMsgChatFrom = styled(Avatar)`
+  background-color: ${({ theme }) => theme.palette.blue[5]};
+  margin-right: 10px;
+  margin-bottom: 22px;
+  min-width: 34px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  [dir="rtl"] & {
     margin-right: 0;
     margin-left: 10px;
   }
@@ -260,14 +277,14 @@ export const StyledMsgChat = styled.div`
   border: 1px solid ${({ theme }) => theme.palette.gray[200]};
   font-size: ${({ theme }) => theme.font.size.base};
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     border-radius: 10px 0 0 10px;
   }
 
   .last-chat-message & {
     border-radius: 0 10px 10px 10px;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       border-radius: 10px 0 10px 10px;
     }
   }
@@ -278,7 +295,7 @@ export const StyledMsgInfoEdit = styled.span`
   color: ${({ theme }) => theme.palette.text.disabled};
   font-size: 18px;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     padding-left: 0;
     padding-right: 10px;
   }
@@ -289,7 +306,7 @@ export const StyledMsgChatSender = styled.div`
   align-items: flex-start;
   margin-left: 10px;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     margin-left: 0;
     margin-right: 10px;
   }
@@ -304,7 +321,7 @@ export const StyledMsgMoreDropdownLink = styled.a`
   visibility: hidden;
   transition: all 0.3s ease;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     margin-left: 0;
     margin-right: 8px;
   }

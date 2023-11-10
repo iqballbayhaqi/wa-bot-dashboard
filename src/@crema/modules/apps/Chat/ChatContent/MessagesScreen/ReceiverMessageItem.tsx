@@ -8,6 +8,7 @@ import {
   StyledMessageTypePara,
   StyledMsgChat,
   StyledMsgChatAvatar,
+  StyledMsgChatFrom,
   StyledMsgChatItem,
   StyledMsgChatView,
   StyledMsgTime,
@@ -33,7 +34,7 @@ const ReceiverMessageItem: React.FC<ReceiverMessageItemProps> = ({
       )}
     >
       <StyledMsgChatView className="message-chat-view">
-        <StyledMsgChatAvatar
+        <StyledMsgChatFrom
           className="message-chat-avatar"
           icon={<UserOutlined />}
         />
