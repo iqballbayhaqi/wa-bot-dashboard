@@ -3,11 +3,12 @@ import Router from "next/router";
 
 const apiConfig = axios.create({
   baseURL: "http://localhost:3000/api/v1",
+  withCredentials: true,
 });
 
 apiConfig.interceptors.response.use(
   (res: AxiosResponse<any, any>) => res,
-  async (error: any) => {
+  async (error) => {
     const originalRequest = error.config;
 
     // If the error status is 401 and there is no originalRequest._retry flag,
@@ -17,9 +18,16 @@ apiConfig.interceptors.response.use(
 
       try {
         const OldRefreshToken = localStorage.getItem("refreshToken");
-        const response = await apiConfig.post("/refresh-token", {
-          refreshToken: OldRefreshToken,
-        });
+        const response = await axios.post(
+          "http://localhost:3000/api/v1/refresh-token",
+          {
+            refreshToken: OldRefreshToken,
+          }
+        );
+        // const response = await axios.post("/refresh-token", {
+        //   refreshToken: OldRefreshToken,
+        // });
+
         const { accessToken, refreshToken } = response.data;
 
         localStorage.setItem("token", accessToken);
@@ -27,7 +35,9 @@ apiConfig.interceptors.response.use(
 
         // Retry the original request with the new token
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        return apiConfig(originalRequest);
+        // apiConfig.defaults.headers.Authorization = `Bearer ${accessToken}`;
+        return axios(originalRequest);
+        // return axios(originalRequest);
       } catch (error) {
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
