@@ -1,19 +1,31 @@
 import AppCard from "@crema/components/AppCard";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BroadcastTable from "./BroadcastTable";
 import { StyledSkeleton } from "./index.styled";
 import { Button, Row } from "antd";
 import { useRouter } from "next/router";
 import CreateBroadcastModal from "./CreateBroadcast";
 import { useIntl } from "react-intl";
+import { useAppDispatch, useAppSelector } from "toolkit/hooks";
+import { onGetBroadcast } from "toolkit/actions/Broadcast";
 
 const Broadcast: React.FC = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [showModal, setShowModal] = useState(false);
   const { messages } = useIntl();
+
+  const { isLoadingBroadcastList, broadcastList } = useAppSelector(
+    ({ broadcast }) => broadcast
+  );
+
+  useEffect(() => {
+    dispatch(onGetBroadcast());
+  }, []);
+
   return (
     <>
-      {false ? (
+      {isLoadingBroadcastList ? (
         <AppCard>
           <StyledSkeleton active />
         </AppCard>
@@ -29,7 +41,7 @@ const Broadcast: React.FC = () => {
             </Button>
           </Row>
           <BroadcastTable
-            broadcastData={[]}
+            broadcastData={broadcastList}
             onHandleAction={(action, data) => {
               switch (action) {
                 case messages["common.actionDetail"]:

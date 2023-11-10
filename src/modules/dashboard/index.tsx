@@ -35,8 +35,8 @@ const Dashboard = () => {
         dispatch(
           onGetDashboardData({
             params: {
-              startDate: getYearRange[0],
-              endDate: getYearRange[1],
+              startDate: getYearRange[0].toString(),
+              endDate: getYearRange[1].toString(),
             },
           })
         );

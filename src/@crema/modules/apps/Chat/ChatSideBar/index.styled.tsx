@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { Avatar, Input, Tabs } from 'antd';
-import AppScrollbar from '@crema/components/AppScrollbar';
-import { rgba } from 'polished';
+import styled from "styled-components";
+import { Avatar, Input, Tabs } from "antd";
+import AppScrollbar from "@crema/components/AppScrollbar";
+import { rgba } from "polished";
 
 const { Search } = Input;
 
@@ -9,6 +9,7 @@ export const StyledChatSidebar = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow: auto;
 `;
 
 export const StyledChatSidebarUserView = styled.div`
@@ -47,7 +48,7 @@ export const StyledChatSidebarSearch = styled(Search)`
     > .ant-input-group
     > .ant-input-group-addon:last-child
     .ant-input-search-button {
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       border-radius: ${({ theme }) => theme.sizes.borderRadius.base} 0 0
         ${({ theme }) => theme.sizes.borderRadius.base};
     }
@@ -76,7 +77,7 @@ export const StyledChatSidebarTabs = styled(Tabs)`
   & .ant-tabs-tab + .ant-tabs-tab {
     margin-left: 0;
 
-    [dir='rtl'] & {
+    [dir="rtl"] & {
       margin-right: 0;
     }
   }
@@ -123,7 +124,7 @@ export const StyledChatListItemContent = styled.div`
   color: ${({ theme }) => theme.palette.text.secondary};
   overflow: hidden;
 
-  [dir='rtl'] & {
+  [dir="rtl"] & {
     padding-left: 0;
     padding-right: 16px;
   }

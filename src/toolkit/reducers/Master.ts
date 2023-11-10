@@ -44,8 +44,8 @@ const initialState: {
   isSucccessModifyMasterData: false,
   isSuccessModifyCategoryData: false,
   isSuccessModifyDepartmentData: false,
-  masterCategoryList: null,
-  masterDepartementList: null,
+  masterCategoryList: [],
+  masterDepartementList: [],
   errorDepartement: null,
   errorCategory: null,
 };

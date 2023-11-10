@@ -8,7 +8,7 @@ import {
   SignInButton,
   StyledSign,
   StyledSignContent,
-  StyledSignForm
+  StyledSignForm,
 } from "./index.styled";
 
 const SignInJwtAuth = () => {
@@ -28,8 +28,8 @@ const SignInJwtAuth = () => {
           name="basic"
           initialValues={{
             remember: true,
-            email: "crema.demo@gmail.com",
-            password: "Pass@1!@all",
+            email: "12345",
+            password: "admin",
           }}
           onFinish={signInUser}
           onFinishFailed={onFinishFailed}

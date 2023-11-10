@@ -134,6 +134,9 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
               ]}
             >
               <Select
+                onChange={() => {
+                  form.setFieldValue("categoryId", null);
+                }}
                 options={masterDepartementList?.map((department) => ({
                   label: department.departmentName,
                   value: department.id,

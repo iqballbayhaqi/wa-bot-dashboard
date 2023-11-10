@@ -1,5 +1,5 @@
 import AppMenu from "@crema/components/AppMenu";
-import { TicketDataType } from "@crema/types/models/tickets";
+import { BroadcastDataType } from "@crema/types/models/broadcast";
 import { Row } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "moment";
@@ -10,75 +10,45 @@ import { StyledMasterTable } from "../index.styled";
 const options: string[] = ["common.actionDetail"];
 
 type BroadcastTableProps = {
-  broadcastData: [];
-  onHandleAction: (action: string, data: TicketDataType) => void;
+  broadcastData: BroadcastDataType[];
+  onHandleAction: (action: string, data: BroadcastDataType) => void;
 };
 
 const BroadcastTable: React.FC<BroadcastTableProps> = ({
-  broadcastData: ticketData,
+  broadcastData,
   onHandleAction,
 }) => {
-  const columns: ColumnsType<TicketDataType> = useMemo(
+  const columns: ColumnsType<BroadcastDataType> = useMemo(
     () => [
       {
-        title: "No. Ticket",
-        dataIndex: `ticketNumber`,
-        key: "ticketNumber",
+        title: "Judul",
+        dataIndex: `title`,
+        key: "title",
         align: "center",
       },
       {
-        title: "No Telepon",
-        dataIndex: "phoneNumber",
-        key: "phoneNumber",
+        title: "Pesan",
+        dataIndex: "message",
+        key: "message",
         align: "center",
       },
       {
-        title: "Waktu Mulai",
-        dataIndex: "startTime",
-        key: "startTime",
+        title: "Waktu Dibuat",
+        dataIndex: "createdAt",
+        key: "createdAt",
         align: "center",
         render: (_, record) => {
           return (
-            <p>{moment(record.startTime).format("dddd, D MMMM YYYY, HH:mm")}</p>
+            <p>{moment(record.createdAt).format("dddd, D MMMM YYYY, HH:mm")}</p>
           );
         },
         // ellipsis: true,
       },
       {
-        title: "Waktu Berakhir",
-        dataIndex: "endTime",
-        key: "endTime",
+        title: "Total Pesan",
+        dataIndex: "totalMessage",
+        key: "totalMessage",
         align: "center",
-        render: (_, record) => (
-          <p>{moment(record.endTime).format("dddd, D MMMM YYYY, HH:mm")}</p>
-        ),
-        // ellipsis: true,
-      },
-      {
-        title: "Permasalahan",
-        dataIndex: "issue",
-        key: "issue",
-        align: "center",
-      },
-      {
-        title: "Status",
-        dataIndex: "status",
-        key: "status",
-        align: "center",
-      },
-      {
-        title: "Department",
-        dataIndex: "department",
-        key: "department",
-        align: "center",
-        render: (_, record) => <p>{record.department.name}</p>,
-      },
-      {
-        title: "Kategori",
-        dataIndex: "category",
-        key: "category",
-        align: "center",
-        render: (_, record) => <p>{record.category.name}</p>,
       },
       {
         title: "Actions",
@@ -106,7 +76,7 @@ const BroadcastTable: React.FC<BroadcastTableProps> = ({
   return (
     <StyledMasterTable
       scroll={{ y: 470 }}
-      data={ticketData}
+      data={broadcastData}
       columns={columns}
     />
   );

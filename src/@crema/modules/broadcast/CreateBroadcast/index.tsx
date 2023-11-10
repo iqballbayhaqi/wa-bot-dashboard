@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { LoadingOutlined } from "@ant-design/icons";
 import IntlMessages from "@crema/helpers/IntlMessages";
 import { Col, Form, Input, Radio, Row, Select, Space, Spin } from "antd";
 import { RiCloseFill } from "react-icons/ri";
-import { useAppDispatch } from "toolkit/hooks";
+import { useAppDispatch, useAppSelector } from "toolkit/hooks";
 import {
   StyledAddCard,
   StyledAddModal,
   StyledBtn,
   StyledSkeleton,
 } from "../index.styled";
+import {
+  getMasterCategoryList,
+  getMasterDepartementList,
+} from "toolkit/actions";
+import { onGetContacts, onSendBroadcast } from "toolkit/actions/Broadcast";
 
 type AddEditModalProps = {
   isModalVisible: boolean;
@@ -31,6 +36,41 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
 
+  const [selectedList, setSelectedList] = useState([]);
+  const [selectedRadio, setSelectedRadio] = useState("all");
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+
+  const {
+    masterCategoryList,
+    masterDepartementList,
+    isLoadingMasterCategory,
+    isLoadingMasterDepartement,
+  } = useAppSelector(({ master }) => master);
+
+  const { contacts, isLoadingContact, isLoadingSendBroadcast } = useAppSelector(
+    ({ broadcast }) => broadcast
+  );
+
+  const handleSubmit = () => {
+    const payload = {
+      title,
+      msg: message,
+      type: selectedRadio,
+      selected:
+        selectedRadio === "all"
+          ? contacts.map((contact) => contact.phoneNumber)
+          : selectedList,
+    };
+    dispatch(onSendBroadcast(payload));
+  };
+
+  useEffect(() => {
+    dispatch(getMasterCategoryList());
+    dispatch(getMasterDepartementList());
+    dispatch(onGetContacts());
+  }, [dispatch]);
+
   return (
     <StyledAddModal
       destroyOnClose
@@ -42,12 +82,27 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
       width={1000}
     >
       <StyledAddCard>
-        {false ? (
+        {isLoadingMasterCategory &&
+        isLoadingMasterDepartement &&
+        isLoadingContact ? (
           <StyledSkeleton active />
         ) : (
           <Form wrapperCol={{ span: 24 }}>
+            <Form.Item label="Judul" labelCol={{ span: 1 }}>
+              <Input
+                onChange={(value) => {
+                  setTitle(value.target.value);
+                }}
+              />
+            </Form.Item>
+
             <Form.Item label="Pesan" labelCol={{ span: 1 }}>
-              <Input.TextArea rows={10} />
+              <Input.TextArea
+                rows={10}
+                onChange={(value) => {
+                  setMessage(value.target.value);
+                }}
+              />
             </Form.Item>
 
             <Row>
@@ -56,10 +111,17 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
                 <Row>
                   <Col span={24}>
                     <Form.Item>
-                      <Radio.Group style={{ width: "100%" }}>
+                      <Radio.Group
+                        style={{ width: "100%" }}
+                        onChange={(value) => {
+                          setSelectedRadio(value.target.value);
+                          setSelectedList([]);
+                        }}
+                        value={selectedRadio}
+                      >
                         <Row style={{ marginBottom: "8px" }}>
                           <Col>
-                            <Radio value="user"> All User</Radio>
+                            <Radio value="all"> All User</Radio>
                           </Col>
                         </Row>
 
@@ -73,9 +135,20 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
                               allowClear
                               style={{ width: "100%" }}
                               placeholder="Please select"
-                              defaultValue={[]}
-                              onChange={() => {}}
-                              options={[]}
+                              value={
+                                selectedRadio === "department"
+                                  ? selectedList
+                                  : []
+                              }
+                              onChange={(value) => {
+                                setSelectedList([...value]);
+                              }}
+                              options={masterDepartementList.map(
+                                (department) => ({
+                                  label: department.departmentName,
+                                  value: department.id,
+                                })
+                              )}
                             />
                           </Col>
                         </Row>
@@ -90,9 +163,16 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
                               allowClear
                               style={{ width: "100%" }}
                               placeholder="Please select"
-                              defaultValue={[]}
-                              onChange={() => {}}
-                              options={[]}
+                              value={
+                                selectedRadio === "category" ? selectedList : []
+                              }
+                              onChange={(value) => {
+                                setSelectedList([...value]);
+                              }}
+                              options={masterCategoryList.map((category) => ({
+                                label: category.categoryName,
+                                value: category.id,
+                              }))}
                             />
                           </Col>
                         </Row>
@@ -107,9 +187,16 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
                               allowClear
                               style={{ width: "100%" }}
                               placeholder="Please select"
-                              defaultValue={[]}
-                              onChange={() => {}}
-                              options={[]}
+                              value={
+                                selectedRadio === "kontak" ? selectedList : []
+                              }
+                              onChange={(value) => {
+                                setSelectedList([...value]);
+                              }}
+                              options={contacts.map((contact) => ({
+                                label: contact.phoneNumber,
+                                value: contact.phoneNumber,
+                              }))}
                             />
                           </Col>
                         </Row>
@@ -124,10 +211,10 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
               <StyledBtn
                 type="primary"
                 htmlType="submit"
-                disabled={false}
-                onClick={() => {}}
+                disabled={isLoadingSendBroadcast}
+                onClick={handleSubmit}
               >
-                {false ? (
+                {isLoadingSendBroadcast ? (
                   <Spin
                     size="small"
                     indicator={

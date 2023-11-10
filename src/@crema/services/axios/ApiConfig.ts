@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import Router from "next/router";
 
 const apiConfig = axios.create({
   baseURL: "http://localhost:3000/api/v1",
@@ -15,18 +16,22 @@ apiConfig.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem("refreshToken");
-        const response = await axios.post("/refresh-token", {
-          refreshToken,
+        const OldRefreshToken = localStorage.getItem("refreshToken");
+        const response = await apiConfig.post("/refresh-token", {
+          refreshToken: OldRefreshToken,
         });
-        const { token } = response.data;
+        const { accessToken, refreshToken } = response.data;
 
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
 
         // Retry the original request with the new token
-        originalRequest.headers.Authorization = `Bearer ${token}`;
-        return axios(originalRequest);
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        return apiConfig(originalRequest);
       } catch (error) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        Router.replace("/signin");
         // Handle refresh token error or redirect to login
       }
     }

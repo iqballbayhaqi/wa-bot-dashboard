@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev -p 4000",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 4000",
     "lint": "next lint"
   },
   "dependencies": {
@@ -110,6 +110,7 @@
     "regenerator-runtime": "0.13.7",
     "reqwest": "^2.0.5",
     "sanitize-html": "^2.8.1",
+    "sharp": "^0.32.6",
     "simplebar-react": "^2.4.3",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.7.2",
