@@ -47,7 +47,7 @@ const ChatSideBar: React.FC = () => {
 
   const filterQuestionList =
     questionList?.map((question: any, index) => {
-      if (index === 1 && successSave) {
+      if (index === 1 && !successSave) {
         return {
           label: question?.label,
           value: question?.value,
