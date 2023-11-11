@@ -45,7 +45,7 @@ const Broadcast: React.FC = () => {
             onHandleAction={(action, data) => {
               switch (action) {
                 case messages["common.actionDetail"]:
-                  console.log("data", data);
+                  router.push(`/broadcast/${data.id}`);
                   break;
               }
             }}

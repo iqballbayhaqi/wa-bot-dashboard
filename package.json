@@ -44,6 +44,7 @@
     "clsx": "^1.2.1",
     "connected-react-router": "^6.9.3",
     "core-js": "^3.6.5",
+    "dayjs": "^1.11.10",
     "fetch-jsonp": "^1.2.3",
     "file-saver": "^2.0.5",
     "filestack-react": "^4.0.1",

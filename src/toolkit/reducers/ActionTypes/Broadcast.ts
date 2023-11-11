@@ -2,6 +2,9 @@ import {
   GET_BROADCAST_DATA_FAILED,
   GET_BROADCAST_DATA_LOADING,
   GET_BROADCAST_DATA_SUCCESS,
+  GET_BROADCAST_DETAIL_FAILED,
+  GET_BROADCAST_DETAIL_LOADING,
+  GET_BROADCAST_DETAIL_SUCCESS,
   GET_CONTACT_DATA_FAILED,
   GET_CONTACT_DATA_LOADING,
   GET_CONTACT_DATA_SUCCESS,
@@ -10,6 +13,7 @@ import {
   SEND_BROADCAST_DATA_SUCCESS,
 } from "@crema/types/actions/Broadcast.action";
 import {
+  BroadcastData,
   BroadcastDataType,
   ContactResponse,
   SendBroadcastSuccess,
@@ -43,4 +47,14 @@ export const GetBroadcastSuccessAction = createAction<BroadcastDataType[]>(
 );
 export const GetBroadcastFailedAction = createAction<ErrorResponseType>(
   GET_BROADCAST_DATA_FAILED
+);
+
+export const GetBroadcastDetailLoadingAction = createAction(
+  GET_BROADCAST_DETAIL_LOADING
+);
+export const GetBroadcastDetailSuccessAction = createAction<BroadcastData>(
+  GET_BROADCAST_DETAIL_SUCCESS
+);
+export const GetBroadcastDetailFailedAction = createAction<ErrorResponseType>(
+  GET_BROADCAST_DETAIL_FAILED
 );

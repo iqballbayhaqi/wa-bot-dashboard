@@ -60,3 +60,17 @@ export const getYearlyRange = (): [number, number] => {
 
   return [startOfMonth, endOfMonth];
 };
+
+export const filterDatesInRange = (
+  datas: any[],
+  startDate: string,
+  endDate: string
+) => {
+  const startMoment = moment(startDate);
+  const endMoment = moment(endDate);
+
+  return datas.filter((data) => {
+    const dateMoment = moment(data.startDate);
+    return dateMoment.isBetween(startMoment, endMoment);
+  });
+};

@@ -1,10 +1,13 @@
 import {
+  BroadcastData,
   BroadcastDataType,
-  BroadcastResponse,
   ContactResponse,
 } from "@crema/types/models/broadcast";
 import { createReducer } from "@reduxjs/toolkit";
 import {
+  GetBroadcastDetailFailedAction,
+  GetBroadcastDetailLoadingAction,
+  GetBroadcastDetailSuccessAction,
   GetBroadcastFailedAction,
   GetBroadcastLoadingAction,
   GetBroadcastSuccessAction,
@@ -23,6 +26,8 @@ const initialState: {
   broadcastList: BroadcastDataType[];
   isLoadingSendBroadcast: boolean;
   isSuccessSendBroadcast: boolean;
+  isLoadingDetailBroadcast: boolean;
+  detailBroadcast: BroadcastData;
 } = {
   contacts: [],
   isLoadingContact: true,
@@ -30,6 +35,8 @@ const initialState: {
   broadcastList: [],
   isLoadingSendBroadcast: false,
   isSuccessSendBroadcast: false,
+  detailBroadcast: null,
+  isLoadingDetailBroadcast: true,
 };
 
 const broadcastReducer = createReducer(initialState, (builder) => {
@@ -53,6 +60,16 @@ const broadcastReducer = createReducer(initialState, (builder) => {
     })
     .addCase(GetBroadcastFailedAction, (state) => {
       state.isLoadingBroadcastList = false;
+    })
+    .addCase(GetBroadcastDetailLoadingAction, (state) => {
+      state.isLoadingDetailBroadcast = true;
+    })
+    .addCase(GetBroadcastDetailSuccessAction, (state, action) => {
+      state.isLoadingDetailBroadcast = false;
+      state.detailBroadcast = action.payload;
+    })
+    .addCase(GetBroadcastDetailFailedAction, (state) => {
+      state.isLoadingDetailBroadcast = false;
     })
     .addCase(SendBroadcastLoadingAction, (state) => {
       state.isLoadingSendBroadcast = true;

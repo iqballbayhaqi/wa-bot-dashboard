@@ -25,7 +25,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user }) => {
       </StyledChatUserAvatarView>
       <StyledChatUserInfoContext>
         <StyledChatUserName className="text-truncate">
-          {user?.phoneNumber}
+          {user?.whatsappName} - {user?.phoneNumber}
         </StyledChatUserName>
       </StyledChatUserInfoContext>
     </StyledChatUserInfo>

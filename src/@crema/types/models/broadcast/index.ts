@@ -4,7 +4,7 @@ export type ContactResponse = {
 };
 
 export type BroadcastDataType = {
-  id: string;
+  id: string | number;
   title: string | null;
   message: string;
   createdAt: string;
@@ -17,4 +17,17 @@ export type BroadcastResponse = {
 
 export type SendBroadcastSuccess = {
   message: string;
+};
+
+export type BroadcastData = {
+  id: number;
+  title: string | null;
+  message: string;
+  createdAt: string;
+  totalMessage: number;
+  isComplete: boolean;
+};
+
+export type BroadcastDetailResponse = {
+  data: BroadcastData;
 };

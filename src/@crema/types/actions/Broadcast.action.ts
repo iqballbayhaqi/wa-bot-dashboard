@@ -1,6 +1,6 @@
 import {
+  BroadcastData,
   BroadcastDataType,
-  BroadcastResponse,
   ContactResponse,
   SendBroadcastSuccess,
 } from "../models/broadcast";
@@ -9,6 +9,10 @@ import { ErrorResponseType } from "../models/master";
 export const GET_BROADCAST_DATA_LOADING = "GET_BROADCAST_DATA_LOADING";
 export const GET_BROADCAST_DATA_SUCCESS = "GET_BROADCAST_DATA_SUCCESS";
 export const GET_BROADCAST_DATA_FAILED = "GET_BROADCAST_DATA_FAILED";
+
+export const GET_BROADCAST_DETAIL_LOADING = "GET_BROADCAST_DETAIL_LOADING";
+export const GET_BROADCAST_DETAIL_SUCCESS = "GET_BROADCAST_DETAIL_SUCCESS";
+export const GET_BROADCAST_DETAIL_FAILED = "GET_BROADCAST_DETAIL_FAILED";
 
 export const SEND_BROADCAST_DATA_LOADING = "SEND_BROADCAST_DATA_LOADING";
 export const SEND_BROADCAST_DATA_SUCCESS = "SEND_BROADCAST_DATA_SUCCESS";
@@ -27,6 +31,18 @@ export type GetBroadcastSuccessAction = {
 };
 export type GetBroadcastFailedAction = {
   type: typeof GET_BROADCAST_DATA_FAILED;
+  payload: ErrorResponseType;
+};
+
+export type GetBroadcastDetailLoadingAction = {
+  type: typeof GET_BROADCAST_DETAIL_LOADING;
+};
+export type GetBroadcastDetailSuccessAction = {
+  type: typeof GET_BROADCAST_DETAIL_SUCCESS;
+  payload: BroadcastData;
+};
+export type GetBroadcastDetailFailedAction = {
+  type: typeof GET_BROADCAST_DETAIL_FAILED;
   payload: ErrorResponseType;
 };
 
@@ -63,4 +79,7 @@ export type BroadcastActionTypes =
   | GetBroadcastFailedAction
   | SendBroadcastLoadingAction
   | SendBroadcastSuccessAction
-  | SendBroadcastFailedAction;
+  | SendBroadcastFailedAction
+  | GetBroadcastDetailFailedAction
+  | GetBroadcastDetailSuccessAction
+  | GetBroadcastDetailLoadingAction;

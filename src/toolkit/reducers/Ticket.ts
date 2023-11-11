@@ -27,6 +27,7 @@ const initialState: {
   isLoadingDetailTicket: boolean;
   isSuccessSaveTicket: boolean;
   tickets: TicketDataType[];
+  ticketsTemp: TicketDataType[];
   detailTicket: TicketDetail;
   errorTicket: ErrorResponseType;
   chatList: ChatListType[];
@@ -51,6 +52,7 @@ const initialState: {
   isLoadingDetailTicket: true,
   isSuccessSaveTicket: false,
   tickets: null,
+  ticketsTemp: null,
   detailTicket: null,
   errorTicket: null,
   chatList: [],
@@ -71,6 +73,7 @@ const ticketReducer = createReducer(initialState, (builder) => {
       state.isLoadingTicket = false;
       state.isSuccessSaveTicket = false;
       state.tickets = action.payload;
+      state.ticketsTemp = action.payload;
 
       state.dateFilter = Array.from(
         new Set(
@@ -170,6 +173,9 @@ const ticketReducer = createReducer(initialState, (builder) => {
     })
     .addCase("RESET_SUCCESS_SAVE", (state, action: any) => {
       state.isSuccessSaveTicket = false;
+    })
+    .addCase("SET_TICKETS", (state, action: any) => {
+      state.ticketsTemp = action.payload;
     });
 });
 

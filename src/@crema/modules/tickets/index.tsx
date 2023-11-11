@@ -11,6 +11,8 @@ import { StyledSkeleton } from "./index.styled";
 import { RangePickerProps } from "antd/es/date-picker";
 import moment from "moment";
 import { exportToExcel } from "@crema/helpers/FileHelper";
+import { filterDatesInRange } from "@crema/helpers/DateHelper";
+import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
 
@@ -25,16 +27,26 @@ type ModalData = {
   };
 };
 
+const dateFormat = "YYYY/MM/DD";
+
+const convertNumber = (value): number => {
+  return value === "" ? 0 : parseInt(value, 10);
+};
+
 const Tickets: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const [rangeValue, setRangeValue] = useState(null);
+  const [selectedDepartement, setSelectedDepartement] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("all");
 
   const {
     tickets,
     isLoadingTicket,
-    dateFilter,
     categoriesFilter,
     departmentFilter,
+    ticketsTemp,
   } = useAppSelector(({ ticket }) => ticket);
 
   const [modalData, setModalData] = useState<ModalData>({
@@ -55,6 +67,91 @@ const Tickets: React.FC = () => {
     dispatch(getTicketList());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (selectedDepartement !== "" && selectedDepartement !== undefined) {
+      setRangeValue(null);
+      setSelectedCategory("");
+      const filterDepartment = tickets.filter(
+        (ticket) => ticket.department.id === convertNumber(selectedDepartement)
+      );
+      dispatch({
+        type: "SET_TICKETS",
+        payload: filterDepartment,
+      });
+    } else if (selectedDepartement === undefined) {
+      dispatch({
+        type: "SET_TICKETS",
+        payload: tickets,
+      });
+    }
+  }, [selectedDepartement]);
+
+  useEffect(() => {
+    console.log(selectedCategory);
+    if (selectedCategory !== "" && selectedCategory !== undefined) {
+      setRangeValue(null);
+      setSelectedDepartement("");
+      const filterCategory = tickets.filter(
+        (ticket) => ticket.category.id === convertNumber(selectedCategory)
+      );
+      dispatch({
+        type: "SET_TICKETS",
+        payload: filterCategory,
+      });
+    } else if (selectedCategory === undefined) {
+      dispatch({
+        type: "SET_TICKETS",
+        payload: tickets,
+      });
+    }
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    setRangeValue(null);
+    setSelectedDepartement("");
+    setSelectedCategory("");
+
+    let filterStatus;
+    switch (selectedStatus) {
+      case "all":
+        dispatch({
+          type: "SET_TICKETS",
+          payload: tickets,
+        });
+        break;
+      case "OPEN":
+        filterStatus = tickets.filter(
+          (ticket) => ticket.status === selectedStatus
+        );
+        dispatch({
+          type: "SET_TICKETS",
+          payload: filterStatus,
+        });
+        break;
+      case "PENDING":
+        filterStatus = tickets.filter(
+          (ticket) => ticket.status === selectedStatus
+        );
+        dispatch({
+          type: "SET_TICKETS",
+          payload: filterStatus,
+        });
+        break;
+      case "CLOSED":
+        filterStatus = tickets.filter(
+          (ticket) => ticket.status === selectedStatus
+        );
+        dispatch({
+          type: "SET_TICKETS",
+          payload: filterStatus,
+        });
+        break;
+
+      default:
+        break;
+    }
+  }, [selectedStatus]);
+
   return (
     <>
       {isLoadingTicket ? (
@@ -67,10 +164,43 @@ const Tickets: React.FC = () => {
             <Col span={8}>
               <Form.Item label="Tanggal">
                 <RangePicker
+                  allowClear
+                  value={rangeValue}
                   placeholder={["Tanggal Awal", "Tanggal Akhir"]}
                   style={{ width: "100%" }}
-                  onCalendarChange={(date) => {
-                    console.log(date);
+                  onChange={(date, dateString) => {
+                    const filterTicket = filterDatesInRange(
+                      tickets,
+                      dateString[0],
+                      dateString[1]
+                    );
+
+                    if (
+                      date &&
+                      tickets.length > 0 &&
+                      dateString[0] !== "" &&
+                      dateString[1] !== ""
+                    ) {
+                      setRangeValue([
+                        dayjs(dateString[0], dateFormat),
+                        dayjs(dateString[1], dateFormat),
+                      ]);
+                      dispatch({
+                        type: "SET_TICKETS",
+                        payload: filterTicket,
+                      });
+                    } else if (
+                      (tickets.length > 0 &&
+                        dateString[0] === "" &&
+                        dateString[1] === "") ||
+                      date === null
+                    ) {
+                      dispatch({
+                        type: "SET_TICKETS",
+                        payload: tickets,
+                      });
+                      setRangeValue(date);
+                    }
                   }}
                 />
               </Form.Item>
@@ -78,20 +208,35 @@ const Tickets: React.FC = () => {
 
             <Col span={5}>
               <Form.Item label="Departemen">
-                <Select options={departmentFilter} />
+                <Select
+                  value={selectedDepartement}
+                  allowClear
+                  options={departmentFilter}
+                  onChange={(value) => {
+                    setSelectedDepartement(value);
+                  }}
+                />
               </Form.Item>
             </Col>
 
             <Col span={5}>
               <Form.Item label="Kategori">
-                <Select options={categoriesFilter} />
+                <Select
+                  value={selectedCategory}
+                  allowClear
+                  options={categoriesFilter}
+                  onChange={(value) => {
+                    setSelectedCategory(value);
+                  }}
+                />
               </Form.Item>
             </Col>
 
             <Col span={6}>
               <Form.Item label="Status">
                 <Select
-                  defaultValue={"all"}
+                  onChange={(value) => setSelectedStatus(value)}
+                  value={selectedStatus}
                   options={[
                     {
                       label: "all",
@@ -119,7 +264,7 @@ const Tickets: React.FC = () => {
             <Button
               onClick={() => {
                 exportToExcel({
-                  apiData: tickets,
+                  apiData: ticketsTemp,
                   fileName: "chat-file",
                 });
               }}
@@ -129,7 +274,7 @@ const Tickets: React.FC = () => {
           </Row>
 
           <TicketTable
-            ticketData={tickets}
+            ticketData={ticketsTemp}
             onHandleAction={(action, data) => {
               switch (action) {
                 case messages["common.actionDetail"]:

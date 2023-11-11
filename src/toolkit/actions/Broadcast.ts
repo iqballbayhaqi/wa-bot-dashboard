@@ -4,6 +4,9 @@ import {
   GET_BROADCAST_DATA_FAILED,
   GET_BROADCAST_DATA_LOADING,
   GET_BROADCAST_DATA_SUCCESS,
+  GET_BROADCAST_DETAIL_FAILED,
+  GET_BROADCAST_DETAIL_LOADING,
+  GET_BROADCAST_DETAIL_SUCCESS,
   GET_CONTACT_DATA_FAILED,
   GET_CONTACT_DATA_LOADING,
   GET_CONTACT_DATA_SUCCESS,
@@ -12,6 +15,7 @@ import {
   SEND_BROADCAST_DATA_SUCCESS,
 } from "@crema/types/actions/Broadcast.action";
 import {
+  BroadcastDetailResponse,
   BroadcastResponse,
   ContactResponse,
   SendBroadcastSuccess,
@@ -49,6 +53,7 @@ export const onGetBroadcast = () => {
     jwtAxios
       .get("/broadcast")
       .then((data: AxiosResponse<BroadcastResponse>) => {
+        console.log("data nih", data);
         dispatch({
           type: GET_BROADCAST_DATA_SUCCESS,
           payload: data.data.data,
@@ -57,6 +62,28 @@ export const onGetBroadcast = () => {
       .catch((error: any) => {
         dispatch({
           type: GET_BROADCAST_DATA_FAILED,
+          payload: error,
+        });
+      });
+  };
+};
+
+export const onGetDetailBroadcast = (id: string | string[]) => {
+  return (dispatch: Dispatch<AppActions>) => {
+    dispatch({
+      type: GET_BROADCAST_DETAIL_LOADING,
+    });
+    jwtAxios
+      .get(`/broadcast/${id}`)
+      .then((data: AxiosResponse<BroadcastDetailResponse>) => {
+        dispatch({
+          type: GET_BROADCAST_DETAIL_SUCCESS,
+          payload: data.data.data,
+        });
+      })
+      .catch((error: any) => {
+        dispatch({
+          type: GET_BROADCAST_DETAIL_FAILED,
           payload: error,
         });
       });

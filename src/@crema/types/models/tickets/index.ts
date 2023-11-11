@@ -30,6 +30,7 @@ export type TicketDetail = {
   department: string | null | number;
   category: string | null | number;
   status: string;
+  whatsappName?: string;
   chatHistory: string;
 };
 

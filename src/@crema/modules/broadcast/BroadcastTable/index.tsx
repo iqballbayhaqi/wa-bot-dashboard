@@ -42,7 +42,6 @@ const BroadcastTable: React.FC<BroadcastTableProps> = ({
             <p>{moment(record.createdAt).format("dddd, D MMMM YYYY, HH:mm")}</p>
           );
         },
-        // ellipsis: true,
       },
       {
         title: "Total Pesan",
