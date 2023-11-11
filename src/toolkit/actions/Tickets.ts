@@ -4,6 +4,9 @@ import {
   GET_DETAIL_TICKET_FAILED,
   GET_DETAIL_TICKET_LOADING,
   GET_DETAIL_TICKET_SUCCESS,
+  GET_NEW_DETAIL_TICKET_FAILED,
+  GET_NEW_DETAIL_TICKET_LOADING,
+  GET_NEW_DETAIL_TICKET_SUCCESS,
   GET_TICKET_LIST_FAILED,
   GET_TICKET_LIST_LOADING,
   GET_TICKET_LIST_SUCCESS,
@@ -111,6 +114,29 @@ export const getTicketDetail = (id: string | string[]) => {
         console.log("error", error);
         dispatch({
           type: GET_DETAIL_TICKET_FAILED,
+          payload: error,
+        });
+      });
+  };
+};
+
+export const getNewTicketDetail = (id: string | string[]) => {
+  return (dispatch: Dispatch<AppActions>) => {
+    dispatch({
+      type: GET_NEW_DETAIL_TICKET_LOADING,
+    });
+
+    jwtAxios
+      .get(`/ticket/${id}`)
+      .then(async (data: AxiosResponse<TicketDetailResponseType>) => {
+        dispatch({
+          type: GET_NEW_DETAIL_TICKET_SUCCESS,
+          payload: data.data.data,
+        });
+      })
+      .catch((error: any) => {
+        dispatch({
+          type: GET_NEW_DETAIL_TICKET_FAILED,
           payload: error,
         });
       });

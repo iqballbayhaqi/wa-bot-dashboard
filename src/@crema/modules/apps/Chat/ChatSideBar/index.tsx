@@ -5,7 +5,7 @@ import { StyledBtn, StyledSkeleton } from "@crema/modules/master/index.styled";
 import { useAppDispatch, useAppSelector } from "toolkit/hooks";
 
 import { useIntl } from "react-intl";
-import { moveTicket } from "toolkit/actions";
+import { getNewTicketDetail, moveTicket } from "toolkit/actions";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useInfoViewActionsContext } from "@crema/context/AppContextProvider/InfoViewContextProvider";
 
@@ -14,7 +14,6 @@ const ChatSideBar: React.FC = () => {
   const { messages } = useIntl();
   const [form] = Form.useForm();
   const infoViewActionsContext = useInfoViewActionsContext();
-  const [successSave, setSuccessSave] = useState(false);
 
   const [selectedQuestion, setSelectedQuestion] = useState("");
 
@@ -27,6 +26,7 @@ const ChatSideBar: React.FC = () => {
 
   const {
     isLoadingDetailTicket,
+    isLoadingNewDetailTicket,
     detailTicket,
     questionList,
     isLoadingSaveTicket,
@@ -47,7 +47,7 @@ const ChatSideBar: React.FC = () => {
 
   const filterQuestionList =
     questionList?.map((question: any, index) => {
-      if (index === 1 && !successSave) {
+      if (index === 1 && !detailTicket?.department && !detailTicket?.category) {
         return {
           label: question?.label,
           value: question?.value,
@@ -60,7 +60,7 @@ const ChatSideBar: React.FC = () => {
 
   useEffect(() => {
     if (isSuccessSaveTicket) {
-      setSuccessSave(true);
+      dispatch(getNewTicketDetail(detailTicket.id.toString()));
       infoViewActionsContext.showMessage("Data telah tersimpan");
     }
     dispatch({
@@ -70,7 +70,7 @@ const ChatSideBar: React.FC = () => {
 
   return (
     <StyledChatSidebar>
-      {isLoadingDetailTicket ? (
+      {isLoadingDetailTicket || isLoadingNewDetailTicket ? (
         <StyledSkeleton active />
       ) : (
         <>

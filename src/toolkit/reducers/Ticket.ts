@@ -19,6 +19,9 @@ import {
   TicketDetailLoadingAction,
   SendChatAction,
   ReceiveChatAction,
+  TicketNewDetailLoadingAction,
+  TicketNewDetailSuccessAction,
+  TicketNewDetailFailedAction,
 } from "./ActionTypes/Ticket";
 
 const initialState: {
@@ -26,6 +29,7 @@ const initialState: {
   isLoadingSaveTicket: boolean;
   isLoadingDetailTicket: boolean;
   isSuccessSaveTicket: boolean;
+  isLoadingNewDetailTicket: boolean;
   tickets: TicketDataType[];
   ticketsTemp: TicketDataType[];
   detailTicket: TicketDetail;
@@ -62,6 +66,7 @@ const initialState: {
   dateFilter: [],
   departmentFilter: [],
   categoriesFilter: [],
+  isLoadingNewDetailTicket: false,
 };
 
 const ticketReducer = createReducer(initialState, (builder) => {
@@ -133,6 +138,18 @@ const ticketReducer = createReducer(initialState, (builder) => {
     })
     .addCase(TicketDetailFailedAction, (state, action) => {
       state.isLoadingDetailTicket = false;
+      state.errorTicket = action.payload;
+    })
+    .addCase(TicketNewDetailLoadingAction, (state) => {
+      state.isLoadingNewDetailTicket = true;
+    })
+    .addCase(TicketNewDetailSuccessAction, (state, action) => {
+      state.isLoadingNewDetailTicket = false;
+      state.isSuccessSaveTicket = false;
+      state.detailTicket = action.payload;
+    })
+    .addCase(TicketNewDetailFailedAction, (state, action) => {
+      state.isLoadingNewDetailTicket = false;
       state.errorTicket = action.payload;
     })
     .addCase(SaveTicketLoadingAction, (state) => {

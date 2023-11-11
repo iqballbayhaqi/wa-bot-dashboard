@@ -2,6 +2,9 @@ import {
   GET_DETAIL_TICKET_FAILED,
   GET_DETAIL_TICKET_LOADING,
   GET_DETAIL_TICKET_SUCCESS,
+  GET_NEW_DETAIL_TICKET_FAILED,
+  GET_NEW_DETAIL_TICKET_LOADING,
+  GET_NEW_DETAIL_TICKET_SUCCESS,
   GET_TICKET_LIST_FAILED,
   GET_TICKET_LIST_LOADING,
   GET_TICKET_LIST_SUCCESS,
@@ -37,6 +40,16 @@ export const TicketDetailSuccessAction = createAction<TicketDetail>(
 );
 export const TicketDetailFailedAction = createAction<ErrorResponseType>(
   GET_DETAIL_TICKET_FAILED
+);
+
+export const TicketNewDetailLoadingAction = createAction(
+  GET_NEW_DETAIL_TICKET_LOADING
+);
+export const TicketNewDetailSuccessAction = createAction<TicketDetail>(
+  GET_NEW_DETAIL_TICKET_SUCCESS
+);
+export const TicketNewDetailFailedAction = createAction<ErrorResponseType>(
+  GET_NEW_DETAIL_TICKET_FAILED
 );
 
 export const SaveTicketLoadingAction = createAction(SAVE_TICKET_LOADING);

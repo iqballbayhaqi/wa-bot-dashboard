@@ -15,6 +15,10 @@ export const GET_DETAIL_TICKET_LOADING = "GET_DETAIL_TICKET_LOADING";
 export const GET_DETAIL_TICKET_SUCCESS = "GET_DETAIL_TICKET_SUCCESS";
 export const GET_DETAIL_TICKET_FAILED = "GET_DETAIL_TICKET_FAILED";
 
+export const GET_NEW_DETAIL_TICKET_LOADING = "GET_NEW_DETAIL_TICKET_LOADING";
+export const GET_NEW_DETAIL_TICKET_SUCCESS = "GET_NEW_DETAIL_TICKET_SUCCESS";
+export const GET_NEW_DETAIL_TICKET_FAILED = "GET_NEW_DETAIL_TICKET_FAILED";
+
 export const SAVE_TICKET_LOADING = "SAVE_TICKET_LOADING";
 export const SAVE_TICKET_SUCCESS = "SAVE_TICKET_SUCCESS";
 export const SAVE_TICKET_FAILED = "SAVE_TICKET_FAILED";
@@ -46,6 +50,18 @@ export type GetDetailTicketFailedAction = {
   payload: ErrorResponseType;
 };
 
+export type GetNewDetailTicketLoadingAction = {
+  type: typeof GET_NEW_DETAIL_TICKET_LOADING;
+};
+export type GetNewDetailTicketSuccessAction = {
+  type: typeof GET_NEW_DETAIL_TICKET_SUCCESS;
+  payload: TicketDetail;
+};
+export type GetNewDetailTicketFailedAction = {
+  type: typeof GET_NEW_DETAIL_TICKET_FAILED;
+  payload: ErrorResponseType;
+};
+
 export type SaveTicketLoadingAction = {
   type: typeof SAVE_TICKET_LOADING;
 };
@@ -67,4 +83,7 @@ export type TicketActionTypes =
   | GetDetailTicketFailedAction
   | SaveTicketLoadingAction
   | SaveTicketSuccessAction
-  | SaveTicketFailedAction;
+  | SaveTicketFailedAction
+  | GetNewDetailTicketFailedAction
+  | GetNewDetailTicketSuccessAction
+  | GetNewDetailTicketLoadingAction;

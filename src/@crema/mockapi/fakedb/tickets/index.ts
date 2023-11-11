@@ -14,8 +14,8 @@ const ticketsData: TicketResponseType = {
       startTime: "2023-11-01T23:09:39.013Z",
       endTime: "2023-11-01T23:10:53.290Z",
       issue: "Halo",
-      department: 1,
-      category: 1,
+      department: null,
+      category: null,
     },
     {
       id: 60,
