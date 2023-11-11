@@ -82,6 +82,8 @@ const MessagesScreen: React.FC = () => {
           payload: data,
         });
       }
+
+      
     }
 
     socket.on("connect", onConnect);

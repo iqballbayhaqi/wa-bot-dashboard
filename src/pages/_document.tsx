@@ -1,12 +1,12 @@
-import * as React from 'react';
+import * as React from "react";
 import Document, {
   DocumentContext,
   Head,
   Html,
   Main,
   NextScript,
-} from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
+} from "next/document";
+import { ServerStyleSheet } from "styled-components";
 
 export default class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -41,11 +41,6 @@ export default class CustomDocument extends Document {
           <link
             href="https://fonts.googleapis.com/css2?family=Be Vietnam:wght@100;200;300;400;500;600&display=swap"
             rel="stylesheet"
-          />
-          <script
-            async
-            defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtgCpqXBu7Mdl2bzhhHnutAroyEteQo9s&v=3.exp&libraries=geometry,drawing,places"
           />
           <link
             rel="stylesheet"
