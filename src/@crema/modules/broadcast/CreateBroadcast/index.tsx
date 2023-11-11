@@ -179,7 +179,7 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
 
                         <Row style={{ marginBottom: "8px" }}>
                           <Col span={3}>
-                            <Radio value="kontak"> Kontak</Radio>
+                            <Radio value="contact"> Kontak</Radio>
                           </Col>
                           <Col span={10}>
                             <Select
@@ -188,7 +188,7 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
                               style={{ width: "100%" }}
                               placeholder="Please select"
                               value={
-                                selectedRadio === "kontak" ? selectedList : []
+                                selectedRadio === "contact" ? selectedList : []
                               }
                               onChange={(value) => {
                                 setSelectedList([...value]);

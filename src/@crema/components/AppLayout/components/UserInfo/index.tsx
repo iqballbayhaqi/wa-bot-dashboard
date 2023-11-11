@@ -40,10 +40,6 @@ const UserInfo: React.FC<UserInfoProps> = ({ hasColor }) => {
   const items = [
     {
       key: 1,
-      label: <div onClick={() => router.push("/my-profile")}>My Profile</div>,
-    },
-    {
-      key: 2,
       label: <div onClick={() => logout()}>Logout</div>,
     },
   ];

@@ -53,13 +53,16 @@ const broadcastReducer = createReducer(initialState, (builder) => {
     })
     .addCase(GetBroadcastLoadingAction, (state) => {
       state.isLoadingBroadcastList = true;
+      state.isSuccessSendBroadcast = false;
     })
     .addCase(GetBroadcastSuccessAction, (state, action) => {
       state.isLoadingBroadcastList = false;
       state.broadcastList = action.payload;
+      state.isSuccessSendBroadcast = false;
     })
     .addCase(GetBroadcastFailedAction, (state) => {
       state.isLoadingBroadcastList = false;
+      state.isSuccessSendBroadcast = false;
     })
     .addCase(GetBroadcastDetailLoadingAction, (state) => {
       state.isLoadingDetailBroadcast = true;

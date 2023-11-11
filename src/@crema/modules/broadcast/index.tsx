@@ -15,9 +15,15 @@ const Broadcast: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { messages } = useIntl();
 
-  const { isLoadingBroadcastList, broadcastList } = useAppSelector(
-    ({ broadcast }) => broadcast
-  );
+  const { isLoadingBroadcastList, broadcastList, isSuccessSendBroadcast } =
+    useAppSelector(({ broadcast }) => broadcast);
+
+  useEffect(() => {
+    if (isSuccessSendBroadcast) {
+      setShowModal(false);
+      dispatch(onGetBroadcast());
+    }
+  }, [isSuccessSendBroadcast]);
 
   useEffect(() => {
     dispatch(onGetBroadcast());
