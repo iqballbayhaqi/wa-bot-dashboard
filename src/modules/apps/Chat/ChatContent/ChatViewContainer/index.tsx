@@ -21,8 +21,6 @@ type RefProps = {
 };
 
 const MessagesScreen: React.FC = () => {
-  // const [message, setMessage] = useState("");
-
   const _scrollBarRef = useRef<RefProps | null>(null);
   const dispatch = useAppDispatch();
   const { detailTicket, chatList, message } = useAppSelector(
@@ -30,7 +28,6 @@ const MessagesScreen: React.FC = () => {
   );
 
   const onSend = (message: string) => {
-    // setMessage("");
     dispatch({
       type: "COPY_MESSAGE",
       payload: "",

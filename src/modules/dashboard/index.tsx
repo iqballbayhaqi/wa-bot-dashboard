@@ -7,7 +7,7 @@ import { Col, Select } from "antd";
 import { useEffect, useState } from "react";
 import { onGetDashboardData } from "../../toolkit/actions";
 import { useAppDispatch, useAppSelector } from "../../toolkit/hooks";
-import { getYearlyRange } from "@crema/helpers/DateHelper";
+import { getMonthlyRange, getYearlyRange } from "@crema/helpers/DateHelper";
 
 const getColorStatus = (value: string): string => {
   switch (value) {
@@ -31,6 +31,7 @@ const Dashboard = () => {
     switch (filterBy) {
       case "Yearly":
         const getYearRange = getYearlyRange();
+        const getMonthRange = getMonthlyRange();
 
         dispatch(
           onGetDashboardData({
@@ -46,8 +47,8 @@ const Dashboard = () => {
         dispatch(
           onGetDashboardData({
             params: {
-              startDate: "",
-              endDate: "",
+              startDate: getMonthRange[0].toString(),
+              endDate: getMonthRange[1].toString(),
             },
           })
         );

@@ -61,6 +61,23 @@ export const getYearlyRange = (): [number, number] => {
   return [startOfMonth, endOfMonth];
 };
 
+export const getMonthlyRange = (
+  month: number = moment().month() + 1
+): [number, number] => {
+  const year: number = moment().year();
+  // Start of the month
+  const startOfMonth = moment(`${year}-${month.toString().padStart(2, "0")}-01`)
+    .startOf("month")
+    .valueOf();
+
+  // End of the month
+  const endOfMonth = moment(`${year}-${month.toString().padStart(2, "0")}-31`)
+    .endOf("month")
+    .valueOf();
+
+  return [startOfMonth, endOfMonth];
+};
+
 export const filterDatesInRange = (
   datas: any[],
   startDate: string,

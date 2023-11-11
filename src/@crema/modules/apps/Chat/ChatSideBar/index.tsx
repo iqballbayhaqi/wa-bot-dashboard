@@ -14,6 +14,7 @@ const ChatSideBar: React.FC = () => {
   const { messages } = useIntl();
   const [form] = Form.useForm();
   const infoViewActionsContext = useInfoViewActionsContext();
+  const [successSave, setSuccessSave] = useState(false);
 
   const [selectedQuestion, setSelectedQuestion] = useState("");
 
@@ -44,8 +45,22 @@ const ChatSideBar: React.FC = () => {
       return category.departmentCode === getDepartment[0]?.departmentCode;
     }) ?? [];
 
+  const filterQuestionList =
+    questionList?.map((question: any, index) => {
+      if (index === 1 && successSave) {
+        return {
+          label: question?.label,
+          value: question?.value,
+          disabled: true,
+        };
+      } else {
+        return question;
+      }
+    }) ?? [];
+
   useEffect(() => {
     if (isSuccessSaveTicket) {
+      setSuccessSave(true);
       infoViewActionsContext.showMessage("Data telah tersimpan");
     }
     dispatch({
@@ -175,7 +190,7 @@ const ChatSideBar: React.FC = () => {
               onChange={(value) => {
                 setSelectedQuestion(value);
               }}
-              options={questionList}
+              options={filterQuestionList}
             />
           </Form.Item>
 
