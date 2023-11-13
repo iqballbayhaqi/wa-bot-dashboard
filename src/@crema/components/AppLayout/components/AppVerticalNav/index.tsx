@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getRouteMenus } from "./VerticalMenuUtils";
 import clsx from "clsx";
 import defaultConfig from "@crema/constants/defaultConfig";
@@ -8,6 +8,8 @@ import { StyledVerticalNav } from "./index.styled";
 import { useRouter } from "next/router";
 import { RouterConfigData } from "@crema/types/models/Apps";
 import { useIntl } from "react-intl";
+import { useAppDispatch, useAppSelector } from "toolkit/hooks";
+import { getTicketCount } from "toolkit/actions";
 
 type Props = {
   routesConfig: RouterConfigData[];
@@ -15,9 +17,12 @@ type Props = {
 
 const AppVerticalNav: React.FC<Props> = ({ routesConfig }) => {
   const { menuStyle, sidebarColorSet } = useSidebarContext();
+  const dispatch = useAppDispatch();
+  const { ticketCount } = useAppSelector(({ ticket }) => ticket);
   const { pathname } = useRouter();
   const selectedKeys = pathname.substr(1).split("/");
   const [openKeys, setOpenKeys] = useState([selectedKeys[0]]);
+  const timerIdRef = useRef(null);
 
   useEffect(() => {
     setOpenKeys([selectedKeys[selectedKeys.length - 2]]);
@@ -31,6 +36,39 @@ const AppVerticalNav: React.FC<Props> = ({ routesConfig }) => {
   };
 
   const { messages } = useIntl();
+
+  useEffect(() => {
+    const pollingCallback = () => {
+      // Your polling logic here
+      console.log("Polling...");
+      dispatch(getTicketCount());
+
+      // // Simulating an API failure in the polling callback
+      // const shouldFail = Math.random() < 0.2; // Simulate 20% chance of API failure
+
+      // if (shouldFail) {
+      //   setIsPollingEnabled(false);
+      //   console.log('Polling failed. Stopped polling.');
+      // }
+    };
+
+    const startPolling = () => {
+      // pollingCallback(); // To immediately start fetching data
+      // Polling every 30 seconds
+      timerIdRef.current = setInterval(pollingCallback, 5000);
+    };
+
+    const stopPolling = () => {
+      clearInterval(timerIdRef.current);
+    };
+
+    startPolling();
+
+    return () => {
+      stopPolling();
+    };
+  }, []);
+
   return (
     <StyledVerticalNav
       theme={sidebarColorSet.mode}
@@ -50,7 +88,7 @@ const AppVerticalNav: React.FC<Props> = ({ routesConfig }) => {
       onOpenChange={onOpenChange}
       selectedKeys={[selectedKeys[selectedKeys.length - 1]]}
       defaultSelectedKeys={[selectedKeys[selectedKeys.length - 1]]}
-      items={getRouteMenus(routesConfig, messages)}
+      items={getRouteMenus(routesConfig, messages, ticketCount)}
     />
   );
 };

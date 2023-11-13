@@ -2,10 +2,12 @@ import Link from "next/link";
 import React from "react";
 import { MessageFormatElement } from "react-intl";
 import { RouterConfigData } from "@crema/types/models/Apps";
+import { Badge } from "antd";
 
 const renderMenuItemChildren = (
   item: RouterConfigData,
-  messages: Record<string, string> | Record<string, MessageFormatElement[]>
+  messages: Record<string, string> | Record<string, MessageFormatElement[]>,
+  count?: number
 ) => {
   const { icon, messageId, path } = item;
 
@@ -15,7 +17,15 @@ const renderMenuItemChildren = (
       icon:
         icon &&
         (React.isValidElement(icon) ? (
-          <span className="ant-menu-item-icon">{icon}</span>
+          <span className="ant-menu-item-icon">
+            {item.id === "chat" ? (
+              <Badge count={count} size="small">
+                {icon}
+              </Badge>
+            ) : (
+              icon
+            )}
+          </span>
         ) : (
           <span className="ant-menu-item-icon" />
         )),
@@ -63,7 +73,8 @@ const renderMenuItem: any = (
 
 const renderMenu = (
   item: RouterConfigData,
-  messages: Record<string, string> | Record<string, MessageFormatElement[]>
+  messages: Record<string, string> | Record<string, MessageFormatElement[]>,
+  count: number
 ) => {
   return item.type === "group" || item.type === "collapse"
     ? {
@@ -73,13 +84,14 @@ const renderMenu = (
       }
     : {
         // exact: item.exact,
-        ...renderMenuItemChildren(item, messages),
+        ...renderMenuItemChildren(item, messages, count),
       };
 };
 
 export const getRouteMenus = (
   routesConfig: RouterConfigData[],
-  messages: Record<string, string> | Record<string, MessageFormatElement[]>
+  messages: Record<string, string> | Record<string, MessageFormatElement[]>,
+  count: number
 ) => {
-  return routesConfig.map((route) => renderMenu(route, messages));
+  return routesConfig.map((route) => renderMenu(route, messages, count));
 };

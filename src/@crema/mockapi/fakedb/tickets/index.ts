@@ -57,4 +57,8 @@ const questions: QuestionResponse[] = [
   },
 ];
 
-export { ticketDetailData, ticketsData, questions };
+const ticketCount = {
+  data: 5,
+};
+
+export { ticketDetailData, ticketsData, questions, ticketCount };

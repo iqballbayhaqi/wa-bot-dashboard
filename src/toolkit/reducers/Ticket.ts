@@ -22,6 +22,9 @@ import {
   TicketNewDetailLoadingAction,
   TicketNewDetailSuccessAction,
   TicketNewDetailFailedAction,
+  TicketCountLoadingAction,
+  TicketCountSuccessAction,
+  TicketCountFailedAction,
 } from "./ActionTypes/Ticket";
 
 const initialState: {
@@ -50,6 +53,8 @@ const initialState: {
     label: string;
     value: number;
   }[];
+  isLoadingTicketCount: boolean;
+  ticketCount: number;
 } = {
   isLoadingTicket: true,
   isLoadingSaveTicket: false,
@@ -67,6 +72,8 @@ const initialState: {
   departmentFilter: [],
   categoriesFilter: [],
   isLoadingNewDetailTicket: false,
+  isLoadingTicketCount: false,
+  ticketCount: 0,
 };
 
 const ticketReducer = createReducer(initialState, (builder) => {
@@ -150,6 +157,17 @@ const ticketReducer = createReducer(initialState, (builder) => {
     })
     .addCase(TicketNewDetailFailedAction, (state, action) => {
       state.isLoadingNewDetailTicket = false;
+      state.errorTicket = action.payload;
+    })
+    .addCase(TicketCountLoadingAction, (state) => {
+      state.isLoadingTicketCount = true;
+    })
+    .addCase(TicketCountSuccessAction, (state, action) => {
+      state.isLoadingTicketCount = false;
+      state.ticketCount = action.payload;
+    })
+    .addCase(TicketCountFailedAction, (state, action) => {
+      state.isLoadingTicketCount = false;
       state.errorTicket = action.payload;
     })
     .addCase(SaveTicketLoadingAction, (state) => {

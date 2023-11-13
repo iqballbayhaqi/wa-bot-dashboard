@@ -1,5 +1,6 @@
 import { ErrorResponseType } from "../models/master";
 import {
+  TicketCountResponse,
   TicketDataType,
   TicketDetail,
   TicketDetailResponseType,
@@ -18,6 +19,10 @@ export const GET_DETAIL_TICKET_FAILED = "GET_DETAIL_TICKET_FAILED";
 export const GET_NEW_DETAIL_TICKET_LOADING = "GET_NEW_DETAIL_TICKET_LOADING";
 export const GET_NEW_DETAIL_TICKET_SUCCESS = "GET_NEW_DETAIL_TICKET_SUCCESS";
 export const GET_NEW_DETAIL_TICKET_FAILED = "GET_NEW_DETAIL_TICKET_FAILED";
+
+export const GET_TICKET_COUNT_LOADING = "GET_TICKET_COUNT_LOADING";
+export const GET_TICKET_COUNT_SUCCESS = "GET_TICKET_COUNT_SUCCESS";
+export const GET_TICKET_COUNT_FAILED = "GET_TICKET_COUNT_FAILED";
 
 export const SAVE_TICKET_LOADING = "SAVE_TICKET_LOADING";
 export const SAVE_TICKET_SUCCESS = "SAVE_TICKET_SUCCESS";
@@ -62,6 +67,17 @@ export type GetNewDetailTicketFailedAction = {
   payload: ErrorResponseType;
 };
 
+export type GetTicketCountLoadingAction = {
+  type: typeof GET_TICKET_COUNT_LOADING;
+};
+export type GetTicketCountSuccessAction = {
+  type: typeof GET_TICKET_COUNT_SUCCESS;
+  payload: number;
+};
+export type GetTicketCountFailedAction = {
+  type: typeof GET_TICKET_COUNT_FAILED;
+  payload: ErrorResponseType;
+};
 export type SaveTicketLoadingAction = {
   type: typeof SAVE_TICKET_LOADING;
 };
@@ -86,4 +102,7 @@ export type TicketActionTypes =
   | SaveTicketFailedAction
   | GetNewDetailTicketFailedAction
   | GetNewDetailTicketSuccessAction
-  | GetNewDetailTicketLoadingAction;
+  | GetNewDetailTicketLoadingAction
+  | GetTicketCountLoadingAction
+  | GetTicketCountSuccessAction
+  | GetTicketCountFailedAction;

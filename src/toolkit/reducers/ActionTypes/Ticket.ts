@@ -5,6 +5,9 @@ import {
   GET_NEW_DETAIL_TICKET_FAILED,
   GET_NEW_DETAIL_TICKET_LOADING,
   GET_NEW_DETAIL_TICKET_SUCCESS,
+  GET_TICKET_COUNT_FAILED,
+  GET_TICKET_COUNT_LOADING,
+  GET_TICKET_COUNT_SUCCESS,
   GET_TICKET_LIST_FAILED,
   GET_TICKET_LIST_LOADING,
   GET_TICKET_LIST_SUCCESS,
@@ -17,6 +20,7 @@ import {
 import { ErrorResponseType } from "@crema/types/models/master";
 import {
   ChatListType,
+  TicketCountResponse,
   TicketDataType,
   TicketDetail,
   TicketDetailResponseType,
@@ -50,6 +54,14 @@ export const TicketNewDetailSuccessAction = createAction<TicketDetail>(
 );
 export const TicketNewDetailFailedAction = createAction<ErrorResponseType>(
   GET_NEW_DETAIL_TICKET_FAILED
+);
+
+export const TicketCountLoadingAction = createAction(GET_TICKET_COUNT_LOADING);
+export const TicketCountSuccessAction = createAction<number>(
+  GET_TICKET_COUNT_SUCCESS
+);
+export const TicketCountFailedAction = createAction<ErrorResponseType>(
+  GET_TICKET_COUNT_FAILED
 );
 
 export const SaveTicketLoadingAction = createAction(SAVE_TICKET_LOADING);

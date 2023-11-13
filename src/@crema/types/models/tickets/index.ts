@@ -83,3 +83,7 @@ export type QuestionResponse = {
   question: string;
   forState: number | null;
 };
+
+export type TicketCountResponse = {
+  data: number;
+};

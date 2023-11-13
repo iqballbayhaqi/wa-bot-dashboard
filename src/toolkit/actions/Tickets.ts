@@ -7,6 +7,9 @@ import {
   GET_NEW_DETAIL_TICKET_FAILED,
   GET_NEW_DETAIL_TICKET_LOADING,
   GET_NEW_DETAIL_TICKET_SUCCESS,
+  GET_TICKET_COUNT_FAILED,
+  GET_TICKET_COUNT_LOADING,
+  GET_TICKET_COUNT_SUCCESS,
   GET_TICKET_LIST_FAILED,
   GET_TICKET_LIST_LOADING,
   GET_TICKET_LIST_SUCCESS,
@@ -21,6 +24,7 @@ import {
 } from "@crema/types/models/master";
 import {
   QuestionResponse,
+  TicketCountResponse,
   TicketDataType,
   TicketDetailResponseType,
   TicketPayload,
@@ -186,6 +190,29 @@ export const getFaq = () => {
       .catch((error: any) => {
         dispatch({
           type: "GET_QUESTION_FAILED",
+          payload: error,
+        });
+      });
+  };
+};
+
+export const getTicketCount = () => {
+  return (dispatch: Dispatch<AppActions>) => {
+    dispatch({
+      type: GET_TICKET_COUNT_LOADING,
+    });
+
+    jwtAxios
+      .get(`/ticketcount`)
+      .then(async (data: AxiosResponse<TicketCountResponse>) => {
+        dispatch({
+          type: GET_TICKET_COUNT_SUCCESS,
+          payload: data.data.data,
+        });
+      })
+      .catch((error: any) => {
+        dispatch({
+          type: GET_TICKET_COUNT_FAILED,
           payload: error,
         });
       });

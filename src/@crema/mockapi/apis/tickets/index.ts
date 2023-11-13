@@ -1,6 +1,7 @@
 import mock from "../MockConfig";
 import {
   questions,
+  ticketCount,
   ticketDetailData,
   ticketsData,
 } from "@crema/mockapi/fakedb/tickets";
@@ -22,4 +23,8 @@ mock.onPost("/moveTicket").reply(() => {
 
 mock.onGet("/question").reply(() => {
   return [200, questions];
+});
+
+mock.onGet("/ticketcount").reply(() => {
+  return [200, ticketCount];
 });
