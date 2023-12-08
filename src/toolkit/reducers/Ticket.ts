@@ -5,27 +5,27 @@ import {
   ChatListType,
   TicketDataType,
   TicketDetail,
-  TicketDetailResponseType,
 } from "@crema/types/models/tickets";
 import {
-  TicketListLoadingAction,
-  TicketListSuccessAction,
-  TicketListFailedAction,
-  SaveTicketSuccessAction,
-  SaveTicketLoadingAction,
-  SaveTicketFailedAction,
-  TicketDetailSuccessAction,
-  TicketDetailFailedAction,
-  TicketDetailLoadingAction,
-  SendChatAction,
   ReceiveChatAction,
-  TicketNewDetailLoadingAction,
-  TicketNewDetailSuccessAction,
-  TicketNewDetailFailedAction,
+  SaveTicketFailedAction,
+  SaveTicketLoadingAction,
+  SaveTicketSuccessAction,
+  SendChatAction,
+  TicketCountFailedAction,
   TicketCountLoadingAction,
   TicketCountSuccessAction,
-  TicketCountFailedAction,
+  TicketDetailFailedAction,
+  TicketDetailLoadingAction,
+  TicketDetailSuccessAction,
+  TicketListFailedAction,
+  TicketListLoadingAction,
+  TicketListSuccessAction,
+  TicketNewDetailFailedAction,
+  TicketNewDetailLoadingAction,
+  TicketNewDetailSuccessAction,
 } from "./ActionTypes/Ticket";
+import moment from "moment";
 
 const initialState: {
   isLoadingTicket: boolean;
@@ -45,14 +45,9 @@ const initialState: {
     label: string;
     value: string;
   }[];
-  departmentFilter: {
-    label: string;
-    value: number;
-  }[];
-  categoriesFilter: {
-    label: string;
-    value: number;
-  }[];
+  departmentFilter: [];
+  categoriesFilter: [];
+  branchesFilter: [];
   isLoadingTicketCount: boolean;
   ticketCount: number;
 } = {
@@ -74,6 +69,7 @@ const initialState: {
   isLoadingNewDetailTicket: false,
   isLoadingTicketCount: false,
   ticketCount: 0,
+  branchesFilter: [],
 };
 
 const ticketReducer = createReducer(initialState, (builder) => {
@@ -84,49 +80,83 @@ const ticketReducer = createReducer(initialState, (builder) => {
     .addCase(TicketListSuccessAction, (state, action) => {
       state.isLoadingTicket = false;
       state.isSuccessSaveTicket = false;
-      state.tickets = action.payload;
-      state.ticketsTemp = action.payload;
+      state.tickets = action.payload.data;
 
-      state.dateFilter = Array.from(
-        new Set(
-          action.payload
-            .sort((a, b) => a.startTime.localeCompare(b.startTime))
-            .map((date) => date.startTime)
-        )
-      ).map((uniqueDate) => ({
-        label: uniqueDate,
-        value: uniqueDate,
-      }));
+      const { categoryList, departementList, branchList } = action.payload;
+
+      const currentDate = moment().format("YYYY-MM-DD");
+
+      if (action.payload.fromUpdate) {
+        state.ticketsTemp = action.payload.data;
+      } else {
+        const getTodayTicket = action.payload.data.filter((ticket) => {
+          return moment(
+            moment.utc(ticket.startTime).format("YYYY-MM-DD")
+          ).isSame(currentDate);
+        });
+
+        state.ticketsTemp = getTodayTicket;
+      }
 
       const uniqueDepartments = [];
       const uniqueIds = {};
 
-      action.payload.forEach((data) => {
-        if (!uniqueIds[data.department.id]) {
+      action.payload.data.forEach((data) => {
+        if (!uniqueIds[data.department.id] && data.department.id !== null) {
           uniqueIds[data.department.id] = true;
           uniqueDepartments.push(data);
         }
       });
 
-      state.departmentFilter = uniqueDepartments.map((data) => ({
-        label: data.department.name,
-        value: data.department.id,
-      }));
+      const mapUniqueDepartement = uniqueDepartments.map((departement) => {
+        const filterFromDepartement = departementList.filter(
+          (data) => data.id === departement.department.id
+        );
+
+        return filterFromDepartement[0];
+      });
+
+      state.departmentFilter = mapUniqueDepartement;
 
       const uniqueCategories = [];
       const uniqueCatIds = {};
 
-      action.payload.forEach((data) => {
-        if (!uniqueCatIds[data.category.id]) {
+      action.payload.data.forEach((data) => {
+        if (!uniqueCatIds[data.category.id] && data.category.id !== null) {
           uniqueCatIds[data.category.id] = true;
           uniqueCategories.push(data);
         }
       });
 
-      state.categoriesFilter = uniqueCategories.map((data) => ({
-        label: data.category.name,
-        value: data.category.id,
-      }));
+      const mapUniqueCategories = uniqueCategories.map((category) => {
+        const filterFromCategory = categoryList.filter(
+          (data) => data.id === category.category.id
+        );
+
+        return filterFromCategory[0];
+      });
+
+      state.categoriesFilter = mapUniqueCategories;
+
+      const uniqueBranches = [];
+      const uniqueBranchIds = {};
+
+      action.payload.data.forEach((data) => {
+        if (!uniqueBranchIds[data.branch.id] && data.branch.id !== null) {
+          uniqueBranchIds[data.branch.id] = true;
+          uniqueBranches.push(data);
+        }
+      });
+
+      const mapUniqueBranches = uniqueBranches.map((branch) => {
+        const filterFromBranch = branchList.filter(
+          (data) => data.id === branch.branch.id
+        );
+
+        return filterFromBranch[0];
+      });
+
+      state.branchesFilter = mapUniqueBranches;
     })
     .addCase(TicketListFailedAction, (state, action) => {
       state.isLoadingTicket = false;

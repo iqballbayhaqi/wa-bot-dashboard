@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    unoptimized: true,
+  },
   reactStrictMode: true,
   env: {
     NEXT_PUBLIC_INITIAL_URL: "/dashboard",
@@ -16,6 +19,7 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  output: "export",
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if

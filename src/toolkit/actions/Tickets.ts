@@ -18,6 +18,7 @@ import {
   SAVE_TICKET_SUCCESS,
 } from "@crema/types/actions/Ticket.actions";
 import {
+  BranchResponse,
   CategoryResponseType,
   DepartementData,
   DepartementResponseType,
@@ -50,7 +51,15 @@ const getCategoryNameById = (
   return category ? category.name : undefined;
 };
 
-export const getTicketList = () => {
+const getBranchNameById = (
+  id: number,
+  data: BranchResponse[]
+): string | undefined => {
+  const branches = data.find((branch) => branch.id === id);
+  return branches ? branches.branchName : undefined;
+};
+
+export const getTicketList = ({ fromUpdate }) => {
   return (dispatch: Dispatch<AppActions>) => {
     dispatch({
       type: GET_TICKET_LIST_LOADING,
@@ -63,6 +72,11 @@ export const getTicketList = () => {
           await jwtAxios.get("/department");
         const categoryData: AxiosResponse<CategoryResponseType[]> =
           await jwtAxios.get("/category");
+        const branchData: AxiosResponse<BranchResponse[]> = await jwtAxios.get(
+          "/branch"
+        );
+
+        console.log(branchData.data);
 
         const mappedData: TicketDataType[] = data.data.data.map((ticket) => ({
           id: ticket.id,
@@ -83,11 +97,22 @@ export const getTicketList = () => {
             id: ticket.category,
             name: getCategoryNameById(ticket.category, categoryData.data),
           },
+          isUnsolved: ticket.isUnsolved ? "Tidak" : "Ya",
+          branch: {
+            id: ticket.branch,
+            name: getBranchNameById(ticket.branch, branchData.data),
+          },
         }));
 
         dispatch({
           type: GET_TICKET_LIST_SUCCESS,
-          payload: mappedData,
+          payload: {
+            data: mappedData,
+            fromUpdate,
+            categoryList: categoryData.data,
+            departementList: departementData.data.data,
+            branchList: branchData.data,
+          },
         });
       })
       .catch((error: any) => {

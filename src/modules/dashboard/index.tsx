@@ -7,7 +7,11 @@ import { Col, Select } from "antd";
 import { useEffect, useState } from "react";
 import { onGetDashboardData } from "../../toolkit/actions";
 import { useAppDispatch, useAppSelector } from "../../toolkit/hooks";
-import { getMonthlyRange, getYearlyRange } from "@crema/helpers/DateHelper";
+import {
+  getDailyRange,
+  getMonthlyRange,
+  getYearlyRange,
+} from "@crema/helpers/DateHelper";
 
 const getColorStatus = (value: string): string => {
   switch (value) {
@@ -28,11 +32,12 @@ const Dashboard = () => {
   const [filterBy, setSelectedFilterBy] = useState("Yearly");
 
   useEffect(() => {
+    const getYearRange = getYearlyRange();
+    const getMonthRange = getMonthlyRange();
+    const getDayRange = getDailyRange();
+
     switch (filterBy) {
       case "Yearly":
-        const getYearRange = getYearlyRange();
-        const getMonthRange = getMonthlyRange();
-
         dispatch(
           onGetDashboardData({
             params: {
@@ -49,6 +54,17 @@ const Dashboard = () => {
             params: {
               startDate: getMonthRange[0].toString(),
               endDate: getMonthRange[1].toString(),
+            },
+          })
+        );
+        break;
+
+      case "Daily":
+        dispatch(
+          onGetDashboardData({
+            params: {
+              startDate: getDayRange[0].toString(),
+              endDate: getDayRange[1].toString(),
             },
           })
         );
@@ -77,6 +93,10 @@ const Dashboard = () => {
                 label: "Monthly",
                 value: "Monthly",
               },
+              {
+                label: "Daily",
+                value: "Daily",
+              },
             ]}
             onChange={(value) => {
               setSelectedFilterBy(value);
@@ -101,14 +121,30 @@ const Dashboard = () => {
               </AppCard>
             </Col>
           </>
-        ) : (
-          Object.keys(dashboardData.allStatus).map((key) => (
+        ) : dashboardData?.allStatus ? (
+          Object.keys(dashboardData?.allStatus).map((key) => (
             <Col key={key} xs={24} sm={12} lg={8}>
               <StatsDirCard
                 data={{
                   color: getColorStatus(key),
                   name: key,
-                  value: dashboardData.allStatus[key],
+                  value: dashboardData?.allStatus[key],
+                }}
+              />
+            </Col>
+          ))
+        ) : (
+          [
+            { status: "open", name: "open", value: 0 },
+            { status: "closed", name: "closed", value: 0 },
+            { status: "pending", name: "pending", value: 0 },
+          ].map((value) => (
+            <Col key={value.status} xs={24} sm={12} lg={8}>
+              <StatsDirCard
+                data={{
+                  color: getColorStatus(value.status),
+                  name: value.status,
+                  value: value.value,
                 }}
               />
             </Col>
@@ -121,7 +157,7 @@ const Dashboard = () => {
               <StyledSkeleton active />
             </AppCard>
           ) : (
-            <OpportunitiesWon data={dashboardData.chartData} />
+            <OpportunitiesWon data={dashboardData?.chartData} />
           )}
         </Col>
       </AppRowContainer>

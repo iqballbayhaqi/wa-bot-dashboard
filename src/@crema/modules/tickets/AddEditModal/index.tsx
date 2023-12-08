@@ -12,6 +12,7 @@ import { useIntl } from "react-intl";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "toolkit/hooks";
 import {
+  getMasterBranchList,
   getMasterCategoryList,
   getMasterDepartementList,
   getTicketList,
@@ -42,8 +43,10 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
   const {
     masterDepartementList,
     masterCategoryList,
+    branchList,
     isLoadingMasterCategory,
     isLoadingMasterDepartement,
+    isLoadingMasterBranch,
   } = useAppSelector(({ master }) => master);
 
   const { isLoadingSaveTicket, isSuccessSaveTicket } = useAppSelector(
@@ -58,6 +61,7 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
         id: data.id,
         categoryId: values.categoryId,
         departmentId: values.departmentId,
+        branchId: values.branchId,
       })
     );
   };
@@ -77,11 +81,12 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
   useEffect(() => {
     dispatch(getMasterDepartementList());
     dispatch(getMasterCategoryList());
+    dispatch(getMasterBranchList());
   }, [dispatch]);
 
   useEffect(() => {
     if (isSuccessSaveTicket) {
-      dispatch(getTicketList());
+      dispatch(getTicketList({ fromUpdate: true }));
       handleCancel();
     }
   }, [isSuccessSaveTicket, dispatch, handleCancel]);
@@ -96,7 +101,9 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
       closeIcon={<RiCloseFill />}
     >
       <StyledAddCard>
-        {isLoadingMasterCategory || isLoadingMasterDepartement ? (
+        {isLoadingMasterCategory ||
+        isLoadingMasterDepartement ||
+        isLoadingMasterBranch ? (
           <StyledSkeleton active />
         ) : (
           <Form form={form} onFinish={handleSubmit}>
@@ -161,6 +168,27 @@ const AddEditModal: React.FC<AddEditModalProps> = ({
                 options={filterCategory?.map((category) => ({
                   label: category.categoryName,
                   value: category.id,
+                }))}
+              />
+            </Form.Item>
+
+            <Form.Item
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 18 }}
+              initialValue={data?.branchId ?? ""}
+              name="branchId"
+              label={"PT"}
+              rules={[
+                {
+                  required: true,
+                  message: "Kolom PT tidak boleh kosong",
+                },
+              ]}
+            >
+              <Select
+                options={branchList?.map((branch) => ({
+                  label: branch.branchName,
+                  value: branch.id,
                 }))}
               />
             </Form.Item>

@@ -1,4 +1,5 @@
 import {
+  BranchResponse,
   CategoryDataType,
   DepartementDataType,
   ErrorResponseType,
@@ -20,11 +21,21 @@ import {
   SaveMasterDataLoadingAction,
   SaveMasterDataSuccessAction,
   SaveMasterDataFailedAction,
+  DeleteMasterDepartmentDataLoadingAction,
+  DeleteMasterDepartmentDataSuccessAction,
+  DeleteMasterDepartmentDataFailedAction,
+  DeleteMasterCategoryDataLoadingAction,
+  DeleteMasterCategoryDataSuccessAction,
+  DeleteMasterCategoryDataFailedAction,
+  MasterBranchLoadingAction,
+  MasterBranchSuccessAction,
+  MasterBranchFailedAction,
 } from "./ActionTypes/Master";
 
 const initialState: {
   isLoadingMasterCategory: boolean;
   isLoadingMasterDepartement: boolean;
+  isLoadingMasterBranch: boolean;
   isLoadingSaveMasterDepartement: boolean;
   isLoadingSaveMasterCategory: boolean;
   isLoadingModifyMasterData: boolean;
@@ -35,19 +46,31 @@ const initialState: {
   masterCategoryList: CategoryDataType[];
   errorDepartement: ErrorResponseType;
   errorCategory: ErrorResponseType;
+  errorBranch: ErrorResponseType;
+  isLoadingDeleteMasterCategory: boolean;
+  isLoadingDeleteMasterDepartment: boolean;
+  isSuccessDeleteMasterCategory: boolean;
+  isSuccessDeleteMasterDepartment: boolean;
+  branchList: BranchResponse[];
 } = {
   isLoadingMasterCategory: true,
   isLoadingMasterDepartement: true,
+  isLoadingMasterBranch: true,
   isLoadingSaveMasterDepartement: false,
   isLoadingSaveMasterCategory: false,
   isLoadingModifyMasterData: false,
   isSucccessModifyMasterData: false,
   isSuccessModifyCategoryData: false,
   isSuccessModifyDepartmentData: false,
+  isLoadingDeleteMasterCategory: false,
+  isLoadingDeleteMasterDepartment: false,
+  isSuccessDeleteMasterCategory: false,
+  isSuccessDeleteMasterDepartment: false,
   masterCategoryList: [],
   masterDepartementList: [],
   errorDepartement: null,
   errorCategory: null,
+  branchList: [],
 };
 
 const masterReducer = createReducer(initialState, (builder) => {
@@ -58,6 +81,7 @@ const masterReducer = createReducer(initialState, (builder) => {
     .addCase(MasterDepartementListSuccessAction, (state, action) => {
       state.isLoadingMasterDepartement = false;
       state.isSucccessModifyMasterData = false;
+      state.isSuccessDeleteMasterDepartment = false;
       state.masterDepartementList = action.payload;
     })
     .addCase(MasterDepartementListFailedAction, (state, action) => {
@@ -70,6 +94,7 @@ const masterReducer = createReducer(initialState, (builder) => {
     .addCase(MasterCategoryListSuccessAction, (state, action) => {
       state.isLoadingMasterCategory = false;
       state.isSuccessModifyCategoryData = false;
+      state.isSuccessDeleteMasterCategory = false;
       state.masterCategoryList = action.payload;
     })
     .addCase(MasterCategoryListFailedAction, (state, action) => {
@@ -111,6 +136,41 @@ const masterReducer = createReducer(initialState, (builder) => {
     .addCase(SaveMasterDataFailedAction, (state) => {
       state.isSucccessModifyMasterData = false;
       state.isLoadingModifyMasterData = false;
+    })
+    .addCase(DeleteMasterDepartmentDataLoadingAction, (state) => {
+      state.isLoadingDeleteMasterDepartment = true;
+      state.isSuccessDeleteMasterDepartment = false;
+    })
+    .addCase(DeleteMasterDepartmentDataSuccessAction, (state) => {
+      state.isSuccessDeleteMasterDepartment = true;
+      state.isLoadingDeleteMasterDepartment = false;
+    })
+    .addCase(DeleteMasterDepartmentDataFailedAction, (state) => {
+      state.isSuccessDeleteMasterDepartment = false;
+      state.isLoadingDeleteMasterDepartment = false;
+    })
+    .addCase(DeleteMasterCategoryDataLoadingAction, (state) => {
+      state.isLoadingDeleteMasterCategory = true;
+      state.isSuccessDeleteMasterCategory = false;
+    })
+    .addCase(DeleteMasterCategoryDataSuccessAction, (state) => {
+      state.isSuccessDeleteMasterCategory = true;
+      state.isLoadingDeleteMasterCategory = false;
+    })
+    .addCase(DeleteMasterCategoryDataFailedAction, (state) => {
+      state.isSuccessDeleteMasterCategory = false;
+      state.isLoadingDeleteMasterCategory = false;
+    })
+    .addCase(MasterBranchLoadingAction, (state) => {
+      state.isLoadingMasterBranch = true;
+    })
+    .addCase(MasterBranchSuccessAction, (state, action) => {
+      state.isLoadingMasterBranch = false;
+      state.branchList = action.payload;
+    })
+    .addCase(MasterBranchFailedAction, (state, action) => {
+      state.isLoadingMasterBranch = false;
+      state.errorBranch = action.payload;
     });
 });
 

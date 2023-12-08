@@ -3,10 +3,13 @@ import CategoryTable from "./CategoryTable";
 import AppCard from "@crema/components/AppCard";
 import { useIntl } from "react-intl";
 import { CategoryDataType } from "@crema/types/models/master";
-import { Button } from "antd";
+import { Button, Modal, Spin } from "antd";
 import IntlMessages from "@crema/helpers/IntlMessages";
 import { StyledPlusOutlined, StyledSkeleton } from "../index.styled";
 import AddEditModal from "../AddEditModal";
+import { useAppDispatch, useAppSelector } from "toolkit/hooks";
+import { deleteMasterData } from "toolkit/actions";
+import { LoadingOutlined } from "@ant-design/icons";
 
 type MasterCategoryProps = {
   masterCategoryData: CategoryDataType[];
@@ -29,11 +32,19 @@ const MasterCategory: React.FC<MasterCategoryProps> = ({
   isLoadingSaveData,
   isSucccessModifyMasterData,
 }) => {
+  const dispatch = useAppDispatch();
+  const { isLoadingDeleteMasterCategory, isSuccessDeleteMasterCategory } =
+    useAppSelector(({ master }) => master);
+
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
     calledFrom: undefined,
     url: undefined,
     type: undefined,
+    data: undefined,
+  });
+  const [modalDelete, setModalDelete] = useState({
+    isOpen: false,
     data: undefined,
   });
 
@@ -59,7 +70,14 @@ const MasterCategory: React.FC<MasterCategoryProps> = ({
         data: undefined,
       });
     }
-  }, [isSucccessModifyMasterData]);
+
+    if (isSuccessDeleteMasterCategory) {
+      setModalDelete({
+        isOpen: false,
+        data: undefined,
+      });
+    }
+  }, [isSucccessModifyMasterData, isSuccessDeleteMasterCategory]);
 
   return (
     <>
@@ -108,13 +126,54 @@ const MasterCategory: React.FC<MasterCategoryProps> = ({
                   });
                   break;
                 case messages["common.actionDelete"]:
-                  console.log("delete");
+                  setModalDelete({
+                    isOpen: true,
+                    data: {
+                      id: data.id,
+                      url: `/category/${data.id}`,
+                      calledFrom: "category",
+                    },
+                  });
                   break;
               }
             }}
           />
         </AppCard>
       )}
+
+      {modalDelete.isOpen ? (
+        <Modal
+          title="Hapus"
+          open={modalDelete.isOpen}
+          onOk={() => {
+            dispatch(
+              deleteMasterData({
+                url: modalDelete.data.url,
+                calledFrom: modalDelete.data.calledFrom,
+              })
+            );
+          }}
+          onCancel={() =>
+            setModalDelete({
+              isOpen: false,
+              data: undefined,
+            })
+          }
+          okText={
+            isLoadingDeleteMasterCategory ? (
+              <Spin
+                size="small"
+                indicator={<LoadingOutlined style={{ color: "white" }} spin />}
+              />
+            ) : (
+              "Ya"
+            )
+          }
+          cancelText="Tidak"
+        >
+          Apakah anda yakin ingin menghapus data ini ?
+        </Modal>
+      ) : null}
 
       {modalData.isOpen ? (
         <AddEditModal

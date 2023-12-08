@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from "axios";
-import Router from "next/router";
 
 const apiConfig = axios.create({
-  baseURL: "http://localhost:3000/api/v1",
+  baseURL: "http://192.168.16.19:3002/api/v1",
   withCredentials: true,
 });
 
@@ -20,7 +19,7 @@ apiConfig.interceptors.response.use(
         const OldRefreshToken = localStorage.getItem("refreshToken");
 
         const response = await axios.post(
-          "http://localhost:3000/api/v1/refresh-token",
+          "http://192.168.16.19:3002/api/v1/refresh-token",
           {
             refreshToken: OldRefreshToken,
           }

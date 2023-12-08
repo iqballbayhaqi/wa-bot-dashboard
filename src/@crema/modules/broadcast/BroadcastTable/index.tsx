@@ -3,7 +3,6 @@ import { BroadcastDataType } from "@crema/types/models/broadcast";
 import { Row } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "moment";
-import "moment/locale/id";
 import React, { useMemo } from "react";
 import { StyledMasterTable } from "../index.styled";
 
@@ -31,6 +30,7 @@ const BroadcastTable: React.FC<BroadcastTableProps> = ({
         dataIndex: "message",
         key: "message",
         align: "center",
+        ellipsis: true,
       },
       {
         title: "Waktu Dibuat",
@@ -38,8 +38,11 @@ const BroadcastTable: React.FC<BroadcastTableProps> = ({
         key: "createdAt",
         align: "center",
         render: (_, record) => {
+          moment.locale("id");
           return (
-            <p>{moment(record.createdAt).format("dddd, D MMMM YYYY, HH:mm")}</p>
+            <p>
+              {moment.utc(record.createdAt).format("dddd, D MMMM YYYY, HH:mm")}
+            </p>
           );
         },
       },

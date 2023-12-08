@@ -43,6 +43,11 @@ export type MasterResponsePostType = {
   data: string;
 };
 
+export type MasterResponseDeleteType = {
+  status: string;
+  data: string;
+};
+
 export type MasterResponseUpdateType = {
   status: string;
   data: {
@@ -69,4 +74,10 @@ export type CategoryPayload = {
   id?: number;
   departementCode: string;
   name: string;
+};
+
+export type BranchResponse = {
+  id: number;
+  branchCode: string;
+  branchName: string;
 };

@@ -1,4 +1,5 @@
 import {
+  BranchResponse,
   CategoryDataType,
   DepartementDataType,
   ErrorResponseType,
@@ -35,6 +36,24 @@ export const SAVE_MASTER_DATA_LOADING = "SAVE_MASTER_DATA_LOADING";
 export const SAVE_MASTER_DATA_SUCCESS = "SAVE_MASTER_DATA_SUCCESS";
 export const SAVE_MASTER_DATA_FAILED = "SAVE_MASTER_DATA_FAILED";
 
+export const DELETE_KATEGORI_MASTER_DATA_LOADING =
+  "DELETE_KATEGORI_MASTER_DATA_LOADING";
+export const DELETE_KATEGORI_MASTER_DATA_SUCCESS =
+  "DELETE_KATEGORI_MASTER_DATA_SUCCESS";
+export const DELETE_KATEGORI_MASTER_DATA_FAILED =
+  "DELETE_KATEGORI_MASTER_DATA_FAILED";
+
+export const DELETE_DEPARTEMEN_MASTER_DATA_LOADING =
+  "DELETE_DEPARTEMEN_MASTER_DATA_LOADING";
+export const DELETE_DEPARTEMEN_MASTER_DATA_SUCCESS =
+  "DELETE_DEPARTEMEN_MASTER_DATA_SUCCESS";
+export const DELETE_DEPARTEMEN_MASTER_DATA_FAILED =
+  "DELETE_DEPARTEMEN_MASTER_DATA_FAILED";
+
+export const GET_MASTER_BRANCH_LOADING = "GET_MASTER_BRANCH_LOADING";
+export const GET_MASTER_BRANCH_SUCCESS = "GET_MASTER_BRANCH_SUCCESS";
+export const GET_MASTER_BRANCH_FAILED = "GET_MASTER_BRANCH_FAILED";
+
 export type GetMasterDepartementListLoadingAction = {
   type: typeof GET_MASTER_DEPARTEMENT_LIST_LOADING;
 };
@@ -56,6 +75,18 @@ export type GetMasterCategoryListSuccessAction = {
 };
 export type GetMasterCategoryListFailedAction = {
   type: typeof GET_MASTER_CATEGORY_LIST_FAILED;
+  payload: ErrorResponseType;
+};
+
+export type GetMasterBranchLoadingAction = {
+  type: typeof GET_MASTER_BRANCH_LOADING;
+};
+export type GetMasterBranchSuccessAction = {
+  type: typeof GET_MASTER_BRANCH_SUCCESS;
+  payload: BranchResponse[];
+};
+export type GetMasterBranchFailedAction = {
+  type: typeof GET_MASTER_BRANCH_FAILED;
   payload: ErrorResponseType;
 };
 
@@ -95,6 +126,30 @@ export type SaveMasterDataFailedAction = {
   payload: ErrorResponseType;
 };
 
+export type DeleteMasterCategoryDataLoadingAction = {
+  type: typeof DELETE_KATEGORI_MASTER_DATA_LOADING;
+};
+export type DeleteMasterCategoryDataSuccessAction = {
+  type: typeof DELETE_KATEGORI_MASTER_DATA_SUCCESS;
+  payload: MasterResponsePostType | MasterResponseUpdateType;
+};
+export type DeleteMasterCategoryDataFailedAction = {
+  type: typeof DELETE_KATEGORI_MASTER_DATA_FAILED;
+  payload: ErrorResponseType;
+};
+
+export type DeleteDepartementMasterDataLoadingAction = {
+  type: typeof DELETE_DEPARTEMEN_MASTER_DATA_LOADING;
+};
+export type DeleteDepartementMasterDataSuccessAction = {
+  type: typeof DELETE_DEPARTEMEN_MASTER_DATA_SUCCESS;
+  payload: MasterResponsePostType | MasterResponseUpdateType;
+};
+export type DeleteDepartementMasterDataFailedAction = {
+  type: typeof DELETE_DEPARTEMEN_MASTER_DATA_FAILED;
+  payload: ErrorResponseType;
+};
+
 export type MasterActionTypes =
   | GetMasterDepartementListLoadingAction
   | GetMasterDepartementListSuccessAction
@@ -102,6 +157,9 @@ export type MasterActionTypes =
   | GetMasterCategoryListLoadingAction
   | GetMasterCategoryListSuccessAction
   | GetMasterCategoryListFailedAction
+  | GetMasterBranchLoadingAction
+  | GetMasterBranchSuccessAction
+  | GetMasterBranchFailedAction
   | SaveMasterDepartementLoadingAction
   | SaveMasterDepartementSuccessAction
   | SaveMasterDepartementFailedAction
@@ -110,4 +168,10 @@ export type MasterActionTypes =
   | SaveMasterCategoryFailedAction
   | SaveMasterDataLoadingAction
   | SaveMasterDataSuccessAction
-  | SaveMasterDataFailedAction;
+  | SaveMasterDataFailedAction
+  | DeleteMasterCategoryDataLoadingAction
+  | DeleteMasterCategoryDataSuccessAction
+  | DeleteMasterCategoryDataFailedAction
+  | DeleteDepartementMasterDataFailedAction
+  | DeleteDepartementMasterDataSuccessAction
+  | DeleteDepartementMasterDataLoadingAction;

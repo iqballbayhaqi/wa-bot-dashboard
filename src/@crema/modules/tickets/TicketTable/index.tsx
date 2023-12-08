@@ -3,7 +3,7 @@ import { TicketDataType } from "@crema/types/models/tickets";
 import { Row } from "antd";
 import { ColumnsType } from "antd/es/table";
 import moment from "moment";
-import "moment/locale/id";
+// import "moment/locale/id";
 import React, { useMemo } from "react";
 import { StyledMasterTable } from "../index.styled";
 
@@ -38,20 +38,27 @@ const TikcetsTable: React.FC<TicketTableProps> = ({
         key: "startTime",
         align: "center",
         render: (_, record) => {
+          moment.locale("id");
           return (
-            <p>{moment(record.startTime).format("dddd, D MMMM YYYY, HH:mm")}</p>
+            <p>
+              {moment.utc(record.startTime).format("dddd, D MMMM YYYY, HH:mm")}
+            </p>
           );
         },
-        // ellipsis: true,
       },
       {
         title: "Waktu Berakhir",
         dataIndex: "endTime",
         key: "endTime",
         align: "center",
-        render: (_, record) => (
-          <p>{moment(record.endTime).format("dddd, D MMMM YYYY, HH:mm")}</p>
-        ),
+        render: (_, record) => {
+          moment.locale("id");
+          return (
+            <p>
+              {moment.utc(record.endTime).format("dddd, D MMMM YYYY, HH:mm")}
+            </p>
+          );
+        },
         // ellipsis: true,
       },
       {
@@ -65,6 +72,19 @@ const TikcetsTable: React.FC<TicketTableProps> = ({
         dataIndex: "status",
         key: "status",
         align: "center",
+      },
+      {
+        title: "Solved",
+        dataIndex: "isUnsolved",
+        key: "isUnsolved",
+        align: "center",
+      },
+      {
+        title: "PT",
+        dataIndex: "branch",
+        key: "branch",
+        align: "center",
+        render: (_, record) => <p>{record.branch.name}</p>,
       },
       {
         title: "Department",

@@ -14,6 +14,15 @@ import {
   SAVE_MASTER_CATEGORY_LOADING,
   SAVE_MASTER_CATEGORY_FAILED,
   SAVE_MASTER_DEPARTEMENT_FAILED,
+  DELETE_DEPARTEMEN_MASTER_DATA_LOADING,
+  DELETE_KATEGORI_MASTER_DATA_LOADING,
+  DELETE_DEPARTEMEN_MASTER_DATA_SUCCESS,
+  DELETE_KATEGORI_MASTER_DATA_SUCCESS,
+  DELETE_DEPARTEMEN_MASTER_DATA_FAILED,
+  DELETE_KATEGORI_MASTER_DATA_FAILED,
+  GET_MASTER_BRANCH_LOADING,
+  GET_MASTER_BRANCH_SUCCESS,
+  GET_MASTER_BRANCH_FAILED,
 } from "@crema/types/actions/Master.actions";
 import { AxiosResponse } from "axios";
 import {
@@ -26,6 +35,7 @@ import {
   DepartementResponseType,
   MasterResponseUpdateType,
   ErrorResponseType,
+  BranchResponse,
 } from "@crema/types/models/master";
 
 export const getMasterDepartementList = () => {
@@ -54,6 +64,36 @@ export const getMasterDepartementList = () => {
         console.log("error", error);
         dispatch({
           type: GET_MASTER_DEPARTEMENT_LIST_FAILED,
+          payload: error,
+        });
+      });
+  };
+};
+
+export const getMasterBranchList = () => {
+  return (dispatch: Dispatch<AppActions>) => {
+    dispatch({
+      type: GET_MASTER_BRANCH_LOADING,
+    });
+    jwtAxios
+      .get("/branch")
+      .then((data: AxiosResponse<BranchResponse[]>) => {
+        const mappedData = data.data.map((branch, index) => ({
+          no: index + 1,
+          id: branch.id,
+          branchCode: branch.branchCode,
+          branchName: branch.branchName,
+        }));
+
+        dispatch({
+          type: GET_MASTER_BRANCH_SUCCESS,
+          payload: mappedData,
+        });
+      })
+      .catch((error: any) => {
+        console.log("error", error);
+        dispatch({
+          type: GET_MASTER_BRANCH_FAILED,
           payload: error,
         });
       });
@@ -171,5 +211,49 @@ export const saveMasterData = ({
           });
         break;
     }
+  };
+};
+
+export const deleteMasterData = ({
+  url,
+  calledFrom,
+}: {
+  url: string;
+  calledFrom: "department" | "category";
+}) => {
+  return (dispatch: Dispatch<AppActions>) => {
+    dispatch({
+      type:
+        calledFrom === "department"
+          ? DELETE_DEPARTEMEN_MASTER_DATA_LOADING
+          : DELETE_KATEGORI_MASTER_DATA_LOADING,
+    });
+
+    jwtAxios({
+      method: "delete",
+      url,
+    })
+      .then(
+        (
+          data: AxiosResponse<MasterResponsePostType | MasterResponseUpdateType>
+        ) => {
+          dispatch({
+            type:
+              calledFrom === "department"
+                ? DELETE_DEPARTEMEN_MASTER_DATA_SUCCESS
+                : DELETE_KATEGORI_MASTER_DATA_SUCCESS,
+            payload: data.data,
+          });
+        }
+      )
+      .catch((error: ErrorResponseType) => {
+        dispatch({
+          type:
+            calledFrom === "department"
+              ? DELETE_DEPARTEMEN_MASTER_DATA_FAILED
+              : DELETE_KATEGORI_MASTER_DATA_FAILED,
+          payload: error,
+        });
+      });
   };
 };

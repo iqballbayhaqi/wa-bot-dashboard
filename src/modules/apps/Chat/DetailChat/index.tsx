@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useIntl } from "react-intl";
 import {
   getFaq,
+  getMasterBranchList,
   getMasterCategoryList,
   getMasterDepartementList,
   getTicketDetail,
@@ -22,6 +23,7 @@ const DetailChat = () => {
 
   useEffect(() => {
     dispatch(getMasterCategoryList());
+    dispatch(getMasterBranchList());
     dispatch(getMasterDepartementList());
     dispatch(getTicketDetail(router.query.id));
     dispatch(getFaq());

@@ -65,17 +65,49 @@ export const getMonthlyRange = (
   month: number = moment().month() + 1
 ): [number, number] => {
   const year: number = moment().year();
+  const lastDayOfMonth = moment(`${year}-${month.toString().padStart(2, "0")}`)
+    .endOf("month")
+    .date();
+
   // Start of the month
   const startOfMonth = moment(`${year}-${month.toString().padStart(2, "0")}-01`)
     .startOf("month")
     .valueOf();
 
   // End of the month
-  const endOfMonth = moment(`${year}-${month.toString().padStart(2, "0")}-31`)
-    .endOf("month")
+  const endOfMonth = moment(
+    `${year}-${month.toString().padStart(2, "0")}-${lastDayOfMonth}`
+  )
+    .endOf("day")
     .valueOf();
 
   return [startOfMonth, endOfMonth];
+};
+
+export const getDailyRange = (
+  year: number = moment().year(),
+  month: number = moment().month() + 1,
+  day: number = moment().date()
+): [number, number] => {
+  // Start of the day
+  const startOfDay = moment(
+    `${year}-${month.toString().padStart(2, "0")}-${day
+      .toString()
+      .padStart(2, "0")}`
+  )
+    .startOf("day")
+    .valueOf();
+
+  // End of the day
+  const endOfDay = moment(
+    `${year}-${month.toString().padStart(2, "0")}-${day
+      .toString()
+      .padStart(2, "0")}`
+  )
+    .endOf("day")
+    .valueOf();
+
+  return [startOfDay, endOfDay];
 };
 
 export const filterDatesInRange = (
@@ -83,11 +115,17 @@ export const filterDatesInRange = (
   startDate: string,
   endDate: string
 ) => {
-  const startMoment = moment(startDate);
-  const endMoment = moment(endDate);
+  const startMoment = moment.utc(startDate);
+  const endMoment = moment.utc(endDate);
 
   return datas.filter((data) => {
-    const dateMoment = moment(data.startDate);
-    return dateMoment.isBetween(startMoment, endMoment);
+    const dateMoment = moment.utc(
+      moment.utc(data.startTime).format("YYYY-MM-DD")
+    );
+
+    return (
+      dateMoment.isSameOrAfter(startMoment) &&
+      dateMoment.isSameOrBefore(endMoment)
+    );
   });
 };

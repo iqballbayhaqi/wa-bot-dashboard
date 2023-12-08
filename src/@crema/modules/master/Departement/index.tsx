@@ -4,9 +4,12 @@ import AppCard from "@crema/components/AppCard";
 import { useIntl } from "react-intl";
 import { DepartementDataType } from "@crema/types/models/master";
 import IntlMessages from "@crema/helpers/IntlMessages";
-import { Button } from "antd";
+import { Button, Modal, Spin } from "antd";
 import { StyledPlusOutlined, StyledSkeleton } from "../index.styled";
 import AddEditModal from "../AddEditModal";
+import { useAppDispatch, useAppSelector } from "toolkit/hooks";
+import { deleteMasterData } from "toolkit/actions";
+import { LoadingOutlined } from "@ant-design/icons";
 
 type MasterDepartementProps = {
   masterDepartementData: DepartementDataType[];
@@ -29,11 +32,19 @@ const MasterDepartment: React.FC<MasterDepartementProps> = ({
   isLoadingSaveData,
   isSucccessModifyMasterData,
 }) => {
+  const dispatch = useAppDispatch();
+  const { isLoadingDeleteMasterDepartment, isSuccessDeleteMasterDepartment } =
+    useAppSelector(({ master }) => master);
+
   const [modalData, setModalData] = useState<ModalData>({
     isOpen: false,
     calledFrom: undefined,
     url: undefined,
     type: undefined,
+    data: undefined,
+  });
+  const [modalDelete, setModalDelete] = useState({
+    isOpen: false,
     data: undefined,
   });
 
@@ -59,7 +70,14 @@ const MasterDepartment: React.FC<MasterDepartementProps> = ({
         data: undefined,
       });
     }
-  }, [isSucccessModifyMasterData]);
+
+    if (isSuccessDeleteMasterDepartment) {
+      setModalDelete({
+        isOpen: false,
+        data: undefined,
+      });
+    }
+  }, [isSucccessModifyMasterData, isSuccessDeleteMasterDepartment]);
 
   return (
     <>
@@ -108,13 +126,54 @@ const MasterDepartment: React.FC<MasterDepartementProps> = ({
                   });
                   break;
                 case messages["common.actionDelete"]:
-                  console.log("delete");
+                  setModalDelete({
+                    isOpen: true,
+                    data: {
+                      id: data.id,
+                      url: `/department/${data.id}`,
+                      calledFrom: "department",
+                    },
+                  });
                   break;
               }
             }}
           />
         </AppCard>
       )}
+
+      {modalDelete.isOpen ? (
+        <Modal
+          title="Hapus"
+          open={modalDelete.isOpen}
+          onOk={() => {
+            dispatch(
+              deleteMasterData({
+                url: modalDelete.data.url,
+                calledFrom: modalDelete.data.calledFrom,
+              })
+            );
+          }}
+          onCancel={() =>
+            setModalDelete({
+              isOpen: false,
+              data: undefined,
+            })
+          }
+          okText={
+            isLoadingDeleteMasterDepartment ? (
+              <Spin
+                size="small"
+                indicator={<LoadingOutlined style={{ color: "white" }} spin />}
+              />
+            ) : (
+              "Ya"
+            )
+          }
+          cancelText="Tidak"
+        >
+          Apakah anda yakin ingin menghapus data ini ?
+        </Modal>
+      ) : null}
 
       {modalData.isOpen ? (
         <AddEditModal

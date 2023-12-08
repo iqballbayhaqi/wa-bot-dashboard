@@ -17,6 +17,7 @@ export type TicketData = {
   modifyStatus?: string;
   lastModifiedTime?: string;
   lastModifiedBy?: string | null;
+  isUnsolved?: string;
 };
 
 export type TicketResponseType = {
@@ -67,6 +68,7 @@ export type TicketDataType = {
     id: number;
     name: string;
   };
+  isUnsolved?: string | null;
 };
 
 export type TicketPayload = {

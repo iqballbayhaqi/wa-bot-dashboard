@@ -20,8 +20,10 @@ const ChatSideBar: React.FC = () => {
   const {
     masterDepartementList,
     masterCategoryList,
+    branchList,
     isLoadingMasterCategory,
     isLoadingMasterDepartement,
+    isLoadingMasterBranch,
   } = useAppSelector(({ master }) => master);
 
   const {
@@ -151,6 +153,31 @@ const ChatSideBar: React.FC = () => {
                 <Select
                   options={filterCategory?.map((category) => ({
                     label: category.categoryName,
+                    value: category.id,
+                  }))}
+                />
+              </Form.Item>
+            )}
+
+            {isLoadingMasterBranch ? (
+              <Skeleton.Input active />
+            ) : (
+              <Form.Item
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 12 }}
+                initialValue={detailTicket?.branch ?? ""}
+                name="branchId"
+                label={"PT"}
+                rules={[
+                  {
+                    required: true,
+                    message: "Kolom PT Tidak Boleh Kosong",
+                  },
+                ]}
+              >
+                <Select
+                  options={branchList?.map((category) => ({
+                    label: category.branchName,
                     value: category.id,
                   }))}
                 />

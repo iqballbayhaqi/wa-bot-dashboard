@@ -4,7 +4,8 @@ import { ColumnsType } from "antd/es/table";
 import AppMenu from "@crema/components/AppMenu";
 import { CategoryDataType } from "@crema/types/models/master";
 
-const options: string[] = ["common.actionUpdate", "common.actionDelete"];
+const options: string[] = ["common.actionUpdate"];
+// const options: string[] = ["common.actionUpdate", "common.actionDelete"];
 
 type MasterCategoryTableProps = {
   categoryData: CategoryDataType[];
@@ -35,6 +36,7 @@ const MasterCategoryTable: React.FC<MasterCategoryTableProps> = ({
         dataIndex: "categoryName",
         key: "categoryName",
         align: "center",
+        ellipsis: true,
       },
       {
         title: "Actions",

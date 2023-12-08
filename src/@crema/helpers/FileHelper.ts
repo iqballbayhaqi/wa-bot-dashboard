@@ -67,7 +67,21 @@ export const exportToExcel = ({ apiData, fileName }) => {
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
   const fileExtension = ".xlsx";
 
-  const ws = XLSX.utils.json_to_sheet(apiData);
+  const mapData = apiData.map((data) => ({
+    id: data.id,
+    ticketNumber: data.ticketNumber,
+    status: data.status,
+    phoneNumber: data.phoneNumber,
+    category: data.category.name,
+    department: data.department.name,
+    startTime: data.startTime,
+    endTime: data.endTime,
+    issue: data.issue,
+    solved: data.isUnsolved,
+    PT: data.branch.name,
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(mapData);
   const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
   const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
   const data = new Blob([excelBuffer], { type: fileType });

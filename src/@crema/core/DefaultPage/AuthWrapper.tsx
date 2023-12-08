@@ -38,7 +38,7 @@ const AuthWrapper = ({ children }: Props) => {
               </StyledAuthMainContent>
               <StyledAuthWellAction>
                 <StyledAuthWelContent>
-                  <h2>PT Agro Internasional</h2>
+                  <h2>PT Best Agro International</h2>
                 </StyledAuthWelContent>
               </StyledAuthWellAction>
             </StyledAuthCard>

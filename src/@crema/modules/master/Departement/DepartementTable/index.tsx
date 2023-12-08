@@ -4,7 +4,8 @@ import { ColumnsType } from "antd/es/table";
 import AppMenu from "@crema/components/AppMenu";
 import { DepartementDataType } from "@crema/types/models/master";
 
-const options: string[] = ["common.actionUpdate", "common.actionDelete"];
+const options: string[] = ["common.actionUpdate"];
+// const options: string[] = ["common.actionUpdate", "common.actionDelete"];
 
 type MasterDepartementTableProps = {
   departementData: DepartementDataType[];
@@ -36,6 +37,7 @@ const MasterDepartementTable: React.FC<MasterDepartementTableProps> = ({
         key: "departmentName",
         align: "center",
         width: "30%",
+        ellipsis: true,
       },
       {
         title: "Actions",

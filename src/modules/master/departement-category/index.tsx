@@ -24,6 +24,8 @@ const DepartementCategory = () => {
     isLoadingSaveMasterDepartement,
     isSuccessModifyDepartmentData,
     isSuccessModifyCategoryData,
+    isSuccessDeleteMasterCategory,
+    isSuccessDeleteMasterDepartment,
   } = useAppSelector(({ master }) => master);
 
   useEffect(() => {
@@ -32,13 +34,19 @@ const DepartementCategory = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isSuccessModifyCategoryData) {
+    if (isSuccessModifyCategoryData || isSuccessDeleteMasterCategory) {
       dispatch(getMasterCategoryList());
     }
-    if (isSuccessModifyDepartmentData) {
+    if (isSuccessModifyDepartmentData || isSuccessDeleteMasterDepartment) {
       dispatch(getMasterDepartementList());
     }
-  }, [isSuccessModifyDepartmentData, isSuccessModifyCategoryData, dispatch]);
+  }, [
+    isSuccessModifyDepartmentData,
+    isSuccessModifyCategoryData,
+    isSuccessDeleteMasterCategory,
+    isSuccessDeleteMasterDepartment,
+    dispatch,
+  ]);
 
   return (
     <>

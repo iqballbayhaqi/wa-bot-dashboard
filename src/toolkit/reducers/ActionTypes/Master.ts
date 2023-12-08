@@ -14,12 +14,23 @@ import {
   SAVE_MASTER_DATA_LOADING,
   SAVE_MASTER_DATA_SUCCESS,
   SAVE_MASTER_DATA_FAILED,
+  DELETE_DEPARTEMEN_MASTER_DATA_LOADING,
+  DELETE_DEPARTEMEN_MASTER_DATA_SUCCESS,
+  DELETE_DEPARTEMEN_MASTER_DATA_FAILED,
+  DELETE_KATEGORI_MASTER_DATA_LOADING,
+  DELETE_KATEGORI_MASTER_DATA_SUCCESS,
+  DELETE_KATEGORI_MASTER_DATA_FAILED,
+  GET_MASTER_BRANCH_LOADING,
+  GET_MASTER_BRANCH_SUCCESS,
+  GET_MASTER_BRANCH_FAILED,
 } from "@crema/types/actions/Master.actions";
 import { createAction } from "@reduxjs/toolkit";
 import {
+  BranchResponse,
   CategoryDataType,
   DepartementDataType,
   ErrorResponseType,
+  MasterResponseDeleteType,
   MasterResponsePostType,
   MasterResponseUpdateType,
 } from "@crema/types/models/master";
@@ -41,6 +52,16 @@ export const MasterCategoryListSuccessAction = createAction<CategoryDataType[]>(
 );
 export const MasterCategoryListFailedAction = createAction<ErrorResponseType>(
   GET_MASTER_CATEGORY_LIST_FAILED
+);
+
+export const MasterBranchLoadingAction = createAction(
+  GET_MASTER_BRANCH_LOADING
+);
+export const MasterBranchSuccessAction = createAction<BranchResponse[]>(
+  GET_MASTER_BRANCH_SUCCESS
+);
+export const MasterBranchFailedAction = createAction<ErrorResponseType>(
+  GET_MASTER_BRANCH_FAILED
 );
 
 export const SaveMasterDepartementLoadingAction = createAction(
@@ -71,3 +92,19 @@ export const SaveMasterDataSuccessAction = createAction<
 export const SaveMasterDataFailedAction = createAction<ErrorResponseType>(
   SAVE_MASTER_DATA_FAILED
 );
+
+export const DeleteMasterDepartmentDataLoadingAction = createAction(
+  DELETE_DEPARTEMEN_MASTER_DATA_LOADING
+);
+export const DeleteMasterDepartmentDataSuccessAction =
+  createAction<MasterResponseDeleteType>(DELETE_DEPARTEMEN_MASTER_DATA_SUCCESS);
+export const DeleteMasterDepartmentDataFailedAction =
+  createAction<ErrorResponseType>(DELETE_DEPARTEMEN_MASTER_DATA_FAILED);
+
+export const DeleteMasterCategoryDataLoadingAction = createAction(
+  DELETE_KATEGORI_MASTER_DATA_LOADING
+);
+export const DeleteMasterCategoryDataSuccessAction =
+  createAction<MasterResponseDeleteType>(DELETE_KATEGORI_MASTER_DATA_SUCCESS);
+export const DeleteMasterCategoryDataFailedAction =
+  createAction<ErrorResponseType>(DELETE_KATEGORI_MASTER_DATA_FAILED);

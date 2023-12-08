@@ -8,8 +8,6 @@ import { useAppDispatch, useAppSelector } from "toolkit/hooks";
 import AddEditModal from "./AddEditModal";
 import TicketTable from "./TicketTable";
 import { StyledSkeleton } from "./index.styled";
-import { RangePickerProps } from "antd/es/date-picker";
-import moment from "moment";
 import { exportToExcel } from "@crema/helpers/FileHelper";
 import { filterDatesInRange } from "@crema/helpers/DateHelper";
 import dayjs from "dayjs";
@@ -28,18 +26,19 @@ type ModalData = {
 };
 
 const dateFormat = "YYYY/MM/DD";
+const currentDate = dayjs();
 
 const convertNumber = (value): number => {
-  return value === "" ? 0 : parseInt(value, 10);
+  return value === "" || value === undefined ? 0 : parseInt(value, 10);
 };
 
 const Tickets: React.FC = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [rangeValue, setRangeValue] = useState(null);
+  const [rangeValue, setRangeValue] = useState([currentDate, currentDate]);
   const [selectedDepartement, setSelectedDepartement] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedBranch, setSelectedBranch] = useState("");
 
   const {
     tickets,
@@ -47,6 +46,7 @@ const Tickets: React.FC = () => {
     categoriesFilter,
     departmentFilter,
     ticketsTemp,
+    branchesFilter,
   } = useAppSelector(({ ticket }) => ticket);
 
   const [modalData, setModalData] = useState<ModalData>({
@@ -56,6 +56,18 @@ const Tickets: React.FC = () => {
 
   const { messages } = useIntl();
 
+  const filterCategoryByDepartement = categoriesFilter.filter((category) => {
+    if (selectedDepartement !== "" && selectedDepartement !== undefined) {
+      const getDepartment = departmentFilter.filter(
+        (data) => data.id === selectedDepartement
+      );
+
+      return category.departmentCode === getDepartment[0]?.code;
+    } else {
+      return true;
+    }
+  });
+
   const handleCancel = () => {
     setModalData({
       isOpen: false,
@@ -63,16 +75,59 @@ const Tickets: React.FC = () => {
     });
   };
 
+  const handleStatusChange = (value) => {
+    setRangeValue(null);
+
+    let filterStatus;
+    switch (value) {
+      case "all":
+        filterStatus = tickets.filter(
+          (ticket) =>
+            ticket.status === "OPEN" ||
+            ticket.status === "PENDING" ||
+            ticket.status === "CLOSED" ||
+            ticket.category.id === convertNumber(selectedCategory) ||
+            ticket.department.id === convertNumber(selectedDepartement) ||
+            ticket.branch.id === convertNumber(selectedBranch)
+        );
+        dispatch({
+          type: "SET_TICKETS",
+          payload: filterStatus,
+        });
+        break;
+      case "OPEN":
+      case "PENDING":
+      case "CLOSED":
+        filterStatus = tickets.filter(
+          (ticket) =>
+            ticket.status === value ||
+            ticket.category.id === convertNumber(selectedCategory) ||
+            ticket.department.id === convertNumber(selectedDepartement) ||
+            ticket.branch.id === convertNumber(selectedBranch)
+        );
+        dispatch({
+          type: "SET_TICKETS",
+          payload: filterStatus,
+        });
+        break;
+
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
-    dispatch(getTicketList());
+    dispatch(getTicketList({ fromUpdate: false }));
   }, [dispatch]);
 
   useEffect(() => {
     if (selectedDepartement !== "" && selectedDepartement !== undefined) {
-      setRangeValue(null);
       setSelectedCategory("");
       const filterDepartment = tickets.filter(
-        (ticket) => ticket.department.id === convertNumber(selectedDepartement)
+        (ticket) =>
+          ticket.department.id === convertNumber(selectedDepartement) ||
+          ticket.category.id === convertNumber(selectedCategory) ||
+          ticket.branch.id === convertNumber(selectedBranch)
       );
       dispatch({
         type: "SET_TICKETS",
@@ -87,12 +142,12 @@ const Tickets: React.FC = () => {
   }, [selectedDepartement]);
 
   useEffect(() => {
-    console.log(selectedCategory);
     if (selectedCategory !== "" && selectedCategory !== undefined) {
-      setRangeValue(null);
-      setSelectedDepartement("");
       const filterCategory = tickets.filter(
-        (ticket) => ticket.category.id === convertNumber(selectedCategory)
+        (ticket) =>
+          ticket.category.id === convertNumber(selectedCategory) ||
+          ticket.department.id === convertNumber(selectedDepartement) ||
+          ticket.branch.id === convertNumber(selectedBranch)
       );
       dispatch({
         type: "SET_TICKETS",
@@ -107,50 +162,24 @@ const Tickets: React.FC = () => {
   }, [selectedCategory]);
 
   useEffect(() => {
-    setRangeValue(null);
-    setSelectedDepartement("");
-    setSelectedCategory("");
-
-    let filterStatus;
-    switch (selectedStatus) {
-      case "all":
-        dispatch({
-          type: "SET_TICKETS",
-          payload: tickets,
-        });
-        break;
-      case "OPEN":
-        filterStatus = tickets.filter(
-          (ticket) => ticket.status === selectedStatus
-        );
-        dispatch({
-          type: "SET_TICKETS",
-          payload: filterStatus,
-        });
-        break;
-      case "PENDING":
-        filterStatus = tickets.filter(
-          (ticket) => ticket.status === selectedStatus
-        );
-        dispatch({
-          type: "SET_TICKETS",
-          payload: filterStatus,
-        });
-        break;
-      case "CLOSED":
-        filterStatus = tickets.filter(
-          (ticket) => ticket.status === selectedStatus
-        );
-        dispatch({
-          type: "SET_TICKETS",
-          payload: filterStatus,
-        });
-        break;
-
-      default:
-        break;
+    if (selectedBranch !== "" && selectedBranch !== undefined) {
+      const filterBranch = tickets.filter(
+        (ticket) =>
+          ticket.category.id === convertNumber(selectedCategory) ||
+          ticket.department.id === convertNumber(selectedDepartement) ||
+          ticket.branch.id === convertNumber(selectedBranch)
+      );
+      dispatch({
+        type: "SET_TICKETS",
+        payload: filterBranch,
+      });
+    } else if (selectedBranch === undefined) {
+      dispatch({
+        type: "SET_TICKETS",
+        payload: tickets,
+      });
     }
-  }, [selectedStatus]);
+  }, [selectedBranch]);
 
   return (
     <>
@@ -160,9 +189,10 @@ const Tickets: React.FC = () => {
         </AppCard>
       ) : (
         <AppCard className="no-card-space-ltr-rtl">
-          <Row style={{ margin: "0 8px" }} gutter={8}>
-            <Col span={8}>
-              <Form.Item label="Tanggal">
+          <Row gutter={8} wrap={false} style={{ paddingLeft: "16px" }}>
+            <Col span={9}>
+              <Row align={"middle"} wrap={false}>
+                <p style={{ marginBottom: 0, marginRight: "8px" }}>Tanggal: </p>
                 <RangePicker
                   allowClear
                   value={rangeValue}
@@ -203,40 +233,83 @@ const Tickets: React.FC = () => {
                     }
                   }}
                 />
-              </Form.Item>
+              </Row>
             </Col>
 
-            <Col span={5}>
-              <Form.Item label="Departemen">
+            <Col span={6}>
+              <Row align={"middle"} wrap={false}>
+                <p style={{ marginBottom: 0, marginRight: "8px" }}>PT: </p>
                 <Select
+                  style={{ width: "70%" }}
+                  dropdownMatchSelectWidth={false}
+                  value={selectedBranch}
+                  allowClear
+                  options={branchesFilter.map((branch) => ({
+                    label: branch.branchName,
+                    value: branch.id,
+                  }))}
+                  onChange={(value) => {
+                    setSelectedBranch(value);
+                  }}
+                  virtual={false}
+                />
+              </Row>
+            </Col>
+          </Row>
+
+          <Row style={{ paddingLeft: "16px" }} gutter={8} wrap={false}>
+            <Col span={6}>
+              <Row align={"middle"} wrap={false}>
+                <p style={{ marginBottom: 0, marginRight: "8px" }}>
+                  Departemen:{" "}
+                </p>
+                <Select
+                  style={{ width: "70%" }}
+                  dropdownMatchSelectWidth={false}
                   value={selectedDepartement}
                   allowClear
-                  options={departmentFilter}
+                  options={departmentFilter.map((department) => ({
+                    label: department.name,
+                    value: department.id,
+                  }))}
                   onChange={(value) => {
                     setSelectedDepartement(value);
                   }}
+                  virtual={false}
                 />
-              </Form.Item>
+              </Row>
             </Col>
 
-            <Col span={5}>
-              <Form.Item label="Kategori">
+            <Col span={6}>
+              <Row align={"middle"} wrap={false}>
+                <p style={{ marginBottom: 0, marginRight: "8px" }}>
+                  Kategori:{" "}
+                </p>
                 <Select
+                  style={{ width: "80%" }}
+                  virtual={false}
+                  dropdownMatchSelectWidth={false}
                   value={selectedCategory}
                   allowClear
-                  options={categoriesFilter}
+                  options={filterCategoryByDepartement.map((category) => ({
+                    label: category.name,
+                    value: category.id,
+                  }))}
                   onChange={(value) => {
                     setSelectedCategory(value);
                   }}
                 />
-              </Form.Item>
+              </Row>
             </Col>
 
-            <Col span={6}>
-              <Form.Item label="Status">
+            <Col span={4}>
+              <Row align={"middle"} wrap={false}>
+                <p style={{ marginBottom: 0, marginRight: "8px" }}>Status :</p>
                 <Select
-                  onChange={(value) => setSelectedStatus(value)}
-                  value={selectedStatus}
+                  style={{ width: "60%" }}
+                  dropdownMatchSelectWidth={false}
+                  virtual={false}
+                  onChange={handleStatusChange}
                   options={[
                     {
                       label: "all",
@@ -256,7 +329,7 @@ const Tickets: React.FC = () => {
                     },
                   ]}
                 />
-              </Form.Item>
+              </Row>
             </Col>
           </Row>
 
@@ -287,6 +360,7 @@ const Tickets: React.FC = () => {
                       id: data.id,
                       departmentId: data.department.id,
                       categoryId: data.category.id,
+                      branchId: data.branch.id,
                       issue: data.issue,
                       ticketNumber: data.ticketNumber,
                     },

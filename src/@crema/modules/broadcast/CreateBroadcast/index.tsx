@@ -149,6 +149,7 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
                                   value: department.id,
                                 })
                               )}
+                              optionFilterProp={"label"}
                             />
                           </Col>
                         </Row>
@@ -173,6 +174,7 @@ const CreateBroadcastModal: React.FC<AddEditModalProps> = ({
                                 label: category.categoryName,
                                 value: category.id,
                               }))}
+                              optionFilterProp={"label"}
                             />
                           </Col>
                         </Row>

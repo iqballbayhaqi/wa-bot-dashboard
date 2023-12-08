@@ -29,9 +29,9 @@ const OpportunitiesWonGraph = ({ data }: Props) => {
           cursor={{ fill: "transparent" }}
         />
         <Legend />
-        <Bar dataKey="open" fill="#61c12a" />
-        <Bar dataKey="pending" fill="#f59821" />
-        <Bar dataKey="closed" fill="#fb4f67e6" />
+        <Bar dataKey="open" fill="#61c12a" barSize={20} />
+        <Bar dataKey="pending" fill="#f59821" barSize={20} />
+        <Bar dataKey="closed" fill="#fb4f67e6" barSize={20} />
       </BarChart>
     </ResponsiveContainer>
   );
