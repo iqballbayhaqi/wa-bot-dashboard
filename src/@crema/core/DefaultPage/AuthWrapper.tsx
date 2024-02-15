@@ -1,5 +1,8 @@
-import React from "react";
+import AppAnimateGroup from "@crema/components/AppAnimateGroup";
+import AppInfoView from "@crema/components/AppInfoView";
+import AppLogo from "@crema/components/AppLayout/components/AppLogo";
 import PropTypes from "prop-types";
+import React from "react";
 import {
   StyledAuth,
   StyledAuthCard,
@@ -10,9 +13,6 @@ import {
   StyledAuthWrap,
   StyledMainAuthScrollbar,
 } from "./AuthWrapper.styled";
-import AppLogo from "@crema/components/AppLayout/components/AppLogo";
-import AppAnimateGroup from "@crema/components/AppAnimateGroup";
-import AppInfoView from "@crema/components/AppInfoView";
 
 type Props = {
   children: React.ReactNode;

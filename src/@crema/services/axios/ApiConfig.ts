@@ -36,6 +36,7 @@ apiConfig.interceptors.response.use(
         return axios(originalRequest);
         // return axios(originalRequest);
       } catch (error) {
+        console.log("ada error nih", error);
         // Handle refresh token error or redirect to login
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");

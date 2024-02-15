@@ -1,5 +1,8 @@
 import AppCard from "@crema/components/AppCard";
-import { Button, Col, DatePicker, Form, Row, Select } from "antd";
+import { filterDatesInRange } from "@crema/helpers/DateHelper";
+import { exportToExcel } from "@crema/helpers/FileHelper";
+import { Button, Col, DatePicker, Row, Select } from "antd";
+import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
@@ -8,9 +11,6 @@ import { useAppDispatch, useAppSelector } from "toolkit/hooks";
 import AddEditModal from "./AddEditModal";
 import TicketTable from "./TicketTable";
 import { StyledSkeleton } from "./index.styled";
-import { exportToExcel } from "@crema/helpers/FileHelper";
-import { filterDatesInRange } from "@crema/helpers/DateHelper";
-import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
 
@@ -245,8 +245,8 @@ const Tickets: React.FC = () => {
                   value={selectedBranch}
                   allowClear
                   options={branchesFilter.map((branch) => ({
-                    label: branch.branchName,
-                    value: branch.id,
+                    label: branch?.branchName ?? "",
+                    value: branch?.id ?? "",
                   }))}
                   onChange={(value) => {
                     setSelectedBranch(value);
@@ -347,7 +347,7 @@ const Tickets: React.FC = () => {
           </Row>
 
           <TicketTable
-            ticketData={ticketsTemp}
+            ticketData={tickets}
             onHandleAction={(action, data) => {
               switch (action) {
                 case messages["common.actionDetail"]:

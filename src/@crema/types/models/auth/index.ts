@@ -1,7 +1,8 @@
 export type SuccessLoginResponse = {
   status: string;
   data: {
-    token: string;
+    accessToken: string;
+    refreshToken: string;
   };
 };
 

@@ -35,7 +35,7 @@ const DetailBroadcast: React.FC = () => {
         ) : (
           <Form wrapperCol={{ span: 24 }}>
             <Form.Item label="Judul" labelCol={{ span: 1 }}>
-              <Input readOnly value={detailBroadcast.title} />
+              <Input readOnly value={"Kirim Broadcast"} />
             </Form.Item>
 
             <Form.Item label="Pesan" labelCol={{ span: 1 }}>
