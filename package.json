@@ -180,5 +180,8 @@
     "ts-node": "10.9.1",
     "typescript": "5.0.4",
     "url-loader": "^4.1.1"
+  },
+  "resolutions": {
+    "tmp": "0.2.7"
   }
 }
